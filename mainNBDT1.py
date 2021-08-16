@@ -20,6 +20,43 @@ def imshow(img):
     plt.imshow(np.transpose(npimg, (1, 2, 0)))
 
 
+def evalCifar(testloader, resnet18, classes):
+
+    correct = 0
+    total = 0
+    with torch.no_grad():
+        for data in testloader:
+            images, labels = data
+            labels = labels.to(device)
+            images = images.to(device)
+            outputs = resnet18(images)
+            _, predicted = torch.max(outputs.data, 1)
+            total += labels.size(0)
+            correct += (predicted == labels).sum().item()
+
+    print('Accuracy of the network on the 10000 test images: %d %%' % (
+        100 * correct / total))
+
+    class_correct = list(0. for i in range(10))
+    class_total = list(0. for i in range(10))
+    with torch.no_grad():
+        for data in testloader:
+            images, labels = data
+            labels = labels.to(device)
+            images = images.to(device)
+            outputs = resnet18(images)
+            _, predicted = torch.max(outputs, 1)
+            c = (predicted == labels).squeeze()
+            for i in range(4):
+                label = labels[i]
+                class_correct[label] += c[i].item()
+                class_total[label] += 1
+
+    for i in range(10):
+        print('Accuracy of %5s : %2d %%' % (
+            classes[i], 100 * class_correct[i] / class_total[i]))
+
+
 #第一步用RESNET 训练CIFAR10
 #https: // github.com/lukeliuli/pytorch-handbook/blob/master/chapter1/4_cifar10_tutorial.ipynb
 #https: // github.com/fengdu78/Data-Science-Notes/tree/master/8.deep-learning/PyTorch_beginner
@@ -45,7 +82,7 @@ classes = ('plane', 'car', 'bird', 'cat',
            'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
 
 resnet18 = models.resnet18(pretrained=True)
-
+resnet18 = torch.load('./trainedModes/resnet18.pkl')
 
 # 获取随机数据
 dataiter = iter(trainloader)
@@ -94,6 +131,8 @@ for epoch in range(2):  # 多批次循环
 
     time_end = time.time()
     print('one epoch totally cost %.3f' % (time_end-time_start))
+    torch.save(resnet18, './trainedModes/resnet18.pkl')
+    evalCifar(testloader, resnet18, classes)
 
 print('Finished Training')
 
@@ -114,43 +153,8 @@ _, predicted = torch.max(outputs, 1)
 print('Predicted: ', ' '.join('%5s' % classes[predicted[j]]
                               for j in range(4)))
 
-
-correct = 0
-total = 0
-with torch.no_grad():
-    for data in testloader:
-        images, labels = data
-        labels = labels.to(device)
-        images = images.to(device)
-        outputs = resnet18(images)
-        _, predicted = torch.max(outputs.data, 1)
-        total += labels.size(0)
-        correct += (predicted == labels).sum().item()
-
-print('Accuracy of the network on the 10000 test images: %d %%' % (
-    100 * correct / total))
-
-
-class_correct = list(0. for i in range(10))
-class_total = list(0. for i in range(10))
-with torch.no_grad():
-    for data in testloader:
-        images, labels = data
-        labels = labels.to(device)
-        images = images.to(device)
-        outputs = resnet18(images)
-        _, predicted = torch.max(outputs, 1)
-        c = (predicted == labels).squeeze()
-        for i in range(4):
-            label = labels[i]
-            class_correct[label] += c[i].item()
-            class_total[label] += 1
-
-
-for i in range(10):
-    print('Accuracy of %5s : %2d %%' % (
-        classes[i], 100 * class_correct[i] / class_total[i]))
-
+###                              
+evalCifar(testloader, resnet18, classes)
 '''
 model = wrn28_10_cifar10(pretrained=True)
 net = model(pretrained=True, num_classes=len(trainset.classes))
