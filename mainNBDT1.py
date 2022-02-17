@@ -1,5 +1,5 @@
 #在google中运行，https://colab.research.google.com/
-from google.colab import drive
+
 import torch
 import torchvision
 import torchvision.transforms as transforms
@@ -15,112 +15,166 @@ import torch.optim as optim
 
 import time
 from collections import namedtuple
-import torch.backends.cudnn as cudnn
-import resnet
+#import resnet
+import content.drive.MyDrive.SUMONBDT.resnet
 
+inputNow = = torch.Tensor()
+outputNow = = torch.Tensor()
 
-
-features = t.Tensor()
 def hook(module, input, output):
     '''把这层的输出拷贝到features中'''
-    features.copy_(output.data)
-    print(output.data)
+    global inputNow
+    global outputNow
+
+    print(input[0].shape)
+    inputNow = input[0].clone().detach()
+    outputNow = output.clone().detach()
+    #print(output.data)
+    #print(input[0].data)
+    #print(input[0].data.size())
+    #print(module.weight)
+    #print(module.bias)
 
 
-
-def evalCifar(testloader, resnet18, classes):
-
-    correct = 0
-    total = 0
-    resnet18.eval()
-    with torch.no_grad():
-        for data in testloader:
-            images, labels = data
-            labels = labels.to(device)
-            images = images.to(device)
-            outputs = resnet18(images)
-            _, predicted = torch.max(outputs.data, 1)
-            total += labels.size(0)
-            correct += (predicted == labels).sum().item()
-
-    print('Accuracy of the network on the 10000 test images: %d %%' % (
-        100 * correct / total))
-
-    # class_correct = list(0. for i in range(10))
-    # class_total = list(0. for i in range(10))
-    # with torch.no_grad():
-    #     for data in testloader:
-    #         images, labels = data
-    #         labels = labels.to(device)
-    #         images = images.to(device)
-    #         outputs = resnet18(images)
-    #         _, predicted = torch.max(outputs, 1)
-    #         c = (predicted == labels).squeeze()
-    #         for i in range(4):
-    #             label = labels[i]
-    #             class_correct[label] += c[i].item()
-    #             class_total[label] += 1
-
-    # for i in range(10):
-    #     print('Accuracy of %5s : %2d %%' % (
-    #         classes[i], 100 * class_correct[i] / class_total[i]))
-
-
-#第一步用RESNET 训练CIFAR10
-#https: // github.com/lukeliuli/pytorch-handbook/blob/master/chapter1/4_cifar10_tutorial.ipynb
-#https: // github.com/fengdu78/Data-Science-Notes/tree/master/8.deep-learning/PyTorch_beginner
-#https: // blog.csdn.net/wudibaba21/article/details/106495118/
-
-
-
-
-transform = transforms.Compose(
+transform1 = transforms.Compose(
     [transforms.RandomCrop(32, padding=4),  # 先四周填充0，在吧图像随机裁剪成32*32
      transforms.RandomHorizontalFlip(),
      transforms.ToTensor(),
      transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010))])  # R,G,B每层的归一化用到的均值和方差
 
-transform1 = transforms.Compose(
-    [transforms.ToTensor(), transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010))])  # R,G,B每层的归一化用到的均值和方差
 
-trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
-                                        download=True, transform=transform)
-trainloader = torch.utils.data.DataLoader(trainset, batch_size=batch_sizeV,
-                                          shuffle=True, num_workers=2)
-testset = torchvision.datasets.CIFAR10(root='./data', train=False,
-                                       download=True, transform=transform1)
-testloader = torch.utils.data.DataLoader(testset, batch_size=batch_sizeV,
-                                         shuffle=False, num_workers=2)
+#transform1 = transforms.Compose(
+#    [transforms.ToTensor(), transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010))])  # R,G,B每层的归一化用到的均值和方差
+
+batch_sizeV = 512
+trainset = torchvision.datasets.CIFAR10(
+    root='./data', train=True, download=True, transform=transform)
+trainloader = torch.utils.data.DataLoader(
+    trainset, batch_size=batch_sizeV, shuffle=True, num_workers=2)
+
+batch_sizeV = 1
+testset = torchvision.datasets.CIFAR10(
+    root='./data', train=False, download=True, transform=transform1)
+testloader = torch.utils.data.DataLoader(
+    testset, batch_size=batch_sizeV, shuffle=False, num_workers=2)
 
 classes = ('plane', 'car', 'bird', 'cat',
            'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
+
+startEpoch = 0
+
+#GOD: 1. plane,bird
+#     2. deer,dog,horse,cat,frog
+#     3. car,truck,ship
 
 
 startEpoch = 0
 #resnet18 = models.resnet18(pretrained=False)#采用torchvision的模型，无法达到94%的正确率，最多88%
 resnet18 = resnet.resnet18(num_classes=10)
-modelPathName = "./trainedModes/resnet18End_accuray95.modeparams"
-params = torch.load(modelPathName)
+modelPathName = "/content/drive/MyDrive/SUMONBDT/trainedModes/resnet18End_accuray95.modeparams"
+params = torch.load(modelPathName, map_location='cpu')
 resnet18.load_state_dict(params["net"])
-startEpoch =params["epoch"]
+startEpoch = params["epoch"]
+#print(params)
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(device)
+resnet18 = resnet18.to(device)
 
-################################
-
-sub_model = resnet18.features
-for name, module in sub_model._modules.items():
-    x = module(x)
-    print("名称:{}".format(name))
-
+#######################################################################
+##看输出数据类型和值
 for name, parameters in resnet18.named_parameters():
-    print(name, ':', parameters.size())
-    parm[name] = parameters.detach().numpy()
-#################################
+    #print(name, ':', parameters.size())
+    params[name] = parameters.detach()
+print(params["fc.bias"])
 
-handle = resnet18.layer8.register_forward_hook(hook)
+dataiter = iter(testloader)
+images, labels = dataiter.next()
+outputs = resnet18(images)
+_, predicted = torch.max(outputs.data, 1)
+print(outputs.data.numpy())
+print(predicted)
+print(labels)
 
-evalCifar(testloader, resnet18, classes)
-
+#######################################################################
+##看中间层输出和值
+handle = resnet18.fc.register_forward_hook(hook)
+outputs = resnet18(images)
 handle.remove()
+print("inputNow:", inputNow)
+print("outputNow:", outputNow)
+
+w0 = params["fc.weight"]  # 10x512
+bias = params["fc.bias"]  # 10x512
+
+outTmp = torch.mm(inputNow, w0.transpose(0, 1))+bias
+_, predictedTmp = torch.max(outTmp.data, 1)
+print("outTmp:", outTmp)
+print("predictedTmp:", predictedTmp)
+########################################################################
+
+########################################################################
+###获得
+#GOD: 1. plane,bird
+#     2. deer,dog,horse,cat,frog
+#     3. car,truck,ship
+#classes = ('plane' 0, 'car' 1, 'bird' 2, 'cat' 3,
+#           'deer' 4, 'dog' 5, 'frog' 6, 'horse' 7 , 'ship' 8,  'truck' 9)
+#layerA         0 
+#layerB      1 (likebird)       2 (likecat)                           3(likecar)
+#layerC  plane,bird     deer,dog,horse,cat,frog        car,truck,ship
+
+# w0 = params["fc.weight"].numpy()  # 10x512
+# bias = params["fc.bias"].numpy()  # 10x512
+# wA_B = {}
+# bA_B = {}
+# wA_B['0_1_likebird'] =  (w0[0]+w0[2])/2
+# bA_B['0_1_likebird'] = (bias[0]+bias[2])/2
+
+
+# wA_B['0_2_likecat'] = (w0[3]+w0[4]+w0[5]+w0[6]+w0[7])/6
+# bA_B['0_2_likecat'] = (bias[3]+bias[4]+bias[5]+bias[6]+bias[7])/6
+
+# wA_B['0_3_likecar'] = (w0[1]+w0[8]+w0[9])/3
+# bA_B['0_3_likecar'] = (bias[1]+bias[8]+bias[9])/3
+
+
+# s1 = np.dot(inputTmp, wA_B['0_1_likebird'])+bA_B['0_1_likebird']
+# s2 = np.dot(inputTmp, wA_B['0_2_likecat'])+bA_B['0_2_likecat']
+# s3 = np.dot(inputTmp, wA_B['0_3_likecar'])+bA_B['0_3_likecar']
+# print(s1)
+# print(s2)
+# print(s3)
+
+# z = np.dot(inputNow, w0.T)
+
+###############################################################
+w0 = params["fc.weight"]  # 10x512
+bias = params["fc.bias"]  # 10x512
+
+wA_B = {}
+bA_B = {}
+wA_B['0_1_likebird'] = (w0[0]+w0[2])/2
+bA_B['0_1_likebird'] = (bias[0]+bias[2])/2
+
+
+wA_B['0_2_likecat'] = (w0[3]+w0[4]+w0[5]+w0[6]+w0[7])/6
+bA_B['0_2_likecat'] = (bias[3]+bias[4]+bias[5]+bias[6]+bias[7])/6
+
+wA_B['0_3_likecar'] = (w0[1]+w0[8]+w0[9])/3
+bA_B['0_3_likecar'] = (bias[1]+bias[8]+bias[9])/3
+
+
+wTmp = wA_B['0_1_likebird'].unsqueeze(1)
+s1 = torch.mm(inputNow, wTmp)+bA_B['0_1_likebird']
+wTmp = wA_B['0_2_likecat'].unsqueeze(1)
+s2 = torch.mm(inputNow, wTmp)+bA_B['0_2_likecat']
+wTmp = wA_B['0_3_likecar'].unsqueeze(1)
+s3 = torch.mm(inputNow, wTmp)+bA_B['0_3_likecar']
+
+print(s1)
+print(s2)
+print(s3)
+###############################################################################
 
 # ##纯训练相关据
 # dataiter = iter(trainloader)

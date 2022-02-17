@@ -1,5 +1,6 @@
-#第一，代码实现基本识别
-
+#在google colab中实现第一，代码实现基本识别
+#from google.colab import drive
+#drive.mount('/content/drive')
 import torch
 import torchvision
 import torchvision.transforms as transforms
@@ -27,6 +28,7 @@ transform = transforms.Compose(
 #transform1 = transforms.Compose(
 #    [transforms.ToTensor(), transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010))])  # R,G,B每层的归一化用到的均值和方差
 
+batch_sizeV = 512
 trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
                                         download=True, transform=transform)
 trainloader = torch.utils.data.DataLoader(trainset, bwatch_size=batch_sizeV,
@@ -49,10 +51,10 @@ startEpoch = 0
 startEpoch = 0
 #resnet18 = models.resnet18(pretrained=False)#采用torchvision的模型，无法达到94%的正确率，最多88%
 resnet18 = resnet.resnet18(num_classes=10)
-#modelPathName="./resnet18End.modeparams"
-#params = torch.load(modelPathName)
-#resnet18.load_state_dict(params["net"])
-#startEpoch =params["epoch"]
+modelPathName = "/content/drive/MyDrive/SUMONBDT/trainedModes/resnet18End_accuray95.modeparams"
+params = torch.load(modelPathName，map_location='cpu')
+resnet18.load_state_dict(params["net"])
+startEpoch =params["epoch"]
 
 
 # 获取随机数据
