@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2021/4/20 ���ڶ� 12:04:50 by Eclipse SUMO netedit Version 1.9.0
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
+
+    <output>
+        <output-file value="D:\oneDriveData\OneDrive\sumoLinuxPythonRL1\sumoCfgs\my1Lane11TLS.net.xml"/>
+    </output>
+
+    <processing>
+        <offset.disable-normalization value="true"/>
+    </processing>
+
+    <junctions>
+        <no-turnarounds value="true"/>
+    </junctions>
+
+    <report>
+        <aggregate-warnings value="5"/>
+    </report>
+
+</configuration>
+-->
+
+<net version="1.9" junctionCornerDetail="5" limitTurnSpeed="5.50" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/net_file.xsd">
+
+    <location netOffset="0.00,0.00" convBoundary="-200.00,0.00,100.00,0.00" origBoundary="10000000000.00,10000000000.00,-10000000000.00,-10000000000.00" projParameter="!"/>
+
+    <edge id=":2_0" function="internal">
+        <lane id=":2_0_0" index="0" speed="13.89" length="0.10" shape="0.00,-1.60 0.00,-1.60"/>
+    </edge>
+
+    <edge id="e1to2" from="1" to="2" priority="-1">
+        <lane id="e1to2_0" index="0" speed="13.89" length="200.00" shape="-200.00,-1.60 0.00,-1.60"/>
+    </edge>
+    <edge id="e2to3" from="2" to="3" priority="-1">
+        <lane id="e2to3_0" index="0" speed="13.89" length="100.00" shape="0.00,-1.60 100.00,-1.60"/>
+    </edge>
+
+    <tlLogic id="2" type="static" programID="0" offset="0">
+        <phase duration="20" state="r"/>
+        <phase duration="20"  state="G"/>
+    </tlLogic>
+
+    <junction id="1" type="dead_end" x="-200.00" y="0.00" incLanes="" intLanes="" shape="-200.00,0.00 -200.00,-3.20"/>
+    <junction id="2" type="traffic_light" x="0.00" y="0.00" incLanes="e1to2_0" intLanes=":2_0_0" shape="0.00,0.00 0.00,-3.20 0.00,0.00">
+        <request index="0" response="0" foes="0" cont="0"/>
+    </junction>
+    <junction id="3" type="dead_end" x="100.00" y="0.00" incLanes="e2to3_0" intLanes="" shape="100.00,-3.20 100.00,0.00"/>
+
+    <connection from="e1to2" to="e2to3" fromLane="0" toLane="0" via=":2_0_0" tl="2" linkIndex="0" dir="s" state="O"/>
+
+    <connection from=":2_0" to="e2to3" fromLane="0" toLane="0" dir="s" state="M"/>
+
+</net>
