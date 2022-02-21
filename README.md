@@ -14,3 +14,4 @@
 * 注意1： 用torvision的resnet模型，最多到88%的正确率，但是用https://github.com/WeihaoZhuang/cifar10-100-fast-training的模型能够到95%
 * 注意2：参考https://github.com/WeihaoZhuang/cifar10-100-fast-training 训练速度能变快 
 * testNetworkxWordnet用于学习networkx和wordnet的程序  
+* mainNBDT1.ipynb是在colab.google运行的NBDT+CIFAR程序，与mainNBDT1.py大概率一致。如果不一致的话，colab.google有最新代码
