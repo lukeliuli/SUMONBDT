@@ -4,7 +4,7 @@
 <route id="platoon_route" edges="e1to2 e2to3" />
   <vehicle type="EBUS2" id="00001" depart="0" departPos="199" route="platoon_route" />
   <vehicle type="EBUS2" id="00002" depart="0" departPos="191" route="platoon_route" />
-  <vehicle type="EBUS" id="00003" depart="0" departPos="100" route="platoon_route" />
+  <vehicle type="EBUS" id="00003" depart="0" departPos="100" departSpeed="13.89" route="platoon_route" />
 </routes>
 
 
