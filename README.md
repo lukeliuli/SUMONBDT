@@ -15,3 +15,44 @@
 * 注意2：参考https://github.com/WeihaoZhuang/cifar10-100-fast-training 训练速度能变快 
 * testNetworkxWordnet用于学习networkx和wordnet的程序  
 * mainNBDT1.ipynb是在colab.google运行的NBDT+CIFAR程序，与mainNBDT1.py大概率一致。如果不一致的话，colab.google有最新代码
+
+
+# SUMO+PYTORCH+NBDT的配置命令
+sudo apt-get update  
+sudo apt-get upgrade  
+https://repo.anaconda.com/archive/Anaconda3-2021.11-Linux-x86_64.sh  
+conda env list  
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/  
+conda create -n pytorch  python=3.6  
+
+conda activate pytorch  
+conda install pytorch torchvision cudatoolkit=11.0  
+conda install jupyter notebook  
+conda install nb_conda  
+conda install -c conda-forge jupyter_contrib_nbextensions  
+conda install -c conda-forge jupyter_nbextensions_configurator  
+jupyter notebook --generate-config  
+jupyter notebook password  
+c.NotebookApp.allow_remote_access = True  
+c.NotebookApp.ip = '*' # 所有绑定服务器的IP都能访问，若想只在特定ip访问，输入ip地址即可  
+c.NotebookApp.open_browser = False # 我们并不想在服务器上直接打开Jupyter Notebook，所以设置成False  
+c.NotebookApp.port = 7777 # 将端口设置为自己喜欢的吧，默认是8888  
+c.NotebookApp.notebook_dir = '/home/liuli'  
+
+
+  
+ 
+https://sumo.dlr.de/docs/Installing/Linux_Build.html   
+pip install --upgrade pip   
+conda install git cmake python3 g++ libxerces-c-dev libfox-1.6-dev libgdal-dev libproj-dev libgl2ps-dev python3-dev swig default-jdk maven   libeigen3-dev  
+ git clone --recursive https://github.com/eclipse/sumo  
+mv sumo-main sumo  
+export SUMO_HOME="$PWD/sumo"  
+ mkdir sumo/build/cmake-build && cd sumo/build/cmake-build  
+ cmake ../..  
+ make -j4  
+sudo apt-get install libavformat-dev libswscale-dev libopenscenegraph-dev python3-dev swig libgtest-dev libeigen3-dev python3-pip python3-setuptools default-jdk  
+
+ssh-keygen -o  
+cat ~/.ssh/id_rsa.pub  
+git clone git@github.com:lukeliuli/SUMONBDT.git  
