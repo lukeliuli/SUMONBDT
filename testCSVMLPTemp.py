@@ -25,17 +25,17 @@ import pandas as pd
 
 
 print(torch.__version__)  #注意是双下划线
-input()
+
 # 五层神经网络
 class NeuralNet(nn.Module):
     def __init__(self, input_size, hidden_size, num_classes):
         super(NeuralNet, self).__init__()
         self.fc1 = nn.Linear(input_size, hidden_size)
         self.relu = nn.ReLU()
-        self.fc2 = nn.Linear(hidden_size, 200)
-        self.fc3 = nn.Linear(200, 100)
-        self.fc4 = nn.Linear(100, num_classes)
-        self.dropout = nn.Dropout(p=0.1)
+        self.fc2 = nn.Linear(hidden_size, 100)
+        self.fc3 = nn.Linear(100, 50)
+        self.fc4 = nn.Linear(50, num_classes)
+        self.dropout = nn.Dropout(p=0.01)
 
     def forward(self, x):
         out = self.fc1(x)
@@ -70,7 +70,7 @@ xyData = np.array(xyDataTmp)
 
 ##方式2
 #https://blog.csdn.net/zw__chen/article/details/82806900
-print("reading data")
+#print("reading data")
 #csvfile = open(file1, 'r')
 #xyData= np.loadtxt(file1,delimiter=',',skiprows=1)
 x = xyData[:,0:-1]
@@ -100,7 +100,7 @@ dataset1 = TensorDataset(x1.float(),y1.long())
 #train_loader = DataLoader( dataset1, batch_size=5120, num_workers=1, sampler=train_sampler)
 
 print("loading data")
-train_loader = DataLoader(dataset=dataset1, batch_size=2048, shuffle=True)
+train_loader = DataLoader(dataset=dataset1, batch_size=2048*5, shuffle=True)
 
 #准备设备
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -111,10 +111,10 @@ if device == 'cuda':
 print(device)
 
 #准备模型
-print("loading net")
-modelPathName = "./trainedModes/"+"redTLS.modeparams"
-params = torch.load(modelPathName)
-mlp.load_state_dict(params['net'])
+#print("loading net")
+#modelPathName = "./trainedModes/"+"redTLS.modeparams"
+#params = torch.load(modelPathName)
+#mlp.load_state_dict(params['net'])
 
 
 #################################
