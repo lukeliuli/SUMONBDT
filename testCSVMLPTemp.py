@@ -21,8 +21,11 @@ import torch.nn as nn
 import csv
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
+import pandas as pd
 
 
+print(torch.__version__)  #注意是双下划线
+input()
 # 五层神经网络
 class NeuralNet(nn.Module):
     def __init__(self, input_size, hidden_size, num_classes):
@@ -52,6 +55,12 @@ print(mlp)
 
 ##############################################读写CSV
 file1 = "./trainData/dataAllSim.csv"
+print("reading data")
+xyDataTmp = pd.read_csv(file1)
+print(xyDataTmp.info())
+xyData = np.array(xyDataTmp)
+
+
 ##方式1
 #data1=[]
 #csv_reader = csv.reader(open(file1))
@@ -61,17 +70,18 @@ file1 = "./trainData/dataAllSim.csv"
 
 ##方式2
 #https://blog.csdn.net/zw__chen/article/details/82806900
-csvfile = open(file1, 'r')
-xyData= np.loadtxt(file1,delimiter=',',skiprows=1)
+print("reading data")
+#csvfile = open(file1, 'r')
+#xyData= np.loadtxt(file1,delimiter=',',skiprows=1)
 x = xyData[:,0:-1]
 y = xyData[:,-1]
 print(y.shape )
 print(x.shape )
+print("reading data,to Torch")
 x1 =torch.from_numpy(x)
 y1 =torch.from_numpy(y)
-
 dataset1 = TensorDataset(x1.float(),y1.long())
-print("testing")
+
 
 #train_dataset, test_dataset = random_split(
 #    dataset=dataset1,
@@ -81,16 +91,16 @@ print("testing")
 
 #################################
 #数据准备：平衡
-tmp = y
-trainratio = np.bincount(tmp.astype("int64"))
-train_weights = 1./trainratio
-train_weights[0]= train_weights[0]*2
-train_sampleweights = torch.from_numpy(train_weights)
-train_sampler = WeightedRandomSampler(weights=train_sampleweights, num_samples = len(y))
+#tmp = y
+#trainratio = np.bincount(tmp.astype("int64"))
+#train_weights = 1./trainratio
+#train_weights[0]= train_weights[0]*2
+#train_sampleweights = torch.from_numpy(train_weights)
+#train_sampler = WeightedRandomSampler(weights=train_sampleweights, num_samples = len(y))
 #train_loader = DataLoader( dataset1, batch_size=5120, num_workers=1, sampler=train_sampler)
 
-
-train_loader = DataLoader(dataset=dataset1, batch_size=2048*5, shuffle=True)
+print("loading data")
+train_loader = DataLoader(dataset=dataset1, batch_size=2048, shuffle=True)
 
 #准备设备
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -101,6 +111,7 @@ if device == 'cuda':
 print(device)
 
 #准备模型
+print("loading net")
 modelPathName = "./trainedModes/"+"redTLS.modeparams"
 params = torch.load(modelPathName)
 mlp.load_state_dict(params['net'])
