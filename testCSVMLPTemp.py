@@ -78,9 +78,9 @@ y = xyData[:,-1]
 print(y.shape )
 print(x.shape )
 print("reading data,to Torch")
-x1 =torch.from_numpy(x)
-y1 =torch.from_numpy(y)
-dataset1 = TensorDataset(x1.float(),y1.long())
+x =torch.from_numpy(x)
+y =torch.from_numpy(y)
+dataset1 = TensorDataset(x.float(),y.long())
 
 
 #train_dataset, test_dataset = random_split(
@@ -111,10 +111,10 @@ if device == 'cuda':
 print(device)
 
 #准备模型
-#print("loading net")
-#modelPathName = "./trainedModes/"+"redTLS.modeparams"
-#params = torch.load(modelPathName)
-#mlp.load_state_dict(params['net'])
+print("loading net")
+modelPathName = "./trainedModes/"+"redTLS.modeparams"
+params = torch.load(modelPathName)
+mlp.load_state_dict(params['net'])
 
 
 #################################

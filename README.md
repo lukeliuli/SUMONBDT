@@ -21,8 +21,10 @@
 sudo apt-get update  
 sudo apt-get upgrade  
 https://repo.anaconda.com/archive/Anaconda3-2021.11-Linux-x86_64.sh  
+conda update anaconda
 conda env list  
 conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/  
+
 conda create -n pytorch  python=3.6  
 
 conda activate pytorch  
