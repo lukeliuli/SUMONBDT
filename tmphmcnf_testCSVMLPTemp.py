@@ -1,3 +1,135 @@
+
+#from google.colab import drive
+#drive.mount('/content/drive')
+#%cd /content/drive/MyDrive/SUMONBDT
+#!nvidia-smi
+#from tensorflow.python.client import device_lib
+#print(device_lib.list_local_devices())
+#########################################################用于测试oneHot
+#########################################################也是第一步，读取数据
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import OneHotEncoder
+
+
+
+enc = OneHotEncoder()
+
+#[2,3,5,9]
+x1 = [0,0,0,0]
+x2 = [0,0,0,1]
+
+x3 = [1,1,1,2]
+x4 = [1,1,1,3]
+x5 = [1,1,2,4]
+x6 = [1,1,2,5]
+x7 = [1,2,3,6]
+x8 = [1,2,3,7]
+x9 = [1,2,4,8]
+X = [x1, x2, x3,x4,x5,x6,x7,x8,x9]
+enc.fit(X)
+#print(enc.transform(X).toarray())
+
+
+########################读写CSV,并转为oneHot
+file1 = "./trainData/dataAllSim.csv"
+print("reading data")
+xyDataTmp = pd.read_csv(file1)
+#print(xyDataTmp.info())
+xyData = np.array(xyDataTmp)
+
+x = xyData[:,0:22]
+y = xyData[:,22:26]
+
+y = enc.transform(y).toarray()
+
+print("x.shape:",x.shape,"yOneHot.shape:",y.shape)
+
+
+###########################################################第二步，训练
+#1. 核心为keras220不是pytorch
+#2. 基于hmcnf
+
+import model_hmcnf
+import tensorflow as tf
+from tensorflow.keras import layers
+from keras.utils.vis_utils import plot_model
+
+
+#hierarchy = [18, 80, 178, 142, 77, 4]
+hierarchy = [2,3,5,9]
+features_size = x.shape[1]
+label_size = y.shape[1]
+beta = 0.2
+dropout_rate=0.1
+relu_size=384
+
+
+
+def local_model(num_labels, dropout_rate, relu_size):
+    model = tf.keras.Sequential()
+    model.add(layers.Dense(relu_size, activation='relu'))
+    model.add(layers.Dropout(dropout_rate))
+    model.add(layers.Dense(num_labels, activation='sigmoid'))
+    return model
+
+
+def global_model(dropout_rate, relu_size):
+    model = tf.keras.Sequential()
+    model.add(layers.Dense(relu_size, activation='relu'))
+    model.add(layers.Dropout(dropout_rate))
+    return model
+
+
+def sigmoid_model(label_size):
+    model = tf.keras.Sequential()
+    model.add(layers.Dense(label_size, activation='sigmoid',name="global"))
+    return model
+
+features = layers.Input(shape=(features_size,))
+global_models = []
+local_models = []
+
+
+for i in range(len(hierarchy)):
+    if i == 0:
+        global_models.append(global_model(dropout_rate, relu_size)(features))
+    else:
+        global_models.append(global_model(dropout_rate, relu_size)(layers.concatenate([global_models[i-1], features])))
+
+p_glob = sigmoid_model(label_size)(global_models[-1])
+
+
+#显示只有全局模型的情况
+#modelTmp1 = tf.keras.Model(inputs=[features], outputs=[p_glob])
+#modelTmp1.summary()#
+#plot_model(modelTmp1, to_file='Flatten1.png', show_shapes=True)
+
+
+for i in range(len(hierarchy)):
+    local_models.append(local_model(hierarchy[i], dropout_rate, relu_size)(global_models[i]))
+    
+#显示只有局部局模型的情况(部分全局)
+p_loc = layers.concatenate(local_models)
+#modelTmp2 = tf.keras.Model(inputs=[features], outputs=[p_loc])
+#modelTmp2.summary()#
+#plot_model(modelTmp2, to_file='Flatten2.png', show_shapes=True)
+p_glob1 = layers.Lambda(lambda x: x*beta,name="global")(p_glob)
+p_loc1 = layers.Lambda(lambda x: x*(1-beta),name="local")(p_loc)
+
+labels = layers.add([p_glob1, p_loc1])
+
+model = tf.keras.Model(inputs=[features], outputs=[labels])
+
+plot_model(model, to_file='FlattenAll.png', show_shapes=True)
+
+model.compile(optimizer=tf.keras.optimizers.Adam(lr=0.001),loss='binary_crossentropy',metrics=['mae'])
+
+model.fit([x],[y],epochs=1000, batch_size=25600)
+
+model.save("hmcnf.h5")
+
+################################################################################第三步，验证
 import model_hmcnf
 import tensorflow as tf
 from tensorflow.keras import layers
@@ -10,7 +142,7 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
 
-#######################0.准备onehot
+#######################1.准备onehot
 enc = OneHotEncoder()
 #[2,3,5,9]
 x1 = [0,0,0,0]
@@ -28,7 +160,7 @@ enc.fit(X)
 
 #######################2.准备数据
         
-file1 = "./trainData/dataAllSim.csv"
+file1 = "./trainData/dataAllSim10000.csv"
 print("reading data")
 xyDataTmp = pd.read_csv(file1)
 #print(xyDataTmp.info())
@@ -42,11 +174,11 @@ y = enc.transform(y).toarray()
 
 
 #######################3.预测模型
-
+print("3.HMCNF预测模型")
 hierarchy = [2,3,5,9]
 features_size = x.shape[1]
 label_size = y.shape[1]
-beta = 0.5
+beta = 0.2
 
 model_name ="hmcnf.h5" 
 
