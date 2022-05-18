@@ -42,8 +42,8 @@ c.NotebookApp.port = 7777 # 将端口设置为自己喜欢的吧，默认是8888
 c.NotebookApp.notebook_dir = '/home/liuli'  
 
 
-  
- 
+ conda install pandas  
+ pip3 install sklearn  
 https://sumo.dlr.de/docs/Installing/Linux_Build.html   
 pip install --upgrade pip   
 conda install git cmake python3 g++ libxerces-c-dev libfox-1.6-dev libgdal-dev libproj-dev libgl2ps-dev python3-dev swig default-jdk maven   libeigen3-dev  
