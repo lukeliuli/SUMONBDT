@@ -1,143 +1,129 @@
-import model_hmcnf
 import tensorflow as tf
 from tensorflow.keras import layers
 from keras.utils.vis_utils import plot_model
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import classification_report
+import pandas as pd
 import numpy as np
-from tensorflow import keras
+from sklearn import tree
+import graphviz 
+import matplotlib.pyplot as plt
+###测试权重
+nSamples =5000
+input_dim = 10
+#x = np.random.standard_normal(size=(nSamples, input_dim))
+x = np.random.randint(low=0, high=10, size=(nSamples, input_dim))
+y1 = np.zeros((nSamples, 1))#>50
+y1A = np.zeros((nSamples, 1))#>50 and <60
+y1B = np.zeros((nSamples, 1))#>=60
+sumX = np.sum(x,axis=1)
+index=np.where(sumX>40)
+y1[index]=1
+index=np.where((sumX>50)& (sumX<70))
+y1A[index]=1
+index=np.where(sumX>=70)
+y1B[index]=1
+
+##数据来源2
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import OneHotEncoder
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import classification_report
 
-#######################0.准备onehot
-enc = OneHotEncoder()
-#[2,3,5,9]
-x1 = [0,0,0,0]
-x2 = [0,0,0,1]
-
-x3 = [1,1,1,2]
-x4 = [1,1,1,3]
-x5 = [1,1,2,4]
-x6 = [1,1,2,5]
-x7 = [1,2,3,6]
-x8 = [1,2,3,7]
-x9 = [1,2,4,8]
-X = [x1, x2, x3,x4,x5,x6,x7,x8,x9]
-enc.fit(X)
-
-#######################2.准备数据
-        
-file1 = "./trainData/dataAllSim.csv"
+file1 = "./trainData/dataAllSim1000.csv"
 print("reading data")
 xyDataTmp = pd.read_csv(file1)
-#print(xyDataTmp.info())
 xyData = np.array(xyDataTmp)
-
+nSamples, nDims= xyData.shape
 x = xyData[:,0:22]
 y = xyData[:,22:26]
 ylabel = y
-y = enc.transform(y).toarray()
+y1= y[:,0]
 
 
 
-#######################3.预测模型
-
-hierarchy = [2,3,5,9]
-features_size = x.shape[1]
-label_size = y.shape[1]
-beta = 0.5
-
-model_name ="hmcnf.h5" 
-
-model = keras.models.load_model(model_name)
-y_out = model.predict([x], batch_size=2560)
-y_predict = np.where(y_out > 0.5, 1, 0)
-
-predict_ok = np.where(np.sum(y_predict - y, axis=1) == 0, 1, 0)
-
-
-print("validated {} , {} good out of {} samples".format(model_name, np.sum(predict_ok), predict_ok.shape[0]))
-#######################3.层次预测预测模型
-print("3.层次预测预测模型")
-y1 = np.where(y_out[:,0:2] > 0.5, 1, 0)
-y2 = np.where(y_out[:,2:5] > 0.5, 1, 0)
-y3 = np.where(y_out[:,5:10] > 0.5, 1, 0)
-y4 = np.where(y_out[:,10:19] > 0.5, 1, 0)
-for i in range(y4.shape[0]):
-    tmp1 = y1[i]
-    tmp2 = y2[i]
-    tmp3 = y3[i]
-    tmp4 = y4[i]
-    if sum(tmp1) == 0:
-        index=  np.argmax(tmp1)
-        y1[i,index]=1
-        
-    if sum(tmp2) == 0:
-        index=  np.argmax(tmp2)
-        y2[i,index]=1
-        
-    if sum(tmp3) == 0:
-        index=  np.argmax(tmp3)
-        y3[i,index]=1
+#测试决策树
+def dtFitAndSave(x,y,class_names1,saveName):
+    dt = tree.DecisionTreeClassifier(max_depth=5,min_samples_split=100,min_samples_leaf=100,min_impurity_split=0.06,ccp_alpha=0.001)
+    dt = dt.fit(x, y)
+    tree.plot_tree(dt)
+    data=tree.export_graphviz(dt, out_file=None,class_names=class_names1,filled=True) 
+    graph = graphviz.Source(data)
+    graph.render(saveName)
     
-    if sum(tmp4) == 0:
-        index=  np.argmax(tmp4)
-        y4[i,index]=1
-        #print(i,y4[i],index)
-y_predict = np.concatenate([y1,y2,y3,y4],axis=1)
-predict_ok = np.where(np.sum(y_predict - y, axis=1) == 0, 1, 0)
-print("validated {} , {} good out of {} samples".format(model_name, np.sum(predict_ok), predict_ok.shape[0]))
+    yPredict = dt.predict(x)
+    tmp1 = classification_report(y,yPredict)
+    print(tmp1)
+    yPredict = dt.predict_proba(x)
+    index = np.where((yPredict[:,1]<0.98)&(yPredict[:,1]>0.5))
+    print(index[0].shape,index)
+    index = np.where((yPredict[:,1]<0.90)&(yPredict[:,1]>0.5))
+    print(index[0].shape,index)
+    index = np.where((yPredict[:,1]<0.80)&(yPredict[:,1]>0.5))
+    print(index[0].shape,index)
+    index = np.where((yPredict[:,1]<0.70)&(yPredict[:,1]>0.5))
+    print(index[0].shape,index)
+    
+    
+    d_path = dt.decision_path(x[0])
+    print(d_path)
+    
+    
+    #print(yPredict[index,1])
+    #plt.hist(yPredict[index,1],10,density=True)
+    #plt.show()
 
-#######################4.评估层次模型
-#hierarchy = [2,3,5,9]
-ypredict = enc.inverse_transform(y_predict)
+dtFitAndSave(x,y1,["0","1"],"bigger")
 
-##第一层，2
-print("###################################第一层，2")
-h1_yp = ypredict[:,0]
-h1_yl = ylabel[:,0]
-tmp1 = classification_report(h1_yl,h1_yp)
-tmp2 = confusion_matrix(h1_yl,h1_yp,normalize='true')
-tmp3 = confusion_matrix(h1_yl,h1_yp,normalize='pred')
-print(tmp1)
-print(np.around(tmp2, decimals=3))
-print(np.around(tmp3, decimals=3))
+###################################################################################
+#测试神经网络
+def kerasFitAndSave(x,y,num_labels):
+    nSamples,features_size = x.shape
+    relu_size = 384
+    dropout_rate =0.1
+    models=[]
+    
+    build_model = tf.keras.Sequential()
+   
+    build_model.add(layers.Dense(relu_size, activation='relu',name="layer1",input_shape=(features_size,)))
+    build_model.add(layers.Dropout(dropout_rate,name="Dropout1-2"))
+    build_model.add(layers.Dense(num_labels, activation='sigmoid',name="layer2"))
+    
+    #model = tf.keras.Model(inputs=[features], outputs=[build_model])
+    plot_model(build_model, to_file='AKeras.png', show_shapes=True)
+    
+    enc = OneHotEncoder()
+    enc.fit(y)  
+    yOnehot=enc.transform(y).toarray()
+    build_model.compile(optimizer=tf.keras.optimizers.Adam(lr=0.001),loss='binary_crossentropy',metrics=['accuracy'])
+    build_model.fit([x],[yOnehot],epochs=100, batch_size=80000*1)
+    build_model.save("Akeras.h5")
+    plot_model(build_model, to_file='AKeras.png', show_shapes=True)
+    
+    return build_model,models
 
+def kerasFitAndSaveSimple(x,y,num_labels):
+    nSamples,features_size = x.shape
+    relu_size = 2
+    models=[]
+    
+    build_model = tf.keras.Sequential()
+   
+    build_model.add(layers.Dense(num_labels, activation='sigmoid',name="layer1",input_shape=(features_size,)))
+    
+    #model = tf.keras.Model(inputs=[features], outputs=[build_model])
+    plot_model(build_model, to_file='AKerasSimple.png', show_shapes=True)
+    
+    enc = OneHotEncoder()
+    enc.fit(y)  
+    yOnehot=enc.transform(y).toarray()
+    build_model.compile(optimizer=tf.keras.optimizers.Adam(lr=0.001),loss='binary_crossentropy',metrics=['accuracy'])
+    build_model.fit([x],[yOnehot],epochs=10000, batch_size=80000*1)
+    build_model.save("Akeras.h5")
+    plot_model(build_model, to_file='AKeras.png', show_shapes=True)
+    
+    return build_model,models
 
-##第二层，3
-print("################################第二层，3")
-h2_yp = ypredict[:,1]
-h2_yl = ylabel[:,1]
-tmp1 = classification_report(h2_yl,h2_yp)
-tmp2 = confusion_matrix(h2_yl,h2_yp,normalize='true')
-tmp3 = confusion_matrix(h2_yl,h2_yp,normalize='pred')
-print(tmp1)
-print(np.around(tmp2, decimals=3))
-print(np.around(tmp3, decimals=3))
-
-
-
-##第三层，5
-print("#############################第三层，5")
-h3_yp = ypredict[:,2]
-h3_yl = ylabel[:,2]
-tmp1 = classification_report(h3_yl,h3_yp)
-tmp2 = confusion_matrix(h3_yl,h3_yp,normalize='true')
-tmp3 = confusion_matrix(h3_yl,h3_yp,normalize='pred')
-print(tmp1)
-print(np.around(tmp2, decimals=3))
-print(np.around(tmp3, decimals=3))
-
-
-##第四层，9
-print("#############################第四层，9")
-h4_yp = ypredict[:,3]
-h4_yl = ylabel[:,3]
-tmp1 = classification_report(h4_yl,h4_yp)
-tmp2 = confusion_matrix(h4_yl,h4_yp,normalize='true')
-tmp3 = confusion_matrix(h4_yl,h4_yp,normalize='pred')
-print(tmp1)
-print(np.around(tmp2, decimals=3))
-print(np.around(tmp3, decimals=3))
-
+y1 = np.array(y1)
+y1= y1.reshape(nSamples,-1)
+#kerasFitAndSave(x,y1,2)
+#kerasFitAndSaveSimple(x,y1,2)
