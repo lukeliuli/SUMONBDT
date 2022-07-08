@@ -61,5 +61,6 @@ git clone git@github.com:lukeliuli/SUMONBDT.git
 
 # 用于win10环境下，tensorflow-gpu的建立  
 conda install cudatoolkit=10.1 cudnn=7.6.5    
-pip install tensorflow-gpu==2.2.0 -i https://pypi.tuna.tsinghua.edu.cn/simple  
+conda install cudatoolkit=12.1 cudnn=8.1.0      
+pip install tensorflow-gpu==2.5.0 -i https://pypi.tuna.tsinghua.edu.cn/simple  
 https://blog.csdn.net/edward_zcl/article/details/124543504  
