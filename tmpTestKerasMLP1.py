@@ -49,7 +49,7 @@ def kerasFitAndSaveSimple1(x,yOneHot,num_labels):
     #enc.fit(y)  
     #yOnehot=enc.transform(y).toarray()
     build_model.compile(optimizer=tf.keras.optimizers.Adam(lr=0.001),loss='binary_crossentropy',metrics=['accuracy'])
-    build_model.fit([x],[yOneHot],epochs=10000, batch_size=80000*1)
+    build_model.fit([x],[yOneHot],epochs=50000, batch_size=80000*1)
     build_model.save("kerasSimple1.h5")
     plot_model(build_model, to_file='KerasSimple1_noHiddenLayer.png', show_shapes=True)
     return build_model
@@ -85,5 +85,10 @@ y3Level= y3Level.reshape(nSamples,-1)
 print(y3Level)
 enc.fit(y3Level)  
 yOneHot=enc.transform(y3Level).toarray()
-#simpleMode1 = kerasFitAndSaveSimple1(x,yOneHot,num_labels)
-simpleMode2 = kerasFitAndSaveSimple2(x,yOneHot,num_labels)
+
+a = input("input:")
+a = int(a)
+if a == 1:
+  simpleMode1 = kerasFitAndSaveSimple1(x,yOneHot,num_labels)
+if a == 2:
+  simpleMode2 = kerasFitAndSaveSimple2(x,yOneHot,num_labels)
