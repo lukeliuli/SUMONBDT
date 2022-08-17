@@ -83,7 +83,8 @@ def kerasFitAndSaveSimple3LikeResnet(x,yOneHot,num_labels,saveName):
     build_model.compile(optimizer=tf.keras.optimizers.Adam(lr=0.001),loss='binary_crossentropy',metrics=['accuracy'])
     
     #build_model = keras.models.load_model(saveName)
-    build_model.fit([x],[yOneHot],epochs=10000, batch_size=10000*1)
+    #build_model.fit([x],[yOneHot],epochs=10000, batch_size=10000*1)
+    build_model.fit(x,yOneHot,epochs=10000, batch_size=10000*1)#GPU 用这个
     #saveName = "KerasSimple3_likeResnet.h5"
     build_model.save(saveName)
     #plot_model(build_model, to_file='KerasSimple3_likeResnet.png', show_shapes=True)
@@ -231,6 +232,8 @@ print(y0_1)
 if 1:
     x=xOrigin
     y=yl5
+    x=x.astype(np.float32)
+    y=y.astype(np.int64)
     print("x.shape:",x .shape,"y.shape:",y .shape,"y.type:", type(y) )
     
     num_labels = 5 
@@ -243,7 +246,7 @@ if 1:
     yOneHot=enc.transform(y).toarray()
     saveName = "hybrid2_KerasSimple3_likeResnet_5label.h5"
     kerasModel3_5label = kerasFitAndSaveSimple3LikeResnet(x,yOneHot,num_labels,saveName)     
-    yKeras_5label=getKerasResnetRVL(x,enc_5label,saveName)
+    yKeras_5label=getKerasResnetRVL(x,enc,saveName)
     dt_5label = dtFitAndSave(x,yl5,"5label")
     enc_5label = enc
     
@@ -251,6 +254,8 @@ if 1:
     print("Floor4 训练")
     x= x0_1
     y =y0_1
+    x=x.astype(np.float32)
+    y=y.astype(np.int64)
     print("x.shape:",x .shape,"y.shape:",y .shape,"y.type:", type(y) )
     
     num_labels = 2 
@@ -271,6 +276,8 @@ if 1:
     print("Floor3 训练")
     x= x10_2
     y =y10_2
+    x=x.astype(np.float32)
+    y=y.astype(np.int64)
     print("x.shape:",x .shape,"y.shape:",y .shape,"y.type:", type(y) )
     
     num_labels = 2 
@@ -311,6 +318,8 @@ if 1:
     print("Floor1 训练")
     x= x3210_4
     y =y3210_4
+    x=x.astype(np.float32)
+    y=y.astype(np.int64)
     print("x.shape:",x .shape,"y.shape:",y .shape,"y.type:", type(y) )
     
     num_labels = 2 
