@@ -66,3 +66,24 @@ pip install tensorflow-gpu==2.3.0 -i https://pypi.tuna.tsinghua.edu.cn/simple
 pip install keras==2.3.1 -i https://pypi.tuna.tsinghua.edu.cn/simple  
 https://blog.csdn.net/edward_zcl/article/details/124543504    
 https://blog.csdn.net/QAQIknow/article/details/118858870  
+
+有用的的命令  
+conda create -n gpuKeras2 python=3.8
+
+conda install jupyter notebook  
+
+jupyter notebook --generate-config  
+jupyter notebook password  
+c.NotebookApp.allow_remote_access = True  
+c.NotebookApp.ip = '*' # 所有绑定服务器的IP都能访问，若想只在特定ip访问，输入ip地址即可  
+c.NotebookApp.open_browser = False # 我们并不想在服务器上直接打开Jupyter Notebook，所以设置成False  
+c.NotebookApp.port = 7777 # 将端口设置为自己喜欢的吧，默认是8888  
+c.NotebookApp.notebook_dir = '/home/liuli'  
+
+
+conda install nb_conda
+conda install pandas  
+pip3 install sklearn 
+ 
+conda install -c conda-forge imbalanced-learn
+conda install matplotlib 
