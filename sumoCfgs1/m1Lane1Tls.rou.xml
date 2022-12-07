@@ -1,0 +1,8 @@
+<routes>
+  <vType id="EBUS" accel="2.0" decel="6" lenght="6" maxSpeed="17.0" sigma="1.0" minGap="2.5" color="1,0,0" />
+  <vType id="EBUS2" accel="2.0" decel="6" lenght="5" maxSpeed="17.0" sigma="1.0" minGap="2.5" color="1,1,1" />
+<route id="platoon_route" edges="e1to2 e2to3" />
+
+</routes>
+
+
