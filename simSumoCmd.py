@@ -15,10 +15,10 @@ import random
 
 #import traci as libsumo
 import libsumo
-def startSumoSim(params):
+def simSumoCmdRedTls(params):
 
     simNum =  params["simNum"] #= 150
-    greenTime =  params["greenTime"]# = 15
+    redTime =  params["redTime"]# = 15
     otherVehs =   params["otherVehs"] #= [[1, 0],[7,0],[14,0]]  # [距离交通灯的距离1，行驶速度1,距离交通灯的距离2，行驶速度2]
     otherVehsParams =   params["otherVehsParams"] #= [5.5, 2, -9, 60 /3.6, 0.2]  # [车辆长度，最大加速度,最大减加速度，最大速度，反应时间,最小间距]
     objectVeh =  params["objectVeh"] #= [50, 0] 距离交通灯的距离,当前速度
@@ -90,14 +90,25 @@ def startSumoSim(params):
                                  
 
     #greenTime = max(random.random()*greenTime,0.1)
+    #交通灯设定为红灯逻辑
     allProgramLogics = libsumo.trafficlight.getAllProgramLogics(nextTLSID)
     lgc1 = allProgramLogics[0]
     yellowDurTime = lgc1.phases[0].duration
     greenDurTime = lgc1.phases[1].duration
     yellowDurTime = lgc1.phases[2].duration
     redDurTime = lgc1.phases[3].duration
-
-    lgc1.phases[1].duration = greenTime
+    
+    lgc1.phases[0].state = 'y'
+    lgc1.phases[0].duration =yellowDurTime
+    lgc1.phases[1].state = 'r'
+    lgc1.phases[1].duration =redTime#修改红灯时间
+    
+    lgc1.phases[2].state = 'y'
+    lgc1.phases[2].duration =yellowDurTime
+    
+    lgc1.phases[3].state = 'G'
+    lgc1.phases[3].duration =greenDurTime
+    
     libsumo.trafficlight.setProgramLogic(nextTLSID,lgc1) 
     phaseDur = libsumo.trafficlight.getPhaseDuration(nextTLSID)
     
@@ -188,11 +199,11 @@ def startSumoSim(params):
 ############################################################################################
 ############################################################################################                                   ############################################################################################                ############################################################################################
 
-
+###测试程序
 #定义模拟过程中动态可调整参数
 params =dict()
 params["simNum"] = 20
-params["greenTime"] = 15
+params["redTime"] = 15
 params["otherVehs"] = [[1, 0],[7,0],[14,0]]  # [[距离交通灯的距离1，行驶速度1],[距离交通灯的距离2，行驶速度2]]
                             
 #[车辆长度，最大加速度,最大减加速度，最大速度，反应时间,最小间距,不专心,速度噪声]                              
@@ -202,5 +213,5 @@ params["objectVeh"] = [30,0]
 #[车辆长度，最大加速度,最大减加速度，最大速度，反应时间,最小间距,不专心,速度噪声]  
 params["objectVehParams"] = [5,2,-2,60/3.6,0.5, 1.2 ,0.1,0.05] 
 
-data = startSumoSim(params)
+data = simSumoCmdRedTls(params)
 
