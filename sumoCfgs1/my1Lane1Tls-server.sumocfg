@@ -15,6 +15,13 @@
         <step-length value="0.1"/>
     </time>
 
+
+    <output>
+       
+        <?summary-output value="summary.xml"/>
+        <full-output value="full-output.xml"/>
+        <fcd-output value="fcd-output.xml"/?>
+    </output>
     
 	    
 
