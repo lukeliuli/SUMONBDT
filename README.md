@@ -16,6 +16,9 @@
 * testNetworkxWordnet用于学习networkx和wordnet的程序  
 * mainNBDT1.ipynb是在colab.google运行的NBDT+CIFAR程序，与mainNBDT1.py大概率一致。如果不一致的话，colab.google有最新代码
 
+# 最新更新
+* my1Lane1TlsVeh6-server.sumocfg 和 my1Lane1TlsVeh6.rou.xml 用于调节模拟中的车辆和车辆类型参数，并用GUI进行验证
+
 
 # SUMO+PYTORCH+NBDT的配置命令
 sudo apt-get update  

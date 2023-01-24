@@ -4,7 +4,7 @@
 
      <input>
         <net-file value="my1Lane1TLS.net.xml"/>
-        <route-files value="m1Lane1TlsVeh3.rou.xml"/>
+        <route-files value="my1Lane1TlsVeh6.rou.xml"/>
       
     </input>
     
@@ -12,7 +12,7 @@
     <time>
         <begin value="0"/>
         <end value="50"/>
-        <step-length value="0.01"/>
+        <step-length value="0.1"/>
     </time>
 
     
