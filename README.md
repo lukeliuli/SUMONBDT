@@ -18,7 +18,7 @@
 
 # 最新更新
 * my1Lane1TlsVeh6-server.sumocfg 和 my1Lane1TlsVeh6.rou.xml 用于调节模拟中的车辆和车辆类型参数，并用GUI进行验证
-
+* mainTest2_hmcnf_keras_dt为mainTestCSVMLP3(hmcnf_keras)的简化和优化代码，代码清晰化和优化
 
 # SUMO+PYTORCH+NBDT的配置命令
 sudo apt-get update  
