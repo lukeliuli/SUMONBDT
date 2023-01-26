@@ -18,7 +18,7 @@
 
 # 最新更新
 * my1Lane1TlsVeh6-server.sumocfg 和 my1Lane1TlsVeh6.rou.xml 用于调节模拟中的车辆和车辆类型参数，并用GUI进行验证
-
+* mainTest2_hmcnf_keras_dt为mainTestCSVMLP3(hmcnf_keras)的简化和优化代码，代码清晰化和优化
 
 # SUMO+PYTORCH+NBDT的配置命令
 sudo apt-get update  
@@ -90,3 +90,40 @@ pip3 install sklearn
  
 conda install -c conda-forge imbalanced-learn
 conda install matplotlib 
+
+
+
+# docker 基本命令
+1. 看docker运行实例: sudo docker ps
+2. 以命令行登录docker实例,sudo docker exec -it t1  /bin/bash
+3. 或者第一次运行
+
+sudo docker run -itd --name t1 -v /home/liuli:/home/liuli0 -p 80:8012  -p 22:8022 sumoquaninvestjupyter:1.7   /bin/bash 
+sudo docker run -itd sumoquaninvestjupyter:1.7   /bin/bash
+
+#### docker 映射端口
++ sudo docker run -itd -p 6666:6666  laughing_kalam  /bin/bash
+
+####docker 停止
++ docker stop laughing_kalam
+
+删除所有未运行的容器
+docker rm $(docker ps -a -q)
+
+
+#### docker commit :从容器创建一个新的镜像
++ docker commit <容器id> <镜像名>:<tag>
++ 例如 sudo docker commit t1 sumoquaninvestjupyter:1.7
+
+#### 将指定镜像保存成 tar 归档文件
++ docker save -o ubuntuSumoQuaninvestJupyterV1.tar sumoquaninvestjupyter:1.0
+
+#### 从 tar 导入镜像
++ docker load -i ubuntuSumoQuaninvestJupyterV1.tar
+
+
+#### 查看镜像
++ sudo docker images 
+
+#### 删除单个镜像
++ sudo docker rmi -f  <镜像id>
