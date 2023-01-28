@@ -287,7 +287,7 @@ def getVehicleInfo(objvehID):
     return info
 
 ########################################################################################################################
-###测试程序1
+###测试程序1，测试直接从france数据库的提取样本
 def test1():
     ####获得一个样本进行测试
     df1 = pd.read_csv('./trainData/france_0_allSamples1.csv')
@@ -427,15 +427,14 @@ def test2(tmp):
 #主程序
 
 
-#test1()
+#test1()#测试程序1，测试直接从france数据库的提取样本
 
-
-#test2 测试低概率样本
+########################################################################################################################
+#test2 #测试程序2,从pickle中读取样本，样本已经进行[x,y]分割
 fpk=open('lowproSamples.txt','rb')   
 [xlowprob1,ylowprobLabel1,ylowprobPredictNN1]=pickle.load(fpk)    
 fpk.close()
 len1 = len(xlowprob1)
-
 for i in range(len1):
     print("\nsampleNum:",i)
     tmp = xlowprob1[i]
@@ -443,8 +442,21 @@ for i in range(len1):
     speedSlot = ["[0,5/3.6]","[5/3.6,15/3.6]","[15/3.6,25/3.6]","[25/3.6,35/3.6]","[35/3.6,80/3.6]"]
     speedFlag = ylowprobLabel1[i]
     print("origin speedFlag %d,speedSlot %s" %(speedFlag,speedSlot[speedFlag]))
-    
     print("predicted Labels By kerasNN:",np.round(ylowprobPredictNN1[i],2))
- 
-    
+######################################################################################################################## 
+#test3 #测试程序3,从pickle中读取原始，kerasNN样本，和进行MSsim，并比较
+
+fpk=open('allSamples5label.pkf','rb')   
+[x0,yl5,ykerasNN]=pickle.load(fpk)  
+fpk.close()  
+
+len1 = len(xlowprob1)
+for i in range(len1):
+    print("\nsampleNum:",i)
+    tmp = xlowprob1[i]
+    test2(tmp)
+    speedSlot = ["[0,5/3.6]","[5/3.6,15/3.6]","[15/3.6,25/3.6]","[25/3.6,35/3.6]","[35/3.6,80/3.6]"]
+    speedFlag = ylowprobLabel1[i]
+    print("origin speedFlag %d,speedSlot %s" %(speedFlag,speedSlot[speedFlag]))
+    print("predicted Labels By kerasNN:",np.round(ylowprobPredictNN1[i],2))
 
