@@ -1,5 +1,5 @@
 
-print("对输入的样本进行蒙特卡洛模拟分析，原始对应程序为mainSimSumoFranceDatra")
+print("对输入的样本进行蒙特卡洛模拟分析，原始对应程序为mainSimSumoFranceData")
 
 #用于简单过路灯模拟
 #1.单直车道. 2.无车道转换。3.所有车假设为同一类车，也就是汽车动力学和汽车运动学一样
@@ -159,7 +159,7 @@ def simSumoCmd(params):
     minSpeed = 100000
     ##############################################################
     while requireStop == 0:
-        print("步数:%d,车辆数:%d" %(stepNum,libsumo.simulation.getMinExpectedNumber()))
+        
         if (stepNum == 0):
             dist,vel = objectVeh
             vel  = min(60/3.6,vel)
@@ -221,13 +221,13 @@ def simSumoCmd(params):
         #    requireStop = 1
             
         if dist2TLS<=0.3: 
-            print("simStop:dist2TLS<=0.3")
+            #print("simStop:dist2TLS<=0.3")
             requireStop = 1
             
             
         edgeIDNow =  libsumo.vehicle.getRoadID(objvehID)
         if edgeIDNow != "e1to2" or passTLS:  # if time is over 30 second stoping the simulation
-            print("simStop:next tls,edge is %s,%s"% (nextTLSNow,libsumo.vehicle.getRoadID(objvehID)))
+            #print("simStop:next tls,edge is %s,%s"% (nextTLSNow,libsumo.vehicle.getRoadID(objvehID)))
             requireStop = 1
             
             
@@ -249,6 +249,10 @@ def simSumoCmd(params):
         if params["log"]:
             print(strRec1)  
             print("leadID：%s,leadInfo:%s" %(leaderID[0],leaderInfo))
+            
+        #print("步数:%d,车辆数:%d" %(stepNum,libsumo.simulation.getMinExpectedNumber()))
+        #print("running time(ms):%d,tls state: %s,duration:%.3f," % (timeT,states,phaseDur))
+        #print("speed:%.2f,lanePos:%s,dist2TLS:%.2f," % (speed,vehLanePos,dist2TLS))
 
     
     libsumo.close()
@@ -353,11 +357,94 @@ def test1():
     speedSlot = ["[0,5/3.6]","[5/3.6,15/3.6]","[15/3.6,25/3.6]","[25/3.6,35/3.6]","[35/3.6,80/3.6]"]
     print("origin speedFlag %d,speedSlot %s\n\n" %(speedFlag,speedSlot[speedFlag]))
     plt.hist(minSpeedList)
+ 
+########################################################################################################################
+###测试程序2,从pickle中读取样本,注意与france csv不一样，输入数据只有48，把vehID,speedFlag 已经去掉了
+import pickle
+
+
+
+def test2(tmp):
+    
+   
+    redLightTime,distToRedLight,speed,laneAvgSpeed,arriveTime1,arriveTime2,numStillVeh,ArrivalDivRedTime,\
+        vehPos_1,vehSpeed_1,vehPos_2,vehSpeed_2,vehPos_3,vehSpeed_3,vehPos_4,vehSpeed_4,vehPos_5,vehSpeed_5,\
+        vehPos_6,vehSpeed_6,vehPos_7,vehSpeed_7,vehPos_8,vehSpeed_8,vehPos_9,vehSpeed_9,vehPos_10,vehSpeed_10,\
+        vehPos_11,vehSpeed_11,vehPos_12,vehSpeed_12,vehPos_13,vehSpeed_13,vehPos_14,vehSpeed_14,vehPos_15,vehSpeed_15,\
+        vehPos_16,vehSpeed_16,vehPos_17,vehSpeed_17,vehPos_18,vehSpeed_18,vehPos_19,vehSpeed_19,vehPos_20,vehSpeed_20 = tmp
+    vehObj = np.array([distToRedLight,speed])
+    vehsOthers = tmp[8:len1]
+    
+    vehsOthers = vehsOthers.reshape(-1,2)
+    vehsOthers_all = vehsOthers[np.where(vehsOthers[:,0]>0)]
+    vehsOthers1 = vehsOthers_all[0:-1]
+    #print("vehObj:",vehObj)
+    #print("vehsOthers1",vehsOthers1)
+    #print("vehs_all",vehsOthers_all)#数据命名错误，vehsOthers等于车道上所有车
+    #if vehsOthers1.shape[0] == 0:
+    #    return
+    #print(vehsOthers)
+    #redLightTime = redLightTime
+
+
+
+    #time.sleep(5);
+    #####################################################################
+    params =dict()
+    params["simNum"] = 10
+    params["redLightTime"] = float(redLightTime+0.01)
+    params["otherVehs"] = vehsOthers1  # [[距离交通灯的距离1，行驶速度1],[距离交通灯的距离2，行驶速度2]]
+
+    #[车辆长度，最大加速度,最大减加速度，最大速度，反应时间,最小间距,不专心,速度噪声]                              
+    params["otherVehsParams"] = [5,2,9,60/3.6,     0.5, 0.5 ,0.01,0.05] 
+
+    params["objectVeh"] = vehObj
+    #[车辆长度，最大加速度,最大减加速度，最大速度，反应时间(0.01到0.1的传输延迟，0.2到0.5的执行延迟),最小间距,不专心,速度噪声]  
+    params["objectVehParams"] = [5,2,9,60/3.6,                       0.5,                           0.5,      0.01,  0.05] 
+    params["log"] = False
+    minSpeedList = []
+    
+    for i in range(params["simNum"]):
+         #print("\nsimNum:%d Start" %i)
+         #加入噪声
+         params["otherVehsParams"] = [5,2+random.uniform(0,1),9,60/3.6,0.3+random.uniform(0,0.1), 0.5 ,0.01,0.05] 
+         params["objectVehParams"] = [5,2+random.uniform(0,1),9,60/3.6,0.3+random.uniform(0,0.1), 0.5, 0.01,0.05] 
+         statRec1,strRec1,minSpeed,leaderInfo = simSumoCmd(params)
+
+
+         #print("simNum:%d End" %i)
+         #print(strRec1)
+         #print("leaderInfo",leaderInfo )
+         #print('minSpeed',minSpeed)
+         minSpeedList.append(minSpeed)
+
+    minSpeedList1 = np.array(minSpeedList)
+    print("MonteCarloSimulation minSpeedList ,min:%.2f,max:%.2f,mean:%.2f" %(np.min(minSpeedList1),np.max(minSpeedList1),np.mean(minSpeedList1)))
+ 
+    #plt.hist(minSpeedList)
   
 ########################################################################################################################
 #主程序
 
 
-test1()
+#test1()
 
+
+#test2 测试低概率样本
+fpk=open('lowproSamples.txt','rb')   
+[xlowprob1,ylowprobLabel1,ylowprobPredictNN1]=pickle.load(fpk)    
+fpk.close()
+len1 = len(xlowprob1)
+
+for i in range(len1):
+    print("\nsampleNum:",i)
+    tmp = xlowprob1[i]
+    test2(tmp)
+    speedSlot = ["[0,5/3.6]","[5/3.6,15/3.6]","[15/3.6,25/3.6]","[25/3.6,35/3.6]","[35/3.6,80/3.6]"]
+    speedFlag = ylowprobLabel1[i]
+    print("origin speedFlag %d,speedSlot %s" %(speedFlag,speedSlot[speedFlag]))
+    
+    print("predicted Labels By kerasNN:",np.round(ylowprobPredictNN1[i],2))
+ 
+    
 
