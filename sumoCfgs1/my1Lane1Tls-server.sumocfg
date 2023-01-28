@@ -18,9 +18,9 @@
 
     <output>
        
-        <?summary-output value="summary.xml"/>
+        <summary-output value="summary.xml"/>
         <full-output value="full-output.xml"/>
-        <fcd-output value="fcd-output.xml"/?>
+        <fcd-output value="fcd-output.xml"/>
     </output>
     
 	    

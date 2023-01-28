@@ -113,7 +113,7 @@ def simSumoCmd(params):
     yellowDurTime = lgc1.phases[2].duration
     redDurTime = lgc1.phases[3].duration
     
-    lgc1.phases[0].state = 'y'
+    lgc1.phases[0].state = 'r'
     lgc1.phases[0].duration =yellowDurTime
     lgc1.phases[1].state = 'r'
     lgc1.phases[1].duration =redLightTime#修改绿灯时间
