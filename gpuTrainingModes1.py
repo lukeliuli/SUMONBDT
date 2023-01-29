@@ -92,10 +92,20 @@ def kerasFitAndSaveSimple3LikeResnet(x,yOneHot,num_labels,saveName):
     #yOnehot=enc.transform(y).toarray()
     build_model.compile(optimizer=tf.keras.optimizers.Adam(lr=0.001),loss='binary_crossentropy',metrics=['accuracy'])
     
-    if 1:
+    try:
        build_model = keras.models.load_model(saveName)
+    except:
+       print("Error:keras.models.load_model(%s):" %saveName)
     #build_model.fit([x],[yOneHot],epochs=10, batch_size=10000*1)
-    build_model.fit(x,yOneHot,epochs=15000, batch_size=20000*1)#GPU用这个
+    
+    #checkpoint_filepath = './checkpoints'
+    
+    my_callbacks = [
+    tf.keras.callbacks.ModelCheckpoint(filepath='./logs/model.{epoch:05d}-{accuracy:.4f}.h5',monitor='accuracy'),
+    tf.keras.callbacks.TensorBoard(log_dir='./logs'),
+    ]
+
+    build_model.fit(x,yOneHot,epochs=15000, batch_size=20000*1,callbacks=my_callbacks)#GPU用这个
     #saveName = "KerasSimple3_likeResnet.h5"
     build_model.save(saveName)
     #plot_model(build_model, to_file='KerasSimple3_likeResnet.png', show_shapes=True)
