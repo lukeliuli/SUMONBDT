@@ -287,7 +287,7 @@ def getVehicleInfo(objvehID):
     return info
 
 ########################################################################################################################
-###测试程序1
+###测试程序1，测试直接从france数据库的提取样本
 def test1():
     ####获得一个样本进行测试
     df1 = pd.read_csv('./trainData/france_0_allSamples1.csv')
@@ -422,29 +422,78 @@ def test2(tmp):
     print("MonteCarloSimulation minSpeedList ,min:%.2f,max:%.2f,mean:%.2f" %(np.min(minSpeedList1),np.max(minSpeedList1),np.mean(minSpeedList1)))
  
     #plt.hist(minSpeedList)
+     
+    return minSpeedList1
   
 ########################################################################################################################
 #主程序
 
 
-#test1()
+#test1()#测试程序1，测试直接从france数据库的提取样本
+
+########################################################################################################################
+#test2 #测试程序2,从pickle中读取样本，样本已经进行[x,y]分割
+from datetime import datetime
 
 
-#test2 测试低概率样本
-fpk=open('lowproSamples.txt','rb')   
+fpk=open('lowprobSamples.pkf','rb')   
 [xlowprob1,ylowprobLabel1,ylowprobPredictNN1]=pickle.load(fpk)    
 fpk.close()
 len1 = len(xlowprob1)
+logFile=open('log.txt','w+',buffering=100) 
+dataFile=open('data.csv','w+',buffering=100)
+print(datetime.now(),file=logFile)
+print("origin speedFlag,predicted Labels By kerasNN,predicted Labels By MCS",file=dataFile)
 
+for i in range(len1):
+    print("\nsampleNum:",i,file=logFile)
+    print(datetime.now(),file=logFile)
+    
+    tmp = xlowprob1[i]
+    minSpeedList1 = test2(tmp)
+    speedSlot = ["[0,5/3.6]","[5/3.6,15/3.6]","[15/3.6,25/3.6]","[25/3.6,35/3.6]","[35/3.6,80/3.6]"]
+    speedFlag = ylowprobLabel1[i]
+    print("origin speedFlag %d,speedSlot %s" %(speedFlag,speedSlot[speedFlag]),file=logFile)
+    print("predicted Labels By kerasNN:",np.round(ylowprobPredictNN1[i],2),file=logFile)
+    tmp = np.round(np.mean(minSpeedList1),2)
+    print("predicted Labels By MCS:",tmp,tmp*3.6,file=logFile)
+    
+    tmp = tmp*3.6
+    if tmp<5:
+        mcsflag=0
+    elif tmp<15:
+        mcsflag =1
+    elif tmp<25:
+        mcsflag=2
+    elif tmp<35:
+        mcsflag=3
+    elif tmp<80:
+        mcsflag =4
+    str1 = "%d,%d,%d" %(speedFlag,np.argmax(ylowprobPredictNN1[i]),mcsflag)
+    print(str1,file=dataFile)
+   
+    
+logFile.close()   
+######################################################################################################################## 
+#test3 #测试程序3,从pickle中读取原始，kerasNN样本，和进行MSsim，并比较
+#第一个比较，正确率的比较
+
+'''
+fpk=open('allSamples5label.pkf','rb')   
+[x0,yl5,ykerasNN]=pickle.load(fpk)  
+fpk.close()  
+
+len1 = len(xlowprob1)
+mcs = np.zeros(yl5.shape)
 for i in range(len1):
     print("\nsampleNum:",i)
     tmp = xlowprob1[i]
-    test2(tmp)
+    minSpeedList1=test2(tmp)
+    mcs[i] = np.mean(minSpeedList1)
+    
     speedSlot = ["[0,5/3.6]","[5/3.6,15/3.6]","[15/3.6,25/3.6]","[25/3.6,35/3.6]","[35/3.6,80/3.6]"]
     speedFlag = ylowprobLabel1[i]
     print("origin speedFlag %d,speedSlot %s" %(speedFlag,speedSlot[speedFlag]))
-    
     print("predicted Labels By kerasNN:",np.round(ylowprobPredictNN1[i],2))
- 
-    
+'''    
 
