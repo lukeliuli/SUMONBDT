@@ -128,12 +128,12 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-
+logs/
 data/
-.zip
-.csv
+*.zip
+*.csv
 trainData/
 trainedModes/
 franceRedData/
-.txt
-.pkf
+*.txt
+*.pkf

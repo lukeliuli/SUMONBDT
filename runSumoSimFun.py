@@ -391,7 +391,7 @@ def test2(tmp):
     #time.sleep(5);
     #####################################################################
     params =dict()
-    params["simNum"] = 10
+    params["simNum"] = 1
     params["redLightTime"] = float(redLightTime+0.01)
     params["otherVehs"] = vehsOthers1  # [[距离交通灯的距离1，行驶速度1],[距离交通灯的距离2，行驶速度2]]
 
@@ -407,8 +407,8 @@ def test2(tmp):
     for i in range(params["simNum"]):
          #print("\nsimNum:%d Start" %i)
          #加入噪声
-         params["otherVehsParams"] = [5,2+random.uniform(0,1),9,60/3.6,0.3+random.uniform(0,0.1), 0.5 ,0.01,0.05] 
-         params["objectVehParams"] = [5,2+random.uniform(0,1),9,60/3.6,0.3+random.uniform(0,0.1), 0.5, 0.01,0.05] 
+         params["otherVehsParams"] = [5,2+random.uniform(0,1),6+random.uniform(0,3),80/3.6,0.3+random.uniform(0,0.3), 0.5 ,0.01,0.05] 
+         params["objectVehParams"] = [5,2+random.uniform(0,1),6+random.uniform(0,3),80/3.6,0.3+random.uniform(0,0.3), 0.5, 0.01,0.05] 
          statRec1,strRec1,minSpeed,leaderInfo = simSumoCmd(params)
 
 
@@ -440,10 +440,10 @@ fpk=open('lowprobSamples.pkf','rb')
 [xlowprob1,ylowprobLabel1,ylowprobPredictNN1]=pickle.load(fpk)    
 fpk.close()
 len1 = len(xlowprob1)
-logFile=open('log.txt','w+',buffering=100) 
-dataFile=open('data.csv','w+',buffering=100)
+logFile=open('log.txt','w+',buffering=10) 
+dataFile=open('data.csv','w+',buffering=10)
 print(datetime.now(),file=logFile)
-print("origin speedFlag,predicted Labels By kerasNN,predicted Labels By MCS",file=dataFile)
+print("index,origin speedFlag,predicted Labels By kerasNN,predicted Labels By MCS",file=dataFile)
 
 for i in range(len1):
     print("\nsampleNum:",i,file=logFile)
@@ -460,16 +460,16 @@ for i in range(len1):
     
     tmp = tmp*3.6
     if tmp<5:
-        mcsflag=0
+        mcsflag =0
     elif tmp<15:
         mcsflag =1
     elif tmp<25:
-        mcsflag=2
+        mcsflag =2
     elif tmp<35:
-        mcsflag=3
+        mcsflag =3
     elif tmp<80:
         mcsflag =4
-    str1 = "%d,%d,%d" %(speedFlag,np.argmax(ylowprobPredictNN1[i]),mcsflag)
+    str1 = "%d,%d,%d,%d" %(i,speedFlag,np.argmax(ylowprobPredictNN1[i]),mcsflag)
     print(str1,file=dataFile)
    
     
