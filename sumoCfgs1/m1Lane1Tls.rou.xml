@@ -1,7 +1,7 @@
 
 <routes>
-  <vType id="EBUS"  accel="2.0" decel="4" length="5" maxSpeed="17.0" tau="0.5" speedFactor="1" sigma="0.01" minGap="0.5" color="1,0,0" />
-  <vType id="EBUS2" accel="2.0" decel="4" length="5" maxSpeed="17.0" tau="0.5" speedFactor="1" sigma="0.01" minGap="0.5" color="1,1,1" />
+  <vType id="EBUS"  callFollowMode="carFollowing-CC" accel="2.0" decel="4" length="5" maxSpeed="17.0" tau="0.5" speedFactor="1" sigma="0.01" minGap="0.5" color="1,0,0" />
+  <vType id="EBUS2" callFollowMode="carFollowing-CC" accel="2.0" decel="4" length="5" maxSpeed="17.0" tau="0.5" speedFactor="1" sigma="0.01" minGap="0.5" color="1,1,1" />
 <route id="platoon_route" edges="e1to2 e2to3" />
 
 </routes>
