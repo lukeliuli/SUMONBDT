@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2023-02-02 20:16:05 by Eclipse SUMO libsumo Version v1_15_0+0841-ec7ac00463d
+<!-- generated on 2023-02-03 17:24:09 by Eclipse SUMO libsumo Version v1_15_0+0841-ec7ac00463d
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/libsumoConfiguration.xsd">
 
     <input>
@@ -47,14 +47,18 @@
     </data>
     <data timestep="0.10">
         <vehicles>
-            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="2103.19" CO="51.97" HC="0.28" NOx="0.77" PMx="0.02" fuel="670.85" electricity="0.00" noise="59.57" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="189.35" speed="6.90" angle="90.00" x="-10.65" y="-1.60"/>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="2624.72" CO="164.78" HC="0.81" NOx="1.20" PMx="0.07" fuel="837.22" electricity="0.00" noise="55.94" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="199.00" speed="0.00" angle="90.00" x="-1.00" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="2624.72" CO="164.78" HC="0.81" NOx="1.20" PMx="0.07" fuel="837.22" electricity="0.00" noise="55.94" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="193.50" speed="0.00" angle="90.00" x="-6.50" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="2567.92" CO="155.74" HC="0.77" NOx="1.17" PMx="0.06" fuel="819.10" electricity="0.00" noise="56.11" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="187.98" speed="0.45" angle="90.00" x="-12.02" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="2238.87" CO="0.17" HC="0.05" NOx="0.69" PMx="0.01" fuel="714.11" electricity="0.00" noise="63.68" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="119.25" speed="12.64" angle="90.00" x="-80.75" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="2306.23" CO="0.00" HC="0.03" NOx="0.70" PMx="0.01" fuel="735.59" electricity="0.00" noise="64.32" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="77.45" speed="13.53" angle="90.00" x="-122.55" y="-1.60"/>
         </vehicles>
         <edges>
             <edge id=":2_0" traveltime="0.00">
                 <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
             </edge>
-            <edge id="e1to2" traveltime="28.99">
-                <lane id="e1to2_0" CO="51.97" CO2="2103.19" NOx="0.77" PMx="0.02" HC="0.28" noise="59.57" fuel="670.85" electricity="0.00" maxspeed="23.89" meanspeed="6.90" occupancy="0.03" vehicle_count="1"/>
+            <edge id="e1to2" traveltime="37.57">
+                <lane id="e1to2_0" CO="485.46" CO2="12362.48" NOx="4.96" PMx="0.22" HC="2.47" noise="67.95" fuel="3943.26" electricity="0.00" maxspeed="23.89" meanspeed="5.32" occupancy="0.12" vehicle_count="5"/>
             </edge>
             <edge id="e2to3" traveltime="4.19">
                 <lane id="e2to3_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
@@ -62,6 +66,1708 @@
         </edges>
         <tls>
             <trafficlight id="2" state="r"/>
+        </tls>
+    </data>
+    <data timestep="0.20">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="2624.72" CO="164.78" HC="0.81" NOx="1.20" PMx="0.07" fuel="837.22" electricity="0.00" noise="55.94" route="platoon_route" type="EBUS2" waiting="0.10" lane="e1to2_0" pos="199.00" speed="0.00" angle="90.00" x="-1.00" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="2780.75" CO="163.24" HC="0.81" NOx="1.27" PMx="0.07" fuel="886.98" electricity="0.00" noise="67.94" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="193.53" speed="0.27" angle="90.00" x="-6.47" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="3041.95" CO="160.86" HC="0.80" NOx="1.38" PMx="0.07" fuel="970.29" electricity="0.00" noise="68.09" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="188.05" speed="0.72" angle="90.00" x="-11.95" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="11298.11" CO="184.80" HC="1.12" NOx="4.96" PMx="0.25" fuel="3603.53" electricity="0.00" noise="73.38" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="120.54" speed="12.91" angle="90.00" x="-79.46" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="12470.26" CO="203.05" HC="1.23" NOx="5.49" PMx="0.28" fuel="3977.38" electricity="0.00" noise="74.35" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="78.83" speed="13.81" angle="90.00" x="-121.17" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="36.09">
+                <lane id="e1to2_0" CO="876.73" CO2="32215.79" NOx="14.30" PMx="0.73" HC="4.77" noise="77.93" fuel="10275.41" electricity="0.00" maxspeed="23.89" meanspeed="5.54" occupancy="0.12" vehicle_count="5"/>
+            </edge>
+            <edge id="e2to3" traveltime="4.19">
+                <lane id="e2to3_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="r"/>
+        </tls>
+    </data>
+    <data timestep="0.30">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="2624.72" CO="164.78" HC="0.81" NOx="1.20" PMx="0.07" fuel="837.22" electricity="0.00" noise="55.94" route="platoon_route" type="EBUS2" waiting="0.20" lane="e1to2_0" pos="199.00" speed="0.00" angle="90.00" x="-1.00" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="2937.77" CO="161.79" HC="0.81" NOx="1.34" PMx="0.07" fuel="937.06" electricity="0.00" noise="68.03" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="193.58" speed="0.54" angle="90.00" x="-6.42" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="2779.52" CO="153.44" HC="0.76" NOx="1.25" PMx="0.07" fuel="886.59" electricity="0.00" noise="61.45" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="188.14" speed="0.84" angle="90.00" x="-11.86" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="11561.58" CO="188.39" HC="1.14" NOx="5.07" PMx="0.25" fuel="3687.56" electricity="0.00" noise="73.57" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="121.86" speed="13.18" angle="90.00" x="-78.14" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="12702.89" CO="206.15" HC="1.25" NOx="5.59" PMx="0.28" fuel="4051.58" electricity="0.00" noise="74.49" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="80.24" speed="14.09" angle="90.00" x="-119.76" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="34.90">
+                <lane id="e1to2_0" CO="874.55" CO2="32606.47" NOx="14.46" PMx="0.74" HC="4.77" noise="77.71" fuel="10400.01" electricity="0.00" maxspeed="23.89" meanspeed="5.73" occupancy="0.12" vehicle_count="5"/>
+            </edge>
+            <edge id="e2to3" traveltime="4.19">
+                <lane id="e2to3_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="r"/>
+        </tls>
+    </data>
+    <data timestep="0.40">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="2624.72" CO="164.78" HC="0.81" NOx="1.20" PMx="0.07" fuel="837.22" electricity="0.00" noise="55.94" route="platoon_route" type="EBUS2" waiting="0.30" lane="e1to2_0" pos="199.00" speed="0.00" angle="90.00" x="-1.00" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="2802.40" CO="156.48" HC="0.78" NOx="1.27" PMx="0.07" fuel="893.89" electricity="0.00" noise="62.66" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="193.65" speed="0.69" angle="90.00" x="-6.35" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="53.94" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="188.21" speed="0.79" angle="90.00" x="-11.79" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="11701.06" CO="189.51" HC="1.15" NOx="5.13" PMx="0.26" fuel="3732.05" electricity="0.00" noise="73.62" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="123.20" speed="13.45" angle="90.00" x="-76.80" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="12959.02" CO="209.79" HC="1.27" NOx="5.70" PMx="0.29" fuel="4133.27" electricity="0.00" noise="74.65" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="81.68" speed="14.38" angle="90.00" x="-118.32" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="34.13">
+                <lane id="e1to2_0" CO="720.55" CO2="30087.20" NOx="13.31" PMx="0.68" HC="4.01" noise="77.38" fuel="9596.43" electricity="0.00" maxspeed="23.89" meanspeed="5.86" occupancy="0.12" vehicle_count="5"/>
+            </edge>
+            <edge id="e2to3" traveltime="4.19">
+                <lane id="e2to3_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="r"/>
+        </tls>
+    </data>
+    <data timestep="0.50">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="2624.72" CO="164.78" HC="0.81" NOx="1.20" PMx="0.07" fuel="837.22" electricity="0.00" noise="55.94" route="platoon_route" type="EBUS2" waiting="0.40" lane="e1to2_0" pos="199.00" speed="0.00" angle="90.00" x="-1.00" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="48.04" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="193.70" speed="0.50" angle="90.00" x="-6.30" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="2552.95" CO="149.45" HC="0.74" NOx="1.15" PMx="0.06" fuel="814.33" electricity="0.00" noise="56.81" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="188.29" speed="0.80" angle="90.00" x="-11.71" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="11911.64" CO="192.15" HC="1.16" NOx="5.23" PMx="0.26" fuel="3799.21" electricity="0.00" noise="73.75" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="124.58" speed="13.72" angle="90.00" x="-75.42" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="13188.03" CO="212.94" HC="1.29" NOx="5.80" PMx="0.29" fuel="4206.31" electricity="0.00" noise="74.78" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="83.14" speed="14.66" angle="90.00" x="-116.86" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="33.70">
+                <lane id="e1to2_0" CO="719.32" CO2="30277.35" NOx="13.38" PMx="0.68" HC="4.01" noise="77.38" fuel="9657.07" electricity="0.00" maxspeed="23.89" meanspeed="5.93" occupancy="0.12" vehicle_count="5"/>
+            </edge>
+            <edge id="e2to3" traveltime="4.19">
+                <lane id="e2to3_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="r"/>
+        </tls>
+    </data>
+    <data timestep="0.60">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="2624.72" CO="164.78" HC="0.81" NOx="1.20" PMx="0.07" fuel="837.22" electricity="0.00" noise="55.94" route="platoon_route" type="EBUS2" waiting="0.50" lane="e1to2_0" pos="199.00" speed="0.00" angle="90.00" x="-1.00" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="2437.37" CO="154.93" HC="0.76" NOx="1.11" PMx="0.06" fuel="777.47" electricity="0.00" noise="48.97" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="193.73" speed="0.34" angle="90.00" x="-6.27" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="50.56" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="188.36" speed="0.67" angle="90.00" x="-11.64" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="12108.80" CO="194.57" HC="1.18" NOx="5.31" PMx="0.27" fuel="3862.09" electricity="0.00" noise="73.86" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="125.97" speed="13.98" angle="90.00" x="-74.03" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="13462.41" CO="217.09" HC="1.32" NOx="5.93" PMx="0.30" fuel="4293.82" electricity="0.00" noise="74.95" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="84.64" speed="14.94" angle="90.00" x="-115.36" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="33.40">
+                <lane id="e1to2_0" CO="731.36" CO2="30633.30" NOx="13.55" PMx="0.69" HC="4.07" noise="77.50" fuel="9770.60" electricity="0.00" maxspeed="23.89" meanspeed="5.99" occupancy="0.12" vehicle_count="5"/>
+            </edge>
+            <edge id="e2to3" traveltime="4.19">
+                <lane id="e2to3_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="r"/>
+        </tls>
+    </data>
+    <data timestep="0.70">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="2624.72" CO="164.78" HC="0.81" NOx="1.20" PMx="0.07" fuel="837.22" electricity="0.00" noise="55.94" route="platoon_route" type="EBUS2" waiting="0.60" lane="e1to2_0" pos="199.00" speed="0.00" angle="90.00" x="-1.00" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="2526.29" CO="158.94" HC="0.78" NOx="1.15" PMx="0.06" fuel="805.83" electricity="0.00" noise="50.51" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="193.76" speed="0.22" angle="90.00" x="-6.24" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="51.54" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="188.42" speed="0.57" angle="90.00" x="-11.58" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="12382.62" CO="198.62" HC="1.21" NOx="5.43" PMx="0.27" fuel="3949.43" electricity="0.00" noise="74.06" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="127.40" speed="14.25" angle="90.00" x="-72.60" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="13657.96" CO="219.68" HC="1.33" NOx="6.01" PMx="0.31" fuel="4356.19" electricity="0.00" noise="75.04" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="86.16" speed="15.22" angle="90.00" x="-113.84" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="33.05">
+                <lane id="e1to2_0" CO="742.02" CO2="31191.59" NOx="13.80" PMx="0.71" HC="4.13" noise="77.64" fuel="9948.67" electricity="0.00" maxspeed="23.89" meanspeed="6.05" occupancy="0.12" vehicle_count="5"/>
+            </edge>
+            <edge id="e2to3" traveltime="4.19">
+                <lane id="e2to3_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="r"/>
+        </tls>
+    </data>
+    <data timestep="0.80">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="2624.72" CO="164.78" HC="0.81" NOx="1.20" PMx="0.07" fuel="837.22" electricity="0.00" noise="55.94" route="platoon_route" type="EBUS2" waiting="0.70" lane="e1to2_0" pos="199.00" speed="0.00" angle="90.00" x="-1.00" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="2578.66" CO="161.41" HC="0.80" NOx="1.18" PMx="0.06" fuel="822.53" electricity="0.00" noise="52.49" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="193.77" speed="0.14" angle="90.00" x="-6.23" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="2450.21" CO="152.94" HC="0.75" NOx="1.11" PMx="0.06" fuel="781.56" electricity="0.00" noise="52.00" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="188.46" speed="0.47" angle="90.00" x="-11.54" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="12546.89" CO="200.49" HC="1.22" NOx="5.51" PMx="0.28" fuel="4001.82" electricity="0.00" noise="74.13" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="128.85" speed="14.52" angle="90.00" x="-71.15" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="13850.06" CO="222.28" HC="1.35" NOx="6.10" PMx="0.31" fuel="4417.46" electricity="0.00" noise="75.13" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="87.71" speed="15.50" angle="90.00" x="-112.29" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="32.64">
+                <lane id="e1to2_0" CO="901.90" CO2="34050.54" NOx="15.09" PMx="0.78" HC="4.93" noise="77.73" fuel="10860.60" electricity="0.00" maxspeed="23.89" meanspeed="6.13" occupancy="0.12" vehicle_count="5"/>
+            </edge>
+            <edge id="e2to3" traveltime="4.19">
+                <lane id="e2to3_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="r"/>
+        </tls>
+    </data>
+    <data timestep="0.90">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="2624.72" CO="164.78" HC="0.81" NOx="1.20" PMx="0.07" fuel="837.22" electricity="0.00" noise="55.94" route="platoon_route" type="EBUS2" waiting="0.80" lane="e1to2_0" pos="199.00" speed="0.00" angle="90.00" x="-1.00" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="2602.14" CO="162.78" HC="0.80" NOx="1.19" PMx="0.06" fuel="830.02" electricity="0.00" noise="53.76" route="platoon_route" type="EBUS2" waiting="0.10" lane="e1to2_0" pos="193.78" speed="0.09" angle="90.00" x="-6.22" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="2474.62" CO="155.37" HC="0.77" NOx="1.12" PMx="0.06" fuel="789.35" electricity="0.00" noise="51.19" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="188.50" speed="0.36" angle="90.00" x="-11.50" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="12772.00" CO="203.67" HC="1.24" NOx="5.60" PMx="0.28" fuel="4073.62" electricity="0.00" noise="74.27" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="130.33" speed="14.79" angle="90.00" x="-69.67" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="14101.93" CO="226.17" HC="1.37" NOx="6.21" PMx="0.32" fuel="4497.80" electricity="0.00" noise="75.28" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="89.29" speed="15.78" angle="90.00" x="-110.71" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="32.24">
+                <lane id="e1to2_0" CO="912.76" CO2="34575.41" NOx="15.33" PMx="0.79" HC="4.99" noise="77.87" fuel="11028.00" electricity="0.00" maxspeed="23.89" meanspeed="6.20" occupancy="0.12" vehicle_count="5"/>
+            </edge>
+            <edge id="e2to3" traveltime="4.19">
+                <lane id="e2to3_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="r"/>
+        </tls>
+    </data>
+    <data timestep="1.00">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="2624.72" CO="164.78" HC="0.81" NOx="1.20" PMx="0.07" fuel="837.22" electricity="0.00" noise="55.94" route="platoon_route" type="EBUS2" waiting="0.90" lane="e1to2_0" pos="199.00" speed="0.00" angle="90.00" x="-1.00" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="2613.04" CO="163.57" HC="0.81" NOx="1.20" PMx="0.07" fuel="833.49" electricity="0.00" noise="54.56" route="platoon_route" type="EBUS2" waiting="0.20" lane="e1to2_0" pos="193.78" speed="0.05" angle="90.00" x="-6.22" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="2523.43" CO="158.12" HC="0.78" NOx="1.15" PMx="0.06" fuel="804.91" electricity="0.00" noise="51.62" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="188.53" speed="0.26" angle="90.00" x="-11.47" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="13000.08" CO="206.96" HC="1.26" NOx="5.71" PMx="0.29" fuel="4146.36" electricity="0.00" noise="74.42" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="131.84" speed="15.06" angle="90.00" x="-68.16" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="14426.27" CO="231.61" HC="1.41" NOx="6.35" PMx="0.33" fuel="4601.24" electricity="0.00" noise="75.50" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="90.90" speed="16.07" angle="90.00" x="-109.10" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="31.81">
+                <lane id="e1to2_0" CO="925.04" CO2="35187.54" NOx="15.61" PMx="0.81" HC="5.06" noise="78.06" fuel="11223.24" electricity="0.00" maxspeed="23.89" meanspeed="6.29" occupancy="0.12" vehicle_count="5"/>
+            </edge>
+            <edge id="e2to3" traveltime="4.19">
+                <lane id="e2to3_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="r"/>
+        </tls>
+    </data>
+    <data timestep="1.10">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="2624.72" CO="164.78" HC="0.81" NOx="1.20" PMx="0.07" fuel="837.22" electricity="0.00" noise="55.94" route="platoon_route" type="EBUS2" waiting="1.00" lane="e1to2_0" pos="199.00" speed="0.00" angle="90.00" x="-1.00" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="2618.38" CO="164.03" HC="0.81" NOx="1.20" PMx="0.07" fuel="835.20" electricity="0.00" noise="55.07" route="platoon_route" type="EBUS2" waiting="0.30" lane="e1to2_0" pos="193.79" speed="0.03" angle="90.00" x="-6.21" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="2564.79" CO="160.29" HC="0.79" NOx="1.17" PMx="0.06" fuel="818.11" electricity="0.00" noise="52.70" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="188.55" speed="0.18" angle="90.00" x="-11.45" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="13269.69" CO="211.17" HC="1.29" NOx="5.83" PMx="0.30" fuel="4232.36" electricity="0.00" noise="74.60" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="133.37" speed="15.33" angle="90.00" x="-66.63" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="14626.78" CO="234.57" HC="1.43" NOx="6.44" PMx="0.33" fuel="4665.19" electricity="0.00" noise="75.60" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="92.53" speed="16.35" angle="90.00" x="-107.47" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="31.35">
+                <lane id="e1to2_0" CO="934.84" CO2="35704.37" NOx="15.84" PMx="0.82" HC="5.12" noise="78.20" fuel="11388.08" electricity="0.00" maxspeed="23.89" meanspeed="6.38" occupancy="0.12" vehicle_count="5"/>
+            </edge>
+            <edge id="e2to3" traveltime="4.19">
+                <lane id="e2to3_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="r"/>
+        </tls>
+    </data>
+    <data timestep="1.20">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="2624.72" CO="164.78" HC="0.81" NOx="1.20" PMx="0.07" fuel="837.22" electricity="0.00" noise="55.94" route="platoon_route" type="EBUS2" waiting="1.10" lane="e1to2_0" pos="199.00" speed="0.00" angle="90.00" x="-1.00" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="2621.13" CO="164.31" HC="0.81" NOx="1.20" PMx="0.07" fuel="836.08" electricity="0.00" noise="55.39" route="platoon_route" type="EBUS2" waiting="0.40" lane="e1to2_0" pos="193.79" speed="0.02" angle="90.00" x="-6.21" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="2589.40" CO="161.76" HC="0.80" NOx="1.18" PMx="0.06" fuel="825.95" electricity="0.00" noise="53.57" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="188.56" speed="0.13" angle="90.00" x="-11.44" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="13445.17" CO="213.50" HC="1.30" NOx="5.90" PMx="0.30" fuel="4288.33" electricity="0.00" noise="74.69" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="134.93" speed="15.60" angle="90.00" x="-65.07" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="14824.13" CO="237.54" HC="1.44" NOx="6.53" PMx="0.34" fuel="4728.14" electricity="0.00" noise="75.69" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="94.19" speed="16.63" angle="90.00" x="-105.81" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="30.88">
+                <lane id="e1to2_0" CO="941.90" CO2="36104.55" NOx="16.02" PMx="0.83" HC="5.16" noise="78.29" fuel="11515.72" electricity="0.00" maxspeed="23.89" meanspeed="6.48" occupancy="0.12" vehicle_count="5"/>
+            </edge>
+            <edge id="e2to3" traveltime="4.19">
+                <lane id="e2to3_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="r"/>
+        </tls>
+    </data>
+    <data timestep="1.30">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="2624.72" CO="164.78" HC="0.81" NOx="1.20" PMx="0.07" fuel="837.22" electricity="0.00" noise="55.94" route="platoon_route" type="EBUS2" waiting="1.20" lane="e1to2_0" pos="199.00" speed="0.00" angle="90.00" x="-1.00" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="2622.62" CO="164.49" HC="0.81" NOx="1.20" PMx="0.07" fuel="836.55" electricity="0.00" noise="55.59" route="platoon_route" type="EBUS2" waiting="0.50" lane="e1to2_0" pos="193.79" speed="0.01" angle="90.00" x="-6.21" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="2603.75" CO="162.75" HC="0.80" NOx="1.19" PMx="0.06" fuel="830.53" electricity="0.00" noise="54.23" route="platoon_route" type="EBUS2" waiting="0.10" lane="e1to2_0" pos="188.57" speed="0.09" angle="90.00" x="-11.43" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="13675.33" CO="217.02" HC="1.32" NOx="6.00" PMx="0.31" fuel="4361.73" electricity="0.00" noise="74.83" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="136.51" speed="15.87" angle="90.00" x="-63.49" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="15170.47" CO="243.63" HC="1.48" NOx="6.68" PMx="0.34" fuel="4838.60" electricity="0.00" noise="75.92" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="95.89" speed="16.91" angle="90.00" x="-104.11" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="30.41">
+                <lane id="e1to2_0" CO="952.67" CO2="36696.89" NOx="16.29" PMx="0.85" HC="5.23" noise="78.48" fuel="11704.64" electricity="0.00" maxspeed="23.89" meanspeed="6.58" occupancy="0.12" vehicle_count="5"/>
+            </edge>
+            <edge id="e2to3" traveltime="4.19">
+                <lane id="e2to3_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="r"/>
+        </tls>
+    </data>
+    <data timestep="1.40">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="2624.72" CO="164.78" HC="0.81" NOx="1.20" PMx="0.07" fuel="837.22" electricity="0.00" noise="55.94" route="platoon_route" type="EBUS2" waiting="1.30" lane="e1to2_0" pos="199.00" speed="0.00" angle="90.00" x="-1.00" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="2623.46" CO="164.60" HC="0.81" NOx="1.20" PMx="0.07" fuel="836.82" electricity="0.00" noise="55.72" route="platoon_route" type="EBUS2" waiting="0.60" lane="e1to2_0" pos="193.79" speed="0.01" angle="90.00" x="-6.21" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="2612.11" CO="163.42" HC="0.81" NOx="1.20" PMx="0.07" fuel="833.20" electricity="0.00" noise="54.73" route="platoon_route" type="EBUS2" waiting="0.20" lane="e1to2_0" pos="188.57" speed="0.06" angle="90.00" x="-11.43" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="13855.92" CO="219.59" HC="1.34" NOx="6.08" PMx="0.31" fuel="4419.33" electricity="0.00" noise="74.92" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="138.13" speed="16.13" angle="90.00" x="-61.87" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="15360.36" CO="246.58" HC="1.50" NOx="6.77" PMx="0.35" fuel="4899.17" electricity="0.00" noise="76.00" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="97.61" speed="17.20" angle="90.00" x="-102.39" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="29.94">
+                <lane id="e1to2_0" CO="958.95" CO2="37076.58" NOx="16.46" PMx="0.86" HC="5.27" noise="78.57" fuel="11825.74" electricity="0.00" maxspeed="23.89" meanspeed="6.68" occupancy="0.12" vehicle_count="5"/>
+            </edge>
+            <edge id="e2to3" traveltime="4.19">
+                <lane id="e2to3_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="r"/>
+        </tls>
+    </data>
+    <data timestep="1.50">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="2624.72" CO="164.78" HC="0.81" NOx="1.20" PMx="0.07" fuel="837.22" electricity="0.00" noise="55.94" route="platoon_route" type="EBUS2" waiting="1.40" lane="e1to2_0" pos="199.00" speed="0.00" angle="90.00" x="-1.00" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="2623.95" CO="164.66" HC="0.81" NOx="1.20" PMx="0.07" fuel="836.98" electricity="0.00" noise="55.80" route="platoon_route" type="EBUS2" waiting="0.70" lane="e1to2_0" pos="193.79" speed="0.01" angle="90.00" x="-6.21" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="2617.00" CO="163.86" HC="0.81" NOx="1.20" PMx="0.07" fuel="834.76" electricity="0.00" noise="55.09" route="platoon_route" type="EBUS2" waiting="0.30" lane="e1to2_0" pos="188.58" speed="0.04" angle="90.00" x="-11.42" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="14076.65" CO="223.04" HC="1.36" NOx="6.18" PMx="0.32" fuel="4489.73" electricity="0.00" noise="75.05" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="139.77" speed="16.40" angle="90.00" x="-60.23" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="15671.66" CO="252.08" HC="1.53" NOx="6.91" PMx="0.36" fuel="4998.46" electricity="0.00" noise="76.20" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="99.35" speed="17.48" angle="90.00" x="-100.65" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="29.47">
+                <lane id="e1to2_0" CO="968.42" CO2="37613.98" NOx="16.70" PMx="0.87" HC="5.32" noise="78.74" fuel="11997.15" electricity="0.00" maxspeed="23.89" meanspeed="6.79" occupancy="0.12" vehicle_count="5"/>
+            </edge>
+            <edge id="e2to3" traveltime="4.19">
+                <lane id="e2to3_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="r"/>
+        </tls>
+    </data>
+    <data timestep="1.60">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="2624.72" CO="164.78" HC="0.81" NOx="1.20" PMx="0.07" fuel="837.22" electricity="0.00" noise="55.94" route="platoon_route" type="EBUS2" waiting="1.50" lane="e1to2_0" pos="199.00" speed="0.00" angle="90.00" x="-1.00" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="2624.24" CO="164.71" HC="0.81" NOx="1.20" PMx="0.07" fuel="837.07" electricity="0.00" noise="55.85" route="platoon_route" type="EBUS2" waiting="0.80" lane="e1to2_0" pos="193.79" speed="0.00" angle="90.00" x="-6.21" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="2619.92" CO="164.16" HC="0.81" NOx="1.20" PMx="0.07" fuel="835.69" electricity="0.00" noise="55.35" route="platoon_route" type="EBUS2" waiting="0.40" lane="e1to2_0" pos="188.58" speed="0.03" angle="90.00" x="-11.42" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="14298.57" CO="226.57" HC="1.38" NOx="6.28" PMx="0.32" fuel="4560.51" electricity="0.00" noise="75.18" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="141.44" speed="16.67" angle="90.00" x="-58.56" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="15818.07" CO="254.27" HC="1.55" NOx="6.97" PMx="0.36" fuel="5045.15" electricity="0.00" noise="76.24" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="101.13" speed="17.76" angle="90.00" x="-98.87" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="29.01">
+                <lane id="e1to2_0" CO="974.49" CO2="37985.52" NOx="16.86" PMx="0.88" HC="5.36" noise="78.82" fuel="12115.65" electricity="0.00" maxspeed="23.89" meanspeed="6.89" occupancy="0.12" vehicle_count="5"/>
+            </edge>
+            <edge id="e2to3" traveltime="4.19">
+                <lane id="e2to3_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="r"/>
+        </tls>
+    </data>
+    <data timestep="1.70">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="2624.72" CO="164.78" HC="0.81" NOx="1.20" PMx="0.07" fuel="837.22" electricity="0.00" noise="55.94" route="platoon_route" type="EBUS2" waiting="1.60" lane="e1to2_0" pos="199.00" speed="0.00" angle="90.00" x="-1.00" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="2624.42" CO="164.73" HC="0.81" NOx="1.20" PMx="0.07" fuel="837.13" electricity="0.00" noise="55.88" route="platoon_route" type="EBUS2" waiting="0.90" lane="e1to2_0" pos="193.79" speed="0.00" angle="90.00" x="-6.21" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="2621.68" CO="164.37" HC="0.81" NOx="1.20" PMx="0.07" fuel="836.25" electricity="0.00" noise="55.54" route="platoon_route" type="EBUS2" waiting="0.50" lane="e1to2_0" pos="188.58" speed="0.02" angle="90.00" x="-11.42" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="14608.11" CO="231.96" HC="1.41" NOx="6.42" PMx="0.33" fuel="4659.24" electricity="0.00" noise="75.39" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="143.13" speed="16.94" angle="90.00" x="-56.87" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="16113.53" CO="259.58" HC="1.58" NOx="7.10" PMx="0.37" fuel="5139.39" electricity="0.00" noise="76.42" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="102.93" speed="18.04" angle="90.00" x="-97.07" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="28.57">
+                <lane id="e1to2_0" CO="985.42" CO2="38592.47" NOx="17.13" PMx="0.90" HC="5.42" noise="79.01" fuel="12309.23" electricity="0.00" maxspeed="23.89" meanspeed="7.00" occupancy="0.12" vehicle_count="5"/>
+            </edge>
+            <edge id="e2to3" traveltime="4.19">
+                <lane id="e2to3_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="r"/>
+        </tls>
+    </data>
+    <data timestep="1.80">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="2624.72" CO="164.78" HC="0.81" NOx="1.20" PMx="0.07" fuel="837.22" electricity="0.00" noise="55.94" route="platoon_route" type="EBUS2" waiting="1.70" lane="e1to2_0" pos="199.00" speed="0.00" angle="90.00" x="-1.00" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="2624.53" CO="164.75" HC="0.81" NOx="1.20" PMx="0.07" fuel="837.16" electricity="0.00" noise="55.90" route="platoon_route" type="EBUS2" waiting="1.00" lane="e1to2_0" pos="193.79" speed="0.00" angle="90.00" x="-6.21" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="2622.77" CO="164.50" HC="0.81" NOx="1.20" PMx="0.07" fuel="836.60" electricity="0.00" noise="55.66" route="platoon_route" type="EBUS2" waiting="0.60" lane="e1to2_0" pos="188.58" speed="0.01" angle="90.00" x="-11.42" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="14779.90" CO="234.58" HC="1.43" NOx="6.49" PMx="0.33" fuel="4714.03" electricity="0.00" noise="75.47" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="144.85" speed="17.21" angle="90.00" x="-55.15" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="16377.46" CO="264.32" HC="1.61" NOx="7.22" PMx="0.38" fuel="5223.57" electricity="0.00" noise="76.57" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="104.77" speed="18.33" angle="90.00" x="-95.23" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="28.13">
+                <lane id="e1to2_0" CO="992.93" CO2="39029.38" NOx="17.32" PMx="0.91" HC="5.47" noise="79.13" fuel="12448.58" electricity="0.00" maxspeed="23.89" meanspeed="7.11" occupancy="0.12" vehicle_count="5"/>
+            </edge>
+            <edge id="e2to3" traveltime="4.19">
+                <lane id="e2to3_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="r"/>
+        </tls>
+    </data>
+    <data timestep="1.90">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="2780.63" CO="163.24" HC="0.81" NOx="1.27" PMx="0.07" fuel="886.95" electricity="0.00" noise="67.93" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="199.03" speed="0.27" angle="90.00" x="-0.97" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="2624.60" CO="164.76" HC="0.81" NOx="1.20" PMx="0.07" fuel="837.18" electricity="0.00" noise="55.92" route="platoon_route" type="EBUS2" waiting="1.10" lane="e1to2_0" pos="193.79" speed="0.00" angle="90.00" x="-6.21" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="2623.46" CO="164.59" HC="0.81" NOx="1.20" PMx="0.07" fuel="836.82" electricity="0.00" noise="55.75" route="platoon_route" type="EBUS2" waiting="0.70" lane="e1to2_0" pos="188.59" speed="0.01" angle="90.00" x="-11.41" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="14283.98" CO="223.57" HC="1.37" NOx="6.25" PMx="0.32" fuel="4555.86" electricity="0.00" noise="74.97" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="146.60" speed="17.46" angle="90.00" x="-53.40" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="16549.03" CO="267.22" HC="1.62" NOx="7.29" PMx="0.38" fuel="5278.29" electricity="0.00" noise="76.64" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="106.63" speed="18.61" angle="90.00" x="-93.37" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="27.51">
+                <lane id="e1to2_0" CO="983.38" CO2="38861.70" NOx="17.23" PMx="0.90" HC="5.42" noise="79.27" fuel="12395.10" electricity="0.00" maxspeed="23.89" meanspeed="7.27" occupancy="0.12" vehicle_count="5"/>
+            </edge>
+            <edge id="e2to3" traveltime="4.19">
+                <lane id="e2to3_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="2.00">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="2937.14" CO="161.78" HC="0.81" NOx="1.34" PMx="0.07" fuel="936.87" electricity="0.00" noise="68.02" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="199.08" speed="0.54" angle="90.00" x="-0.92" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="2637.53" CO="163.28" HC="0.81" NOx="1.21" PMx="0.07" fuel="841.31" electricity="0.00" noise="60.32" route="platoon_route" type="EBUS2" waiting="1.20" lane="e1to2_0" pos="193.80" speed="0.10" angle="90.00" x="-6.20" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="2623.90" CO="164.65" HC="0.81" NOx="1.20" PMx="0.07" fuel="836.96" electricity="0.00" noise="55.81" route="platoon_route" type="EBUS2" waiting="0.80" lane="e1to2_0" pos="188.59" speed="0.01" angle="90.00" x="-11.41" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="64.16" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="148.30" speed="17.04" angle="90.00" x="-51.70" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="16843.14" CO="272.71" HC="1.66" NOx="7.43" PMx="0.39" fuel="5372.10" electricity="0.00" noise="76.81" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="108.52" speed="18.89" angle="90.00" x="-91.48" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="27.34">
+                <lane id="e1to2_0" CO="762.43" CO2="25041.70" NOx="11.17" PMx="0.59" HC="4.08" noise="77.66" fuel="7987.23" electricity="0.00" maxspeed="23.89" meanspeed="7.32" occupancy="0.12" vehicle_count="5"/>
+            </edge>
+            <edge id="e2to3" traveltime="4.19">
+                <lane id="e2to3_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="2.10">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="3094.13" CO="160.40" HC="0.80" NOx="1.40" PMx="0.07" fuel="986.93" electricity="0.00" noise="68.11" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="199.16" speed="0.81" angle="90.00" x="-0.84" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="2740.58" CO="161.94" HC="0.80" NOx="1.25" PMx="0.07" fuel="874.17" electricity="0.00" noise="64.77" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="193.83" speed="0.30" angle="90.00" x="-6.17" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="2623.11" CO="164.03" HC="0.81" NOx="1.20" PMx="0.07" fuel="836.71" electricity="0.00" noise="57.47" route="platoon_route" type="EBUS2" waiting="0.90" lane="e1to2_0" pos="188.59" speed="0.04" angle="90.00" x="-11.41" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="63.82" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="149.96" speed="16.62" angle="90.00" x="-50.04" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="17168.66" CO="278.91" HC="1.69" NOx="7.57" PMx="0.40" fuel="5475.92" electricity="0.00" noise="77.00" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="110.43" speed="19.17" angle="90.00" x="-89.57" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="27.07">
+                <lane id="e1to2_0" CO="765.28" CO2="25626.48" NOx="11.43" PMx="0.60" HC="4.11" noise="77.97" fuel="8173.74" electricity="0.00" maxspeed="23.89" meanspeed="7.39" occupancy="0.12" vehicle_count="5"/>
+            </edge>
+            <edge id="e2to3" traveltime="4.19">
+                <lane id="e2to3_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="2.20">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="3253.68" CO="159.13" HC="0.80" NOx="1.47" PMx="0.08" fuel="1037.82" electricity="0.00" noise="68.23" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="199.27" speed="1.08" angle="90.00" x="-0.73" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="2909.18" CO="161.11" HC="0.80" NOx="1.32" PMx="0.07" fuel="927.95" electricity="0.00" noise="67.06" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="193.89" speed="0.55" angle="90.00" x="-6.11" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="2640.56" CO="162.73" HC="0.80" NOx="1.21" PMx="0.07" fuel="842.27" electricity="0.00" noise="60.15" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="188.60" speed="0.13" angle="90.00" x="-11.40" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="63.47" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="151.58" speed="16.20" angle="90.00" x="-48.42" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="17366.27" CO="282.54" HC="1.71" NOx="7.66" PMx="0.40" fuel="5538.95" electricity="0.00" noise="77.09" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="112.38" speed="19.45" angle="90.00" x="-87.62" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="26.73">
+                <lane id="e1to2_0" CO="765.51" CO2="26169.69" NOx="11.66" PMx="0.62" HC="4.12" noise="78.21" fuel="8346.99" electricity="0.00" maxspeed="23.89" meanspeed="7.48" occupancy="0.12" vehicle_count="5"/>
+            </edge>
+            <edge id="e2to3" traveltime="4.19">
+                <lane id="e2to3_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="2.30">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="3412.05" CO="157.90" HC="0.80" NOx="1.54" PMx="0.08" fuel="1088.33" electricity="0.00" noise="68.31" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="199.40" speed="1.35" angle="90.00" x="-0.60" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="3096.20" CO="160.35" HC="0.80" NOx="1.40" PMx="0.07" fuel="987.59" electricity="0.00" noise="68.09" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="193.97" speed="0.82" angle="90.00" x="-6.03" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="2743.38" CO="161.54" HC="0.80" NOx="1.25" PMx="0.07" fuel="875.07" electricity="0.00" noise="64.39" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="188.64" speed="0.32" angle="90.00" x="-11.36" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="63.12" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="153.16" speed="15.79" angle="90.00" x="-46.84" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="17704.39" CO="289.14" HC="1.75" NOx="7.81" PMx="0.41" fuel="5646.79" electricity="0.00" noise="77.29" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="114.35" speed="19.74" angle="90.00" x="-85.65" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="26.31">
+                <lane id="e1to2_0" CO="768.92" CO2="26956.02" NOx="12.01" PMx="0.63" HC="4.15" noise="78.55" fuel="8597.78" electricity="0.00" maxspeed="23.89" meanspeed="7.60" occupancy="0.12" vehicle_count="5"/>
+            </edge>
+            <edge id="e2to3" traveltime="4.19">
+                <lane id="e2to3_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="2.40">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="3574.53" CO="156.80" HC="0.80" NOx="1.61" PMx="0.08" fuel="1140.15" electricity="0.00" noise="68.43" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="199.57" speed="1.62" angle="90.00" x="-0.43" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="3178.60" CO="157.88" HC="0.79" NOx="1.44" PMx="0.07" fuel="1013.87" electricity="0.00" noise="67.20" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="194.08" speed="1.06" angle="90.00" x="-5.92" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="2897.24" CO="160.64" HC="0.80" NOx="1.32" PMx="0.07" fuel="924.14" electricity="0.00" noise="66.49" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="188.69" speed="0.56" angle="90.00" x="-11.31" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="62.76" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="154.70" speed="15.37" angle="90.00" x="-45.30" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="17913.12" CO="293.13" HC="1.78" NOx="7.90" PMx="0.42" fuel="5713.36" electricity="0.00" noise="77.39" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="116.35" speed="20.02" angle="90.00" x="-83.65" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="25.88">
+                <lane id="e1to2_0" CO="768.46" CO2="27563.49" NOx="12.27" PMx="0.64" HC="4.17" noise="78.66" fuel="8791.53" electricity="0.00" maxspeed="23.89" meanspeed="7.73" occupancy="0.12" vehicle_count="5"/>
+            </edge>
+            <edge id="e2to3" traveltime="4.19">
+                <lane id="e2to3_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="2.50">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="3736.25" CO="155.76" HC="0.80" NOx="1.68" PMx="0.08" fuel="1191.73" electricity="0.00" noise="68.53" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="199.76" speed="1.89" angle="90.00" x="-0.24" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="3403.76" CO="158.01" HC="0.80" NOx="1.54" PMx="0.08" fuel="1085.69" electricity="0.00" noise="68.33" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="194.21" speed="1.33" angle="90.00" x="-5.79" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="3051.67" CO="159.54" HC="0.80" NOx="1.38" PMx="0.07" fuel="973.39" electricity="0.00" noise="67.24" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="188.77" speed="0.81" angle="90.00" x="-11.23" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="62.42" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="156.20" speed="14.97" angle="90.00" x="-43.80" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="18209.37" CO="299.00" HC="1.81" NOx="8.04" PMx="0.43" fuel="5807.85" electricity="0.00" noise="77.55" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="118.38" speed="20.30" angle="90.00" x="-81.62" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="25.44">
+                <lane id="e1to2_0" CO="772.32" CO2="28401.05" NOx="12.63" PMx="0.66" HC="4.21" noise="78.92" fuel="9058.66" electricity="0.00" maxspeed="23.89" meanspeed="7.86" occupancy="0.12" vehicle_count="5"/>
+            </edge>
+            <edge id="e2to3" traveltime="4.19">
+                <lane id="e2to3_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="2.60">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="3902.64" CO="154.87" HC="0.80" NOx="1.75" PMx="0.09" fuel="1244.80" electricity="0.00" noise="68.66" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="199.97" speed="2.16" angle="90.00" x="-0.03" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="3566.25" CO="156.91" HC="0.80" NOx="1.60" PMx="0.08" fuel="1137.51" electricity="0.00" noise="68.45" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="194.37" speed="1.60" angle="90.00" x="-5.63" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="3161.38" CO="157.70" HC="0.79" NOx="1.43" PMx="0.07" fuel="1008.38" electricity="0.00" noise="67.00" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="188.88" speed="1.05" angle="90.00" x="-11.12" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="62.07" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="157.65" speed="14.58" angle="90.00" x="-42.35" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="18383.00" CO="302.41" HC="1.83" NOx="8.11" PMx="0.43" fuel="5863.23" electricity="0.00" noise="77.62" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="120.44" speed="20.58" angle="90.00" x="-79.56" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="25.01">
+                <lane id="e1to2_0" CO="771.89" CO2="29013.28" NOx="12.89" PMx="0.67" HC="4.22" noise="78.97" fuel="9253.93" electricity="0.00" maxspeed="23.89" meanspeed="8.00" occupancy="0.12" vehicle_count="5"/>
+            </edge>
+            <edge id="e2to3" traveltime="4.19">
+                <lane id="e2to3_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="2.70">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="4066.01" CO="153.97" HC="0.80" NOx="1.82" PMx="0.09" fuel="1296.90" electricity="0.00" noise="68.76" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="0.11" speed="2.43" angle="90.00" x="0.11" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="3724.02" CO="155.79" HC="0.80" NOx="1.67" PMx="0.08" fuel="1187.83" electricity="0.00" noise="68.51" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="194.56" speed="1.87" angle="90.00" x="-5.44" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="3393.61" CO="157.99" HC="0.80" NOx="1.53" PMx="0.08" fuel="1082.45" electricity="0.00" noise="68.28" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="189.01" speed="1.32" angle="90.00" x="-10.99" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="61.73" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="159.08" speed="14.21" angle="90.00" x="-40.92" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="18645.14" CO="307.70" HC="1.86" NOx="8.23" PMx="0.44" fuel="5946.84" electricity="0.00" noise="77.76" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="122.53" speed="20.87" angle="90.00" x="-77.47" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="48.85" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="20.91">
+                <lane id="e1to2_0" CO="621.49" CO2="25762.77" NOx="11.43" PMx="0.60" HC="3.46" noise="78.75" fuel="8217.12" electricity="0.00" maxspeed="23.89" meanspeed="9.57" occupancy="0.12" vehicle_count="4"/>
+            </edge>
+            <edge id="e2to3" traveltime="41.16">
+                <lane id="e2to3_0" CO="153.97" CO2="4066.01" NOx="1.82" PMx="0.09" HC="0.80" noise="68.76" fuel="1296.90" electricity="0.00" maxspeed="23.89" meanspeed="2.43" occupancy="0.00" vehicle_count="1"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="2.80">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="4221.47" CO="153.00" HC="0.80" NOx="1.88" PMx="0.09" fuel="1346.49" electricity="0.00" noise="68.80" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="0.38" speed="2.70" angle="90.00" x="0.38" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="3890.89" CO="154.90" HC="0.80" NOx="1.74" PMx="0.09" fuel="1241.05" electricity="0.00" noise="68.64" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="194.77" speed="2.14" angle="90.00" x="-5.23" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="3554.22" CO="156.87" HC="0.80" NOx="1.60" PMx="0.08" fuel="1133.68" electricity="0.00" noise="68.39" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="189.17" speed="1.59" angle="90.00" x="-10.83" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="61.40" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="160.46" speed="13.84" angle="90.00" x="-39.54" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="18975.84" CO="314.48" HC="1.90" NOx="8.38" PMx="0.45" fuel="6052.32" electricity="0.00" noise="77.95" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="124.64" speed="21.15" angle="90.00" x="-75.36" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="46.15" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="20.66">
+                <lane id="e1to2_0" CO="626.25" CO2="26420.95" NOx="11.72" PMx="0.62" HC="3.50" noise="78.92" fuel="8427.04" electricity="0.00" maxspeed="23.89" meanspeed="9.68" occupancy="0.12" vehicle_count="4"/>
+            </edge>
+            <edge id="e2to3" traveltime="37.06">
+                <lane id="e2to3_0" CO="153.00" CO2="4221.47" NOx="1.88" PMx="0.09" HC="0.80" noise="68.80" fuel="1346.49" electricity="0.00" maxspeed="23.89" meanspeed="2.70" occupancy="0.00" vehicle_count="1"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="2.90">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="4389.41" CO="152.34" HC="0.80" NOx="1.96" PMx="0.10" fuel="1400.05" electricity="0.00" noise="68.93" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="0.68" speed="2.97" angle="90.00" x="0.68" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="4039.52" CO="153.74" HC="0.80" NOx="1.81" PMx="0.09" fuel="1288.45" electricity="0.00" noise="68.65" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="195.01" speed="2.41" angle="90.00" x="-4.99" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="3715.84" CO="155.82" HC="0.80" NOx="1.67" PMx="0.08" fuel="1185.22" electricity="0.00" noise="68.50" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="189.35" speed="1.86" angle="90.00" x="-10.65" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="61.10" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="161.81" speed="13.50" angle="90.00" x="-38.19" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="68.30" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="126.75" speed="21.08" angle="90.00" x="-73.25" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="43.19" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="20.59">
+                <lane id="e1to2_0" CO="309.56" CO2="7755.36" NOx="3.47" PMx="0.17" HC="1.59" noise="73.51" fuel="2473.68" electricity="0.00" maxspeed="23.89" meanspeed="9.71" occupancy="0.12" vehicle_count="4"/>
+            </edge>
+            <edge id="e2to3" traveltime="33.70">
+                <lane id="e2to3_0" CO="152.34" CO2="4389.41" NOx="1.96" PMx="0.10" HC="0.80" noise="68.93" fuel="1400.05" electricity="0.00" maxspeed="23.89" meanspeed="2.97" occupancy="0.01" vehicle_count="1"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="3.00">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="4559.69" CO="151.78" HC="0.80" NOx="2.03" PMx="0.10" fuel="1454.36" electricity="0.00" noise="69.05" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="1.00" speed="3.24" angle="90.00" x="1.00" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="4215.48" CO="153.17" HC="0.80" NOx="1.88" PMx="0.09" fuel="1344.58" electricity="0.00" noise="68.83" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="195.28" speed="2.68" angle="90.00" x="-4.72" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="3883.37" CO="154.95" HC="0.80" NOx="1.74" PMx="0.09" fuel="1238.65" electricity="0.00" noise="68.64" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="189.57" speed="2.13" angle="90.00" x="-10.43" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="60.79" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="163.13" speed="13.17" angle="90.00" x="-36.87" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="66.84" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="128.82" speed="20.69" angle="90.00" x="-71.18" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="39.95" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="20.69">
+                <lane id="e1to2_0" CO="308.12" CO2="8098.85" NOx="3.62" PMx="0.18" HC="1.59" noise="73.22" fuel="2583.23" electricity="0.00" maxspeed="23.89" meanspeed="9.67" occupancy="0.12" vehicle_count="4"/>
+            </edge>
+            <edge id="e2to3" traveltime="30.90">
+                <lane id="e2to3_0" CO="151.78" CO2="4559.69" NOx="2.03" PMx="0.10" HC="0.80" noise="69.05" fuel="1454.36" electricity="0.00" maxspeed="23.89" meanspeed="3.24" occupancy="0.01" vehicle_count="1"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="3.10">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="4717.86" CO="151.05" HC="0.80" NOx="2.10" PMx="0.10" fuel="1504.81" electricity="0.00" noise="69.11" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="1.36" speed="3.50" angle="90.00" x="1.36" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="4384.03" CO="152.51" HC="0.80" NOx="1.95" PMx="0.10" fuel="1398.33" electricity="0.00" noise="68.95" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="195.57" speed="2.95" angle="90.00" x="-4.43" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="3986.45" CO="152.95" HC="0.79" NOx="1.78" PMx="0.09" fuel="1271.53" electricity="0.00" noise="68.35" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="189.81" speed="2.39" angle="90.00" x="-10.19" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="60.51" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="164.41" speed="12.86" angle="90.00" x="-35.59" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="66.58" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="130.85" speed="20.31" angle="90.00" x="-69.15" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="36.45" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="20.78">
+                <lane id="e1to2_0" CO="305.46" CO2="8370.48" NOx="3.73" PMx="0.19" HC="1.59" noise="73.09" fuel="2669.86" electricity="0.00" maxspeed="23.89" meanspeed="9.63" occupancy="0.12" vehicle_count="4"/>
+            </edge>
+            <edge id="e2to3" traveltime="28.53">
+                <lane id="e2to3_0" CO="151.05" CO2="4717.86" NOx="2.10" PMx="0.10" HC="0.80" noise="69.11" fuel="1504.81" electricity="0.00" maxspeed="23.89" meanspeed="3.50" occupancy="0.01" vehicle_count="1"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="3.20">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="4886.26" CO="150.59" HC="0.80" NOx="2.17" PMx="0.11" fuel="1558.52" electricity="0.00" noise="69.23" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="1.73" speed="3.77" angle="90.00" x="1.73" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="4526.32" CO="151.41" HC="0.80" NOx="2.01" PMx="0.10" fuel="1443.72" electricity="0.00" noise="68.94" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="195.90" speed="3.22" angle="90.00" x="-4.10" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="4207.72" CO="153.30" HC="0.80" NOx="1.88" PMx="0.09" fuel="1342.10" electricity="0.00" noise="68.85" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="190.07" speed="2.66" angle="90.00" x="-9.93" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="60.25" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="165.67" speed="12.56" angle="90.00" x="-34.33" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="66.33" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="132.85" speed="19.93" angle="90.00" x="-67.15" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="32.67" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="20.85">
+                <lane id="e1to2_0" CO="304.71" CO2="8734.04" NOx="3.89" PMx="0.19" HC="1.59" noise="73.19" fuel="2785.82" electricity="0.00" maxspeed="23.89" meanspeed="9.59" occupancy="0.12" vehicle_count="4"/>
+            </edge>
+            <edge id="e2to3" traveltime="26.50">
+                <lane id="e2to3_0" CO="150.59" CO2="4886.26" NOx="2.17" PMx="0.11" HC="0.80" noise="69.23" fuel="1558.52" electricity="0.00" maxspeed="23.89" meanspeed="3.77" occupancy="0.02" vehicle_count="1"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="3.30">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="5067.12" CO="150.43" HC="0.81" NOx="2.25" PMx="0.11" fuel="1616.20" electricity="0.00" noise="69.38" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="2.14" speed="4.04" angle="90.00" x="2.14" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="4713.69" CO="151.26" HC="0.80" NOx="2.09" PMx="0.10" fuel="1503.48" electricity="0.00" noise="69.15" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="196.24" speed="3.49" angle="90.00" x="-3.76" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="4365.88" CO="152.43" HC="0.80" NOx="1.95" PMx="0.10" fuel="1392.54" electricity="0.00" noise="68.91" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="190.37" speed="2.93" angle="90.00" x="-9.63" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="60.01" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="166.90" speed="12.28" angle="90.00" x="-33.10" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="66.08" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="134.80" speed="19.56" angle="90.00" x="-65.20" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="28.63" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="20.91">
+                <lane id="e1to2_0" CO="303.69" CO2="9079.57" NOx="4.04" PMx="0.20" HC="1.60" noise="73.23" fuel="2896.02" electricity="0.00" maxspeed="23.89" meanspeed="9.56" occupancy="0.11" vehicle_count="4"/>
+            </edge>
+            <edge id="e2to3" traveltime="24.74">
+                <lane id="e2to3_0" CO="150.43" CO2="5067.12" NOx="2.25" PMx="0.11" HC="0.81" noise="69.38" fuel="1616.20" electricity="0.00" maxspeed="23.89" meanspeed="4.04" occupancy="0.02" vehicle_count="1"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="3.40">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="5230.40" CO="149.98" HC="0.81" NOx="2.32" PMx="0.11" fuel="1668.28" electricity="0.00" noise="69.46" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="2.57" speed="4.31" angle="90.00" x="2.57" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="4892.21" CO="150.98" HC="0.80" NOx="2.17" PMx="0.11" fuel="1560.41" electricity="0.00" noise="69.30" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="196.62" speed="3.76" angle="90.00" x="-3.38" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="4523.59" CO="151.63" HC="0.80" NOx="2.01" PMx="0.10" fuel="1442.84" electricity="0.00" noise="68.97" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="190.69" speed="3.20" angle="90.00" x="-9.31" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="59.81" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="168.10" speed="12.02" angle="90.00" x="-31.90" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="65.84" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="136.72" speed="19.21" angle="90.00" x="-63.28" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="24.32" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="20.95">
+                <lane id="e1to2_0" CO="302.60" CO2="9415.79" NOx="4.18" PMx="0.21" HC="1.60" noise="73.26" fuel="3003.26" electricity="0.00" maxspeed="23.89" meanspeed="9.55" occupancy="0.11" vehicle_count="4"/>
+            </edge>
+            <edge id="e2to3" traveltime="23.20">
+                <lane id="e2to3_0" CO="149.98" CO2="5230.40" NOx="2.32" PMx="0.11" HC="0.81" noise="69.46" fuel="1668.28" electricity="0.00" maxspeed="23.89" meanspeed="4.31" occupancy="0.03" vehicle_count="1"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="3.50">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="5411.48" CO="149.95" HC="0.81" NOx="2.39" PMx="0.12" fuel="1726.03" electricity="0.00" noise="69.61" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="3.03" speed="4.58" angle="90.00" x="3.03" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="5050.83" CO="150.36" HC="0.80" NOx="2.24" PMx="0.11" fuel="1611.00" electricity="0.00" noise="69.36" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="197.02" speed="4.02" angle="90.00" x="-2.98" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="4712.65" CO="151.49" HC="0.80" NOx="2.09" PMx="0.10" fuel="1503.14" electricity="0.00" noise="69.19" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="191.03" speed="3.47" angle="90.00" x="-8.97" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="59.64" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="169.28" speed="11.78" angle="90.00" x="-30.72" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="65.59" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="138.61" speed="18.86" angle="90.00" x="-61.39" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="19.74" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="20.98">
+                <lane id="e1to2_0" CO="301.86" CO2="9763.48" NOx="4.33" PMx="0.21" HC="1.61" noise="73.32" fuel="3114.15" electricity="0.00" maxspeed="23.89" meanspeed="9.53" occupancy="0.11" vehicle_count="4"/>
+            </edge>
+            <edge id="e2to3" traveltime="21.83">
+                <lane id="e2to3_0" CO="149.95" CO2="5411.48" NOx="2.39" PMx="0.12" HC="0.81" noise="69.61" fuel="1726.03" electricity="0.00" maxspeed="23.89" meanspeed="4.58" occupancy="0.03" vehicle_count="1"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="3.60">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="5587.77" CO="149.88" HC="0.82" NOx="2.47" PMx="0.12" fuel="1782.25" electricity="0.00" noise="69.73" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="3.51" speed="4.85" angle="90.00" x="3.51" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="5223.42" CO="150.10" HC="0.81" NOx="2.31" PMx="0.11" fuel="1666.05" electricity="0.00" noise="69.47" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="197.45" speed="4.29" angle="90.00" x="-2.55" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="4859.09" CO="150.58" HC="0.80" NOx="2.16" PMx="0.11" fuel="1549.85" electricity="0.00" noise="69.19" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="191.41" speed="3.74" angle="90.00" x="-8.59" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="59.50" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="170.43" speed="11.56" angle="90.00" x="-29.57" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="65.36" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="140.46" speed="18.52" angle="90.00" x="-59.54" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="14.89" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="20.99">
+                <lane id="e1to2_0" CO="300.67" CO2="10082.51" NOx="4.47" PMx="0.22" HC="1.61" noise="73.32" fuel="3215.90" electricity="0.00" maxspeed="23.89" meanspeed="9.53" occupancy="0.11" vehicle_count="4"/>
+            </edge>
+            <edge id="e2to3" traveltime="20.62">
+                <lane id="e2to3_0" CO="149.88" CO2="5587.77" NOx="2.47" PMx="0.12" HC="0.82" noise="69.73" fuel="1782.25" electricity="0.00" maxspeed="23.89" meanspeed="4.85" occupancy="0.04" vehicle_count="1"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="3.70">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="5757.54" CO="149.74" HC="0.82" NOx="2.54" PMx="0.12" fuel="1836.40" electricity="0.00" noise="69.83" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="4.02" speed="5.12" angle="90.00" x="4.02" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="5369.93" CO="149.38" HC="0.81" NOx="2.38" PMx="0.12" fuel="1712.78" electricity="0.00" noise="69.50" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="197.91" speed="4.56" angle="90.00" x="-2.09" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="5034.26" CO="150.31" HC="0.80" NOx="2.23" PMx="0.11" fuel="1605.72" electricity="0.00" noise="69.33" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="191.81" speed="4.00" angle="90.00" x="-8.19" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="59.43" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="171.57" speed="11.35" angle="90.00" x="-28.43" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="65.13" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="142.28" speed="18.20" angle="90.00" x="-57.72" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="9.77" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="20.99">
+                <lane id="e1to2_0" CO="299.69" CO2="10404.19" NOx="4.61" PMx="0.22" HC="1.61" noise="73.35" fuel="3318.50" electricity="0.00" maxspeed="23.89" meanspeed="9.53" occupancy="0.10" vehicle_count="4"/>
+            </edge>
+            <edge id="e2to3" traveltime="19.53">
+                <lane id="e2to3_0" CO="149.74" CO2="5757.54" NOx="2.54" PMx="0.12" HC="0.82" noise="69.83" fuel="1836.40" electricity="0.00" maxspeed="23.89" meanspeed="5.12" occupancy="0.04" vehicle_count="1"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="3.80">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="5932.29" CO="149.76" HC="0.82" NOx="2.62" PMx="0.13" fuel="1892.14" electricity="0.00" noise="69.94" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="4.56" speed="5.39" angle="90.00" x="4.56" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="5568.10" CO="149.76" HC="0.81" NOx="2.46" PMx="0.12" fuel="1775.98" electricity="0.00" noise="69.70" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="198.39" speed="4.83" angle="90.00" x="-1.61" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="5199.49" CO="149.90" HC="0.81" NOx="2.30" PMx="0.11" fuel="1658.42" electricity="0.00" noise="69.42" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="192.23" speed="4.27" angle="90.00" x="-7.77" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="59.37" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="172.69" speed="11.17" angle="90.00" x="-27.31" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="64.91" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="144.07" speed="17.89" angle="90.00" x="-55.93" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="4.38" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="20.97">
+                <lane id="e1to2_0" CO="299.66" CO2="10767.58" NOx="4.76" PMx="0.23" HC="1.62" noise="73.43" fuel="3434.40" electricity="0.00" maxspeed="23.89" meanspeed="9.54" occupancy="0.10" vehicle_count="4"/>
+            </edge>
+            <edge id="e2to3" traveltime="18.56">
+                <lane id="e2to3_0" CO="149.76" CO2="5932.29" NOx="2.62" PMx="0.13" HC="0.82" noise="69.94" fuel="1892.14" electricity="0.00" maxspeed="23.89" meanspeed="5.39" occupancy="0.05" vehicle_count="1"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="3.90">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="6111.25" CO="149.93" HC="0.83" NOx="2.70" PMx="0.13" fuel="1949.21" electricity="0.00" noise="70.06" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="5.13" speed="5.66" angle="90.00" x="5.13" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="5737.35" CO="149.61" HC="0.82" NOx="2.53" PMx="0.12" fuel="1829.96" electricity="0.00" noise="69.80" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="198.90" speed="5.10" angle="90.00" x="-1.10" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="5354.30" CO="149.35" HC="0.81" NOx="2.37" PMx="0.11" fuel="1707.79" electricity="0.00" noise="69.48" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="192.69" speed="4.54" angle="90.00" x="-7.31" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="59.46" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="173.79" speed="11.00" angle="90.00" x="-26.21" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="64.69" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="145.83" speed="17.58" angle="90.00" x="-54.17" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="20.93">
+                <lane id="e1to2_0" CO="298.96" CO2="11091.65" NOx="4.90" PMx="0.24" HC="1.62" noise="73.47" fuel="3537.75" electricity="0.00" maxspeed="23.89" meanspeed="9.56" occupancy="0.10" vehicle_count="4"/>
+            </edge>
+            <edge id="e2to3" traveltime="17.68">
+                <lane id="e2to3_0" CO="149.93" CO2="6111.25" NOx="2.70" PMx="0.13" HC="0.83" noise="70.06" fuel="1949.21" electricity="0.00" maxspeed="23.89" meanspeed="5.66" occupancy="0.05" vehicle_count="1"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="4.00">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="6270.33" CO="149.77" HC="0.83" NOx="2.76" PMx="0.13" fuel="1999.95" electricity="0.00" noise="70.12" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="5.72" speed="5.93" angle="90.00" x="5.72" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="5922.74" CO="149.84" HC="0.82" NOx="2.61" PMx="0.13" fuel="1889.09" electricity="0.00" noise="69.94" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="199.44" speed="5.37" angle="90.00" x="-0.56" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="5551.04" CO="149.70" HC="0.81" NOx="2.45" PMx="0.12" fuel="1770.54" electricity="0.00" noise="69.68" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="193.17" speed="4.81" angle="90.00" x="-6.83" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="59.46" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="174.87" speed="10.86" angle="90.00" x="-25.13" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="64.50" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="147.56" speed="17.30" angle="90.00" x="-52.44" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="20.87">
+                <lane id="e1to2_0" CO="299.54" CO2="11473.78" NOx="5.07" PMx="0.25" HC="1.64" noise="73.59" fuel="3659.63" electricity="0.00" maxspeed="23.89" meanspeed="9.58" occupancy="0.10" vehicle_count="4"/>
+            </edge>
+            <edge id="e2to3" traveltime="16.88">
+                <lane id="e2to3_0" CO="149.77" CO2="6270.33" NOx="2.76" PMx="0.13" HC="0.83" noise="70.12" fuel="1999.95" electricity="0.00" maxspeed="23.89" meanspeed="5.93" occupancy="0.05" vehicle_count="1"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="4.10">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="6445.52" CO="150.00" HC="0.84" NOx="2.84" PMx="0.14" fuel="2055.83" electricity="0.00" noise="70.23" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="6.34" speed="6.19" angle="90.00" x="6.34" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="6095.53" CO="149.88" HC="0.83" NOx="2.69" PMx="0.13" fuel="1944.20" electricity="0.00" noise="70.04" route="platoon_route" type="EBUS2" waiting="0.00" lane=":2_0_0" pos="0.00" speed="5.64" angle="90.00" x="0.00" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="5731.14" CO="149.76" HC="0.82" NOx="2.53" PMx="0.12" fuel="1827.98" electricity="0.00" noise="69.81" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="193.68" speed="5.08" angle="90.00" x="-6.32" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="59.65" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="175.94" speed="10.73" angle="90.00" x="-24.06" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="64.29" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="149.26" speed="17.02" angle="90.00" x="-50.74" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.02">
+                <lane id=":2_0_0" CO="149.88" CO2="6095.53" NOx="2.69" PMx="0.13" HC="0.83" noise="70.04" fuel="1944.20" electricity="0.00" maxspeed="23.89" meanspeed="5.64" occupancy="0.00" vehicle_count="1"/>
+            </edge>
+            <edge id="e1to2" traveltime="18.28">
+                <lane id="e1to2_0" CO="149.76" CO2="5731.14" NOx="2.53" PMx="0.12" HC="0.82" noise="71.20" fuel="1827.98" electricity="0.00" maxspeed="23.89" meanspeed="10.94" occupancy="0.10" vehicle_count="3"/>
+            </edge>
+            <edge id="e2to3" traveltime="16.15">
+                <lane id="e2to3_0" CO="150.00" CO2="6445.52" NOx="2.84" PMx="0.14" HC="0.84" noise="70.23" fuel="2055.83" electricity="0.00" maxspeed="23.89" meanspeed="6.19" occupancy="0.05" vehicle_count="1"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="4.20">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="6644.10" CO="150.75" HC="0.84" NOx="2.93" PMx="0.14" fuel="2119.16" electricity="0.00" noise="70.40" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="6.99" speed="6.46" angle="90.00" x="6.99" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="6236.77" CO="149.36" HC="0.83" NOx="2.75" PMx="0.13" fuel="1989.25" electricity="0.00" noise="70.06" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="0.49" speed="5.90" angle="90.00" x="0.49" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="5905.93" CO="149.77" HC="0.82" NOx="2.61" PMx="0.13" fuel="1883.73" electricity="0.00" noise="69.92" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="194.21" speed="5.35" angle="90.00" x="-5.79" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="59.90" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="177.01" speed="10.63" angle="90.00" x="-22.99" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="64.12" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="150.93" speed="16.75" angle="90.00" x="-49.07" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="45.09" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="18.33">
+                <lane id="e1to2_0" CO="149.77" CO2="5905.93" NOx="2.61" PMx="0.13" HC="0.82" noise="71.26" fuel="1883.73" electricity="0.00" maxspeed="23.89" meanspeed="10.91" occupancy="0.10" vehicle_count="3"/>
+            </edge>
+            <edge id="e2to3" traveltime="16.17">
+                <lane id="e2to3_0" CO="300.11" CO2="12880.87" NOx="5.67" PMx="0.27" HC="1.67" noise="73.24" fuel="4108.41" electricity="0.00" maxspeed="23.89" meanspeed="6.18" occupancy="0.05" vehicle_count="2"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="4.30">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="6804.94" CO="150.81" HC="0.85" NOx="2.99" PMx="0.14" fuel="2170.46" electricity="0.00" noise="70.47" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="7.66" speed="6.73" angle="90.00" x="7.66" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="6450.45" CO="150.36" HC="0.84" NOx="2.84" PMx="0.14" fuel="2057.40" electricity="0.00" noise="70.27" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="1.11" speed="6.17" angle="90.00" x="1.11" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="6102.98" CO="150.29" HC="0.83" NOx="2.69" PMx="0.13" fuel="1946.58" electricity="0.00" noise="70.10" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="194.77" speed="5.62" angle="90.00" x="-5.23" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="60.13" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="178.06" speed="10.54" angle="90.00" x="-21.94" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="63.94" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="152.58" speed="16.50" angle="90.00" x="-47.42" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="38.92" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="18.37">
+                <lane id="e1to2_0" CO="150.29" CO2="6102.98" NOx="2.69" PMx="0.13" HC="0.83" noise="71.38" fuel="1946.58" electricity="0.00" maxspeed="23.89" meanspeed="10.89" occupancy="0.09" vehicle_count="3"/>
+            </edge>
+            <edge id="e2to3" traveltime="15.50">
+                <lane id="e2to3_0" CO="301.17" CO2="13255.40" NOx="5.84" PMx="0.28" HC="1.69" noise="73.38" fuel="4227.86" electricity="0.00" maxspeed="23.89" meanspeed="6.45" occupancy="0.06" vehicle_count="2"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="4.40">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="7017.51" CO="151.97" HC="0.86" NOx="3.09" PMx="0.15" fuel="2238.26" electricity="0.00" noise="70.66" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="8.36" speed="7.00" angle="90.00" x="8.36" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="6622.95" CO="150.58" HC="0.84" NOx="2.92" PMx="0.14" fuel="2112.42" electricity="0.00" noise="70.37" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="1.75" speed="6.44" angle="90.00" x="1.75" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="6206.69" CO="149.01" HC="0.83" NOx="2.73" PMx="0.13" fuel="1979.65" electricity="0.00" noise="70.00" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="195.36" speed="5.88" angle="90.00" x="-4.64" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="60.46" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="179.11" speed="10.48" angle="90.00" x="-20.89" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="63.79" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="154.21" speed="16.26" angle="90.00" x="-45.79" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="32.48" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="18.39">
+                <lane id="e1to2_0" CO="149.01" CO2="6206.69" NOx="2.73" PMx="0.13" HC="0.83" noise="71.31" fuel="1979.65" electricity="0.00" maxspeed="23.89" meanspeed="10.87" occupancy="0.09" vehicle_count="3"/>
+            </edge>
+            <edge id="e2to3" traveltime="14.88">
+                <lane id="e2to3_0" CO="302.55" CO2="13640.46" NOx="6.00" PMx="0.29" HC="1.70" noise="73.53" fuel="4350.68" electricity="0.00" maxspeed="23.89" meanspeed="6.72" occupancy="0.07" vehicle_count="2"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="4.50">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="7216.38" CO="152.90" HC="0.87" NOx="3.17" PMx="0.15" fuel="2301.69" electricity="0.00" noise="70.81" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="9.09" speed="7.27" angle="90.00" x="9.09" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="6817.95" CO="151.32" HC="0.85" NOx="3.00" PMx="0.14" fuel="2174.61" electricity="0.00" noise="70.53" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="2.42" speed="6.71" angle="90.00" x="2.42" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="6460.90" CO="150.82" HC="0.84" NOx="2.85" PMx="0.14" fuel="2060.73" electricity="0.00" noise="70.33" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="195.98" speed="6.15" angle="90.00" x="-4.02" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="60.83" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="180.15" speed="10.43" angle="90.00" x="-19.85" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="63.65" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="155.81" speed="16.04" angle="90.00" x="-44.19" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="25.77" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="18.39">
+                <lane id="e1to2_0" CO="150.82" CO2="6460.90" NOx="2.85" PMx="0.14" HC="0.84" noise="71.56" fuel="2060.73" electricity="0.00" maxspeed="23.89" meanspeed="10.87" occupancy="0.09" vehicle_count="3"/>
+            </edge>
+            <edge id="e2to3" traveltime="14.31">
+                <lane id="e2to3_0" CO="304.21" CO2="14034.33" NOx="6.18" PMx="0.30" HC="1.72" noise="73.68" fuel="4476.30" electricity="0.00" maxspeed="23.89" meanspeed="6.99" occupancy="0.07" vehicle_count="2"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="4.60">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="7372.61" CO="153.03" HC="0.87" NOx="3.24" PMx="0.16" fuel="2351.52" electricity="0.00" noise="70.87" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="9.84" speed="7.54" angle="90.00" x="9.84" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="6973.28" CO="151.31" HC="0.86" NOx="3.07" PMx="0.15" fuel="2224.15" electricity="0.00" noise="70.58" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="3.12" speed="6.98" angle="90.00" x="3.12" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="6611.05" CO="150.57" HC="0.84" NOx="2.91" PMx="0.14" fuel="2108.62" electricity="0.00" noise="70.37" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="196.62" speed="6.42" angle="90.00" x="-3.38" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="61.27" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="181.19" speed="10.40" angle="90.00" x="-18.81" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="63.53" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="157.40" speed="15.82" angle="90.00" x="-42.60" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="18.79" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="18.38">
+                <lane id="e1to2_0" CO="150.57" CO2="6611.05" NOx="2.91" PMx="0.14" HC="0.84" noise="71.61" fuel="2108.62" electricity="0.00" maxspeed="23.89" meanspeed="10.88" occupancy="0.08" vehicle_count="3"/>
+            </edge>
+            <edge id="e2to3" traveltime="13.78">
+                <lane id="e2to3_0" CO="304.34" CO2="14345.89" NOx="6.31" PMx="0.30" HC="1.73" noise="73.74" fuel="4575.67" electricity="0.00" maxspeed="23.89" meanspeed="7.26" occupancy="0.08" vehicle_count="2"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="4.70">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="7591.57" CO="154.49" HC="0.89" NOx="3.34" PMx="0.16" fuel="2421.35" electricity="0.00" noise="71.06" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="10.62" speed="7.81" angle="90.00" x="10.62" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="7168.06" CO="152.17" HC="0.86" NOx="3.15" PMx="0.15" fuel="2286.28" electricity="0.00" noise="70.73" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="3.85" speed="7.25" angle="90.00" x="3.85" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="6787.16" CO="150.93" HC="0.85" NOx="2.99" PMx="0.14" fuel="2164.79" electricity="0.00" noise="70.47" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="197.29" speed="6.69" angle="90.00" x="-2.71" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="1868.52" CO="10.65" HC="0.09" NOx="0.57" PMx="0.01" fuel="595.99" electricity="0.00" noise="61.79" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="182.23" speed="10.39" angle="90.00" x="-17.77" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="63.43" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="158.96" speed="15.63" angle="90.00" x="-41.04" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="11.55" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="18.34">
+                <lane id="e1to2_0" CO="161.58" CO2="8655.67" NOx="3.56" PMx="0.15" HC="0.94" noise="71.72" fuel="2760.78" electricity="0.00" maxspeed="23.89" meanspeed="10.90" occupancy="0.08" vehicle_count="3"/>
+            </edge>
+            <edge id="e2to3" traveltime="13.28">
+                <lane id="e2to3_0" CO="306.66" CO2="14759.63" NOx="6.49" PMx="0.31" HC="1.75" noise="73.91" fuel="4707.63" electricity="0.00" maxspeed="23.89" meanspeed="7.53" occupancy="0.09" vehicle_count="2"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="4.80">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="7784.06" CO="155.47" HC="0.89" NOx="3.42" PMx="0.17" fuel="2482.74" electricity="0.00" noise="71.19" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="11.43" speed="8.08" angle="90.00" x="11.43" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="7367.88" CO="153.19" HC="0.87" NOx="3.24" PMx="0.16" fuel="2350.01" electricity="0.00" noise="70.88" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="4.60" speed="7.52" angle="90.00" x="4.60" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="6975.85" CO="151.59" HC="0.86" NOx="3.07" PMx="0.15" fuel="2224.97" electricity="0.00" noise="70.61" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="197.98" speed="6.96" angle="90.00" x="-2.02" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="2295.06" CO="19.38" HC="0.14" NOx="0.77" PMx="0.02" fuel="732.04" electricity="0.00" noise="62.25" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="183.27" speed="10.40" angle="90.00" x="-16.73" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="63.36" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="160.50" speed="15.44" angle="90.00" x="-39.50" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="4.03" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="18.29">
+                <lane id="e1to2_0" CO="170.97" CO2="9270.91" NOx="3.84" PMx="0.16" HC="1.00" noise="71.86" fuel="2957.01" electricity="0.00" maxspeed="23.89" meanspeed="10.93" occupancy="0.08" vehicle_count="3"/>
+            </edge>
+            <edge id="e2to3" traveltime="12.83">
+                <lane id="e2to3_0" CO="308.66" CO2="15151.94" NOx="6.66" PMx="0.32" HC="1.77" noise="74.05" fuel="4832.75" electricity="0.00" maxspeed="23.89" meanspeed="7.80" occupancy="0.10" vehicle_count="2"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="4.90">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="7971.61" CO="156.41" HC="0.90" NOx="3.50" PMx="0.17" fuel="2542.56" electricity="0.00" noise="71.31" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="12.26" speed="8.35" angle="90.00" x="12.26" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="7561.51" CO="154.13" HC="0.88" NOx="3.32" PMx="0.16" fuel="2411.76" electricity="0.00" noise="71.02" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="5.38" speed="7.79" angle="90.00" x="5.38" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="7175.93" CO="152.55" HC="0.87" NOx="3.16" PMx="0.15" fuel="2288.79" electricity="0.00" noise="70.77" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="198.71" speed="7.23" angle="90.00" x="-1.29" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="2734.23" CO="28.22" HC="0.19" NOx="0.98" PMx="0.03" fuel="872.11" electricity="0.00" noise="62.75" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="184.31" speed="10.42" angle="90.00" x="-15.69" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="63.30" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="162.03" speed="15.28" angle="90.00" x="-37.97" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="18.22">
+                <lane id="e1to2_0" CO="180.76" CO2="9910.16" NOx="4.13" PMx="0.18" HC="1.06" noise="72.03" fuel="3160.89" electricity="0.00" maxspeed="23.89" meanspeed="10.97" occupancy="0.07" vehicle_count="3"/>
+            </edge>
+            <edge id="e2to3" traveltime="12.40">
+                <lane id="e2to3_0" CO="310.54" CO2="15533.13" NOx="6.83" PMx="0.33" HC="1.79" noise="74.17" fuel="4954.33" electricity="0.00" maxspeed="23.89" meanspeed="8.07" occupancy="0.10" vehicle_count="2"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="5.00">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="8117.79" CO="156.57" HC="0.91" NOx="3.56" PMx="0.17" fuel="2589.19" electricity="0.00" noise="71.34" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="13.13" speed="8.62" angle="90.00" x="13.13" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="7751.64" CO="155.07" HC="0.89" NOx="3.41" PMx="0.16" fuel="2472.40" electricity="0.00" noise="71.15" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="6.18" speed="8.05" angle="90.00" x="6.18" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="7365.79" CO="153.35" HC="0.87" NOx="3.24" PMx="0.16" fuel="2349.34" electricity="0.00" noise="70.90" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="199.45" speed="7.50" angle="90.00" x="-0.55" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="3263.39" CO="38.74" HC="0.25" NOx="1.23" PMx="0.04" fuel="1040.88" electricity="0.00" noise="63.39" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="185.36" speed="10.46" angle="90.00" x="-14.64" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="63.27" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="163.54" speed="15.12" angle="90.00" x="-36.46" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="18.14">
+                <lane id="e1to2_0" CO="192.09" CO2="10629.18" NOx="4.47" PMx="0.20" HC="1.12" noise="72.20" fuel="3390.22" electricity="0.00" maxspeed="23.89" meanspeed="11.03" occupancy="0.07" vehicle_count="3"/>
+            </edge>
+            <edge id="e2to3" traveltime="12.00">
+                <lane id="e2to3_0" CO="311.64" CO2="15869.43" NOx="6.97" PMx="0.34" HC="1.80" noise="74.26" fuel="5061.59" electricity="0.00" maxspeed="23.89" meanspeed="8.34" occupancy="0.10" vehicle_count="2"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="5.10">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="8296.24" CO="157.47" HC="0.92" NOx="3.64" PMx="0.18" fuel="2646.10" electricity="0.00" noise="71.45" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="14.01" speed="8.89" angle="90.00" x="14.01" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="7948.84" CO="156.20" HC="0.90" NOx="3.49" PMx="0.17" fuel="2535.30" electricity="0.00" noise="71.28" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="7.01" speed="8.32" angle="90.00" x="7.01" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="7529.91" CO="153.69" HC="0.88" NOx="3.31" PMx="0.16" fuel="2401.68" electricity="0.00" noise="70.97" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="0.13" speed="7.77" angle="90.00" x="0.13" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="3532.61" CO="43.83" HC="0.28" NOx="1.35" PMx="0.05" fuel="1126.75" electricity="0.00" noise="63.73" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="186.41" speed="10.51" angle="90.00" x="-13.59" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="63.30" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="165.04" speed="14.98" angle="90.00" x="-34.96" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="48.68" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="15.69">
+                <lane id="e1to2_0" CO="43.83" CO2="3532.61" NOx="1.35" PMx="0.05" HC="0.28" noise="66.53" fuel="1126.75" electricity="0.00" maxspeed="23.89" meanspeed="12.75" occupancy="0.07" vehicle_count="2"/>
+            </edge>
+            <edge id="e2to3" traveltime="12.01">
+                <lane id="e2to3_0" CO="467.36" CO2="23774.99" NOx="10.44" PMx="0.51" HC="2.70" noise="76.01" fuel="7583.08" electricity="0.00" maxspeed="23.89" meanspeed="8.33" occupancy="0.10" vehicle_count="3"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="5.20">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="8510.64" CO="159.16" HC="0.93" NOx="3.74" PMx="0.18" fuel="2714.48" electricity="0.00" noise="71.61" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="14.93" speed="9.15" angle="90.00" x="14.93" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="8144.44" CO="157.36" HC="0.91" NOx="3.58" PMx="0.17" fuel="2597.68" electricity="0.00" noise="71.42" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="7.87" speed="8.60" angle="90.00" x="7.87" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="7714.84" CO="154.52" HC="0.89" NOx="3.39" PMx="0.16" fuel="2460.67" electricity="0.00" noise="71.09" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="0.94" speed="8.04" angle="90.00" x="0.94" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="4115.24" CO="55.18" HC="0.35" NOx="1.63" PMx="0.06" fuel="1312.58" electricity="0.00" noise="64.48" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="187.47" speed="10.58" angle="90.00" x="-12.53" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="63.29" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="166.53" speed="14.85" angle="90.00" x="-33.47" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="40.65" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="15.72">
+                <lane id="e1to2_0" CO="55.18" CO2="4115.24" NOx="1.63" PMx="0.06" HC="0.35" noise="66.94" fuel="1312.58" electricity="0.00" maxspeed="23.89" meanspeed="12.72" occupancy="0.07" vehicle_count="2"/>
+            </edge>
+            <edge id="e2to3" traveltime="11.63">
+                <lane id="e2to3_0" CO="471.04" CO2="24369.92" NOx="10.70" PMx="0.52" HC="2.73" noise="76.15" fuel="7772.83" electricity="0.00" maxspeed="23.89" meanspeed="8.59" occupancy="0.11" vehicle_count="3"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="5.30">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="8739.65" CO="161.20" HC="0.94" NOx="3.84" PMx="0.19" fuel="2787.52" electricity="0.00" noise="71.80" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="15.87" speed="9.42" angle="90.00" x="15.87" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="8304.09" CO="157.86" HC="0.92" NOx="3.65" PMx="0.18" fuel="2648.61" electricity="0.00" noise="71.48" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="8.76" speed="8.86" angle="90.00" x="8.76" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="7920.84" CO="155.84" HC="0.90" NOx="3.48" PMx="0.17" fuel="2526.37" electricity="0.00" noise="71.25" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="1.77" speed="8.30" angle="90.00" x="1.77" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="4347.24" CO="59.26" HC="0.37" NOx="1.73" PMx="0.07" fuel="1386.57" electricity="0.00" noise="64.80" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="188.54" speed="10.66" angle="90.00" x="-11.46" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="63.36" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="168.00" speed="14.74" angle="90.00" x="-32.00" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="32.34" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="15.74">
+                <lane id="e1to2_0" CO="59.26" CO2="4347.24" NOx="1.73" PMx="0.07" HC="0.37" noise="67.15" fuel="1386.57" electricity="0.00" maxspeed="23.89" meanspeed="12.70" occupancy="0.07" vehicle_count="2"/>
+            </edge>
+            <edge id="e2to3" traveltime="11.28">
+                <lane id="e2to3_0" CO="474.89" CO2="24964.58" NOx="10.96" PMx="0.53" HC="2.76" noise="76.29" fuel="7962.50" electricity="0.00" maxspeed="23.89" meanspeed="8.86" occupancy="0.12" vehicle_count="3"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="5.40">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="8870.29" CO="161.29" HC="0.95" NOx="3.89" PMx="0.19" fuel="2829.19" electricity="0.00" noise="71.82" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="16.84" speed="9.69" angle="90.00" x="16.84" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="8512.11" CO="159.40" HC="0.93" NOx="3.74" PMx="0.18" fuel="2714.95" electricity="0.00" noise="71.63" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="9.67" speed="9.13" angle="90.00" x="9.67" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="8118.46" CO="157.04" HC="0.91" NOx="3.57" PMx="0.17" fuel="2589.40" electricity="0.00" noise="71.38" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="2.62" speed="8.57" angle="90.00" x="2.62" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="4716.24" CO="66.05" HC="0.41" NOx="1.90" PMx="0.08" fuel="1504.26" electricity="0.00" noise="65.29" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="189.61" speed="10.76" angle="90.00" x="-10.39" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="63.44" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="169.47" speed="14.65" angle="90.00" x="-30.53" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="23.77" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="15.75">
+                <lane id="e1to2_0" CO="66.05" CO2="4716.24" NOx="1.90" PMx="0.08" HC="0.41" noise="67.48" fuel="1504.26" electricity="0.00" maxspeed="23.89" meanspeed="12.70" occupancy="0.06" vehicle_count="2"/>
+            </edge>
+            <edge id="e2to3" traveltime="10.95">
+                <lane id="e2to3_0" CO="477.74" CO2="25500.86" NOx="11.20" PMx="0.54" HC="2.79" noise="76.39" fuel="8133.54" electricity="0.00" maxspeed="23.89" meanspeed="9.13" occupancy="0.13" vehicle_count="3"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="5.50">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="9113.63" CO="163.75" HC="0.97" NOx="4.00" PMx="0.20" fuel="2906.80" electricity="0.00" noise="72.02" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="17.84" speed="9.96" angle="90.00" x="17.84" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="8697.52" CO="160.54" HC="0.94" NOx="3.82" PMx="0.19" fuel="2774.09" electricity="0.00" noise="71.74" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="10.61" speed="9.40" angle="90.00" x="10.61" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="8305.86" CO="158.10" HC="0.92" NOx="3.65" PMx="0.18" fuel="2649.17" electricity="0.00" noise="71.50" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="3.51" speed="8.84" angle="90.00" x="3.51" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="5200.78" CO="75.10" HC="0.46" NOx="2.13" PMx="0.09" fuel="1658.81" electricity="0.00" noise="65.94" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="190.70" speed="10.86" angle="90.00" x="-9.30" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="63.59" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="170.92" speed="14.57" angle="90.00" x="-29.08" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="14.93" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="15.73">
+                <lane id="e1to2_0" CO="75.10" CO2="5200.78" NOx="2.13" PMx="0.09" HC="0.46" noise="67.93" fuel="1658.81" electricity="0.00" maxspeed="23.89" meanspeed="12.71" occupancy="0.06" vehicle_count="2"/>
+            </edge>
+            <edge id="e2to3" traveltime="10.63">
+                <lane id="e2to3_0" CO="482.39" CO2="26117.00" NOx="11.47" PMx="0.56" HC="2.82" noise="76.53" fuel="8330.05" electricity="0.00" maxspeed="23.89" meanspeed="9.40" occupancy="0.14" vehicle_count="3"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="5.60">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="9308.40" CO="165.27" HC="0.98" NOx="4.08" PMx="0.20" fuel="2968.92" electricity="0.00" noise="72.14" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="18.86" speed="10.23" angle="90.00" x="18.86" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="8897.52" CO="162.05" HC="0.95" NOx="3.91" PMx="0.19" fuel="2837.87" electricity="0.00" noise="71.88" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="11.58" speed="9.67" angle="90.00" x="11.58" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="8460.05" CO="158.55" HC="0.93" NOx="3.71" PMx="0.18" fuel="2698.35" electricity="0.00" noise="71.56" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="4.42" speed="9.11" angle="90.00" x="4.42" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="5538.23" CO="81.03" HC="0.50" NOx="2.29" PMx="0.10" fuel="1766.44" electricity="0.00" noise="66.40" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="191.80" speed="10.98" angle="90.00" x="-8.20" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="63.72" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="172.37" speed="14.50" angle="90.00" x="-27.63" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="5.81" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="15.70">
+                <lane id="e1to2_0" CO="81.03" CO2="5538.23" NOx="2.29" PMx="0.10" HC="0.50" noise="68.27" fuel="1766.44" electricity="0.00" maxspeed="23.89" meanspeed="12.74" occupancy="0.05" vehicle_count="2"/>
+            </edge>
+            <edge id="e2to3" traveltime="10.34">
+                <lane id="e2to3_0" CO="485.86" CO2="26665.97" NOx="11.70" PMx="0.57" HC="2.85" noise="76.64" fuel="8505.14" electricity="0.00" maxspeed="23.89" meanspeed="9.67" occupancy="0.14" vehicle_count="3"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="5.70">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="9475.47" CO="166.29" HC="0.99" NOx="4.16" PMx="0.20" fuel="3022.21" electricity="0.00" noise="72.22" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="19.91" speed="10.50" angle="90.00" x="19.91" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="9073.38" CO="163.12" HC="0.96" NOx="3.98" PMx="0.19" fuel="2893.96" electricity="0.00" noise="71.97" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="12.57" speed="9.94" angle="90.00" x="12.57" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="8668.40" CO="160.16" HC="0.94" NOx="3.80" PMx="0.19" fuel="2764.80" electricity="0.00" noise="71.71" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="5.36" speed="9.38" angle="90.00" x="5.36" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="5758.89" CO="84.52" HC="0.52" NOx="2.39" PMx="0.11" fuel="1836.81" electricity="0.00" noise="66.69" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="192.91" speed="11.11" angle="90.00" x="-7.09" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="63.90" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="173.82" speed="14.44" angle="90.00" x="-26.18" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="15.66">
+                <lane id="e1to2_0" CO="84.52" CO2="5758.89" NOx="2.39" PMx="0.11" HC="0.52" noise="68.53" fuel="1836.81" electricity="0.00" maxspeed="23.89" meanspeed="12.78" occupancy="0.05" vehicle_count="2"/>
+            </edge>
+            <edge id="e2to3" traveltime="10.06">
+                <lane id="e2to3_0" CO="489.57" CO2="27217.24" NOx="11.94" PMx="0.58" HC="2.88" noise="76.74" fuel="8680.97" electricity="0.00" maxspeed="23.89" meanspeed="9.94" occupancy="0.15" vehicle_count="3"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="5.80">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="9724.03" CO="169.03" HC="1.00" NOx="4.27" PMx="0.21" fuel="3101.48" electricity="0.00" noise="72.42" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="20.99" speed="10.77" angle="90.00" x="20.99" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="9248.38" CO="164.24" HC="0.97" NOx="4.06" PMx="0.20" fuel="2949.78" electricity="0.00" noise="72.06" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="13.59" speed="10.21" angle="90.00" x="13.59" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="8905.50" CO="162.42" HC="0.95" NOx="3.91" PMx="0.19" fuel="2840.42" electricity="0.00" noise="71.91" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="6.32" speed="9.65" angle="90.00" x="6.32" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="6159.89" CO="91.64" HC="0.56" NOx="2.57" PMx="0.12" fuel="1964.71" electricity="0.00" noise="67.22" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="194.03" speed="11.24" angle="90.00" x="-5.97" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.00" noise="64.05" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="175.26" speed="14.40" angle="90.00" x="-24.74" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="15.60">
+                <lane id="e1to2_0" CO="91.64" CO2="6159.89" NOx="2.57" PMx="0.12" HC="0.56" noise="68.93" fuel="1964.71" electricity="0.00" maxspeed="23.89" meanspeed="12.82" occupancy="0.05" vehicle_count="2"/>
+            </edge>
+            <edge id="e2to3" traveltime="9.79">
+                <lane id="e2to3_0" CO="495.69" CO2="27877.91" NOx="12.23" PMx="0.60" HC="2.93" noise="76.91" fuel="8891.68" electricity="0.00" maxspeed="23.89" meanspeed="10.21" occupancy="0.15" vehicle_count="3"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="5.90">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="9875.46" CO="169.85" HC="1.01" NOx="4.33" PMx="0.21" fuel="3149.78" electricity="0.00" noise="72.48" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="22.09" speed="11.04" angle="90.00" x="22.09" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="9486.16" CO="166.70" HC="0.99" NOx="4.16" PMx="0.20" fuel="3025.62" electricity="0.00" noise="72.25" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="14.64" speed="10.48" angle="90.00" x="14.64" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="9037.54" CO="162.59" HC="0.96" NOx="3.97" PMx="0.19" fuel="2882.53" electricity="0.00" noise="71.93" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="7.31" speed="9.92" angle="90.00" x="7.31" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="6538.67" CO="98.23" HC="0.60" NOx="2.75" PMx="0.13" fuel="2085.52" electricity="0.00" noise="67.71" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="195.17" speed="11.39" angle="90.00" x="-4.83" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="1354.72" CO="0.00" HC="0.00" NOx="0.23" PMx="0.00" fuel="432.11" electricity="0.00" noise="64.33" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="176.69" speed="14.37" angle="90.00" x="-23.31" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="15.53">
+                <lane id="e1to2_0" CO="98.23" CO2="7893.39" NOx="2.98" PMx="0.13" HC="0.60" noise="69.35" fuel="2517.63" electricity="0.00" maxspeed="23.89" meanspeed="12.88" occupancy="0.05" vehicle_count="2"/>
+            </edge>
+            <edge id="e2to3" traveltime="9.54">
+                <lane id="e2to3_0" CO="499.14" CO2="28399.16" NOx="12.46" PMx="0.61" HC="2.96" noise="77.00" fuel="9057.93" electricity="0.00" maxspeed="23.89" meanspeed="10.48" occupancy="0.15" vehicle_count="3"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="6.00">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="10126.32" CO="172.76" HC="1.03" NOx="4.44" PMx="0.22" fuel="3229.79" electricity="0.00" noise="72.68" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="23.22" speed="11.31" angle="90.00" x="23.22" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="9702.82" CO="168.79" HC="1.00" NOx="4.26" PMx="0.21" fuel="3094.72" electricity="0.00" noise="72.41" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="15.72" speed="10.75" angle="90.00" x="15.72" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="9244.30" CO="164.36" HC="0.97" NOx="4.06" PMx="0.20" fuel="2948.48" electricity="0.00" noise="72.07" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="8.33" speed="10.19" angle="90.00" x="8.33" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="6862.58" CO="103.64" HC="0.64" NOx="2.90" PMx="0.13" fuel="2188.83" electricity="0.00" noise="68.12" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="196.32" speed="11.55" angle="90.00" x="-3.68" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="1917.25" CO="0.00" HC="0.00" NOx="0.49" PMx="0.00" fuel="611.53" electricity="0.00" noise="64.62" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="178.13" speed="14.36" angle="90.00" x="-21.87" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="15.44">
+                <lane id="e1to2_0" CO="103.64" CO2="8779.83" NOx="3.39" PMx="0.13" HC="0.64" noise="69.73" fuel="2800.36" electricity="0.00" maxspeed="23.89" meanspeed="12.95" occupancy="0.05" vehicle_count="2"/>
+            </edge>
+            <edge id="e2to3" traveltime="9.30">
+                <lane id="e2to3_0" CO="505.91" CO2="29073.45" NOx="12.76" PMx="0.63" HC="3.01" noise="77.16" fuel="9272.99" electricity="0.00" maxspeed="23.89" meanspeed="10.75" occupancy="0.15" vehicle_count="3"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="6.10">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="10265.50" CO="173.45" HC="1.04" NOx="4.50" PMx="0.22" fuel="3274.18" electricity="0.00" noise="72.72" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="24.38" speed="11.58" angle="90.00" x="24.38" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="9853.17" CO="169.58" HC="1.01" NOx="4.32" PMx="0.21" fuel="3142.67" electricity="0.00" noise="72.46" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="16.82" speed="11.02" angle="90.00" x="16.82" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="9446.73" CO="166.09" HC="0.98" NOx="4.14" PMx="0.20" fuel="3013.04" electricity="0.00" noise="72.21" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="9.38" speed="10.46" angle="90.00" x="9.38" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="7085.55" CO="106.95" HC="0.66" NOx="3.00" PMx="0.14" fuel="2259.95" electricity="0.00" noise="68.40" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="197.50" speed="11.71" angle="90.00" x="-2.50" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="2366.56" CO="0.00" HC="0.01" NOx="0.71" PMx="0.01" fuel="754.83" electricity="0.00" noise="64.89" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="179.57" speed="14.36" angle="90.00" x="-20.43" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="15.35">
+                <lane id="e1to2_0" CO="106.95" CO2="9452.11" NOx="3.70" PMx="0.15" HC="0.67" noise="70.00" fuel="3014.78" electricity="0.00" maxspeed="23.89" meanspeed="13.03" occupancy="0.05" vehicle_count="2"/>
+            </edge>
+            <edge id="e2to3" traveltime="9.08">
+                <lane id="e2to3_0" CO="509.13" CO2="29565.40" NOx="12.97" PMx="0.64" HC="3.03" noise="77.24" fuel="9429.90" electricity="0.00" maxspeed="23.89" meanspeed="11.02" occupancy="0.15" vehicle_count="3"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="6.20">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="10469.11" CO="175.53" HC="1.05" NOx="4.59" PMx="0.23" fuel="3339.12" electricity="0.00" noise="72.85" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="25.56" speed="11.85" angle="90.00" x="25.56" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="10109.83" CO="172.61" HC="1.03" NOx="4.44" PMx="0.22" fuel="3224.53" electricity="0.00" noise="72.67" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="17.95" speed="11.29" angle="90.00" x="17.95" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="9654.03" CO="167.99" HC="1.00" NOx="4.24" PMx="0.21" fuel="3079.16" electricity="0.00" noise="72.35" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="10.45" speed="10.72" angle="90.00" x="10.45" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="7514.04" CO="114.42" HC="0.70" NOx="3.20" PMx="0.15" fuel="2396.61" electricity="0.00" noise="68.93" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="198.68" speed="11.88" angle="90.00" x="-1.32" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="2771.49" CO="0.08" HC="0.06" NOx="0.90" PMx="0.02" fuel="883.99" electricity="0.00" noise="65.14" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="181.00" speed="14.37" angle="90.00" x="-19.00" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="15.24">
+                <lane id="e1to2_0" CO="114.50" CO2="10285.53" NOx="4.09" PMx="0.17" HC="0.76" noise="70.44" fuel="3280.60" electricity="0.00" maxspeed="23.89" meanspeed="13.12" occupancy="0.05" vehicle_count="2"/>
+            </edge>
+            <edge id="e2to3" traveltime="8.86">
+                <lane id="e2to3_0" CO="516.12" CO2="30232.97" NOx="13.26" PMx="0.65" HC="3.08" noise="77.40" fuel="9642.82" electricity="0.00" maxspeed="23.89" meanspeed="11.29" occupancy="0.15" vehicle_count="3"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="6.30">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="10674.45" CO="177.70" HC="1.07" NOx="4.68" PMx="0.23" fuel="3404.62" electricity="0.00" noise="72.98" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="26.78" speed="12.11" angle="90.00" x="26.78" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="10279.89" CO="173.92" HC="1.04" NOx="4.51" PMx="0.22" fuel="3278.77" electricity="0.00" noise="72.75" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="19.10" speed="11.56" angle="90.00" x="19.10" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="9830.54" CO="169.32" HC="1.01" NOx="4.31" PMx="0.21" fuel="3135.46" electricity="0.00" noise="72.44" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="11.55" speed="10.99" angle="90.00" x="11.55" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="7632.84" CO="115.54" HC="0.71" NOx="3.25" PMx="0.15" fuel="2434.50" electricity="0.00" noise="69.06" route="platoon_route" type="EBUS2" waiting="0.00" lane="e1to2_0" pos="199.89" speed="12.05" angle="90.00" x="-0.11" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="3284.92" CO="10.51" HC="0.12" NOx="1.14" PMx="0.04" fuel="1047.74" electricity="0.00" noise="65.49" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="182.44" speed="14.39" angle="90.00" x="-17.56" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="15.13">
+                <lane id="e1to2_0" CO="126.06" CO2="10917.76" NOx="4.39" PMx="0.19" HC="0.83" noise="70.64" fuel="3482.25" electricity="0.00" maxspeed="23.89" meanspeed="13.22" occupancy="0.05" vehicle_count="2"/>
+            </edge>
+            <edge id="e2to3" traveltime="8.65">
+                <lane id="e2to3_0" CO="520.93" CO2="30784.89" NOx="13.50" PMx="0.67" HC="3.12" noise="77.50" fuel="9818.85" electricity="0.00" maxspeed="23.89" meanspeed="11.55" occupancy="0.15" vehicle_count="3"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="6.40">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="10892.94" CO="180.20" HC="1.08" NOx="4.78" PMx="0.24" fuel="3474.30" electricity="0.00" noise="73.12" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="28.01" speed="12.38" angle="90.00" x="28.01" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="10449.53" CO="175.29" HC="1.05" NOx="4.58" PMx="0.23" fuel="3332.88" electricity="0.00" noise="72.83" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="20.29" speed="11.82" angle="90.00" x="20.29" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="10018.68" CO="170.95" HC="1.02" NOx="4.39" PMx="0.22" fuel="3195.46" electricity="0.00" noise="72.55" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="12.68" speed="11.26" angle="90.00" x="12.68" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="8035.03" CO="122.45" HC="0.75" NOx="3.43" PMx="0.16" fuel="2562.78" electricity="0.00" noise="69.53" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="1.01" speed="12.23" angle="90.00" x="1.01" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="3684.54" CO="18.55" HC="0.17" NOx="1.33" PMx="0.05" fuel="1175.20" electricity="0.00" noise="65.78" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="183.88" speed="14.43" angle="90.00" x="-16.12" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="39.88" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="13.86">
+                <lane id="e1to2_0" CO="18.55" CO2="3684.54" NOx="1.33" PMx="0.05" HC="0.17" noise="65.78" fuel="1175.20" electricity="0.00" maxspeed="23.89" meanspeed="14.43" occupancy="0.04" vehicle_count="1"/>
+            </edge>
+            <edge id="e2to3" traveltime="8.39">
+                <lane id="e2to3_0" CO="648.89" CO2="39396.18" NOx="17.19" PMx="0.84" HC="3.91" noise="78.24" fuel="12565.42" electricity="0.00" maxspeed="23.89" meanspeed="11.93" occupancy="0.16" vehicle_count="4"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="6.50">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="11125.57" CO="183.04" HC="1.10" NOx="4.88" PMx="0.24" fuel="3548.50" electricity="0.00" noise="73.28" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="29.28" speed="12.65" angle="90.00" x="29.28" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="10685.83" CO="178.09" HC="1.07" NOx="4.69" PMx="0.23" fuel="3408.24" electricity="0.00" noise="73.00" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="21.50" speed="12.09" angle="90.00" x="21.50" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="10293.89" CO="174.41" HC="1.04" NOx="4.52" PMx="0.22" fuel="3283.24" electricity="0.00" noise="72.78" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="13.83" speed="11.53" angle="90.00" x="13.83" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="8326.19" CO="127.05" HC="0.78" NOx="3.57" PMx="0.17" fuel="2655.64" electricity="0.00" noise="69.86" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="2.25" speed="12.42" angle="90.00" x="2.25" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="4055.74" CO="25.94" HC="0.21" NOx="1.50" PMx="0.06" fuel="1293.59" electricity="0.00" noise="66.07" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="185.33" speed="14.47" angle="90.00" x="-14.67" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="27.45" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="13.82">
+                <lane id="e1to2_0" CO="25.94" CO2="4055.74" NOx="1.50" PMx="0.06" HC="0.21" noise="66.07" fuel="1293.59" electricity="0.00" maxspeed="23.89" meanspeed="14.47" occupancy="0.04" vehicle_count="1"/>
+            </edge>
+            <edge id="e2to3" traveltime="8.21">
+                <lane id="e2to3_0" CO="662.60" CO2="40431.47" NOx="17.65" PMx="0.87" HC="3.99" noise="78.45" fuel="12895.63" electricity="0.00" maxspeed="23.89" meanspeed="12.17" occupancy="0.17" vehicle_count="4"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="6.60">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="11304.94" CO="184.86" HC="1.12" NOx="4.96" PMx="0.25" fuel="3605.71" electricity="0.00" noise="73.38" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="30.57" speed="12.92" angle="90.00" x="30.57" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="10894.97" CO="180.39" HC="1.09" NOx="4.78" PMx="0.24" fuel="3474.95" electricity="0.00" noise="73.14" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="22.73" speed="12.36" angle="90.00" x="22.73" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="10467.79" CO="175.85" HC="1.05" NOx="4.59" PMx="0.23" fuel="3338.70" electricity="0.00" noise="72.87" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="15.01" speed="11.80" angle="90.00" x="15.01" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="8555.27" CO="130.38" HC="0.80" NOx="3.67" PMx="0.18" fuel="2728.71" electricity="0.00" noise="70.10" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="3.52" speed="12.62" angle="90.00" x="3.52" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="4477.90" CO="34.33" HC="0.26" NOx="1.70" PMx="0.07" fuel="1428.24" electricity="0.00" noise="66.40" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="186.78" speed="14.53" angle="90.00" x="-13.22" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="14.84" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="13.77">
+                <lane id="e1to2_0" CO="34.33" CO2="4477.90" NOx="1.70" PMx="0.07" HC="0.26" noise="66.40" fuel="1428.24" electricity="0.00" maxspeed="23.89" meanspeed="14.53" occupancy="0.03" vehicle_count="1"/>
+            </edge>
+            <edge id="e2to3" traveltime="8.05">
+                <lane id="e2to3_0" CO="671.49" CO2="41222.97" NOx="18.00" PMx="0.89" HC="4.05" noise="78.57" fuel="13148.07" electricity="0.00" maxspeed="23.89" meanspeed="12.42" occupancy="0.19" vehicle_count="4"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="6.70">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="11560.82" CO="188.30" HC="1.14" NOx="5.07" PMx="0.25" fuel="3687.32" electricity="0.00" noise="73.56" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="31.89" speed="13.19" angle="90.00" x="31.89" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="11091.84" CO="182.50" HC="1.10" NOx="4.87" PMx="0.24" fuel="3537.74" electricity="0.00" noise="73.25" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="23.99" speed="12.63" angle="90.00" x="23.99" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="10652.33" CO="177.58" HC="1.07" NOx="4.67" PMx="0.23" fuel="3397.56" electricity="0.00" noise="72.97" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="16.22" speed="12.07" angle="90.00" x="16.22" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="8978.24" CO="137.67" HC="0.84" NOx="3.86" PMx="0.19" fuel="2863.61" electricity="0.00" noise="70.57" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="4.80" speed="12.82" angle="90.00" x="4.80" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="5034.96" CO="45.42" HC="0.33" NOx="1.96" PMx="0.08" fuel="1605.91" electricity="0.00" noise="66.86" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="188.24" speed="14.60" angle="90.00" x="-11.76" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="2.02" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="13.70">
+                <lane id="e1to2_0" CO="45.42" CO2="5034.96" NOx="1.96" PMx="0.08" HC="0.33" noise="66.86" fuel="1605.91" electricity="0.00" maxspeed="23.89" meanspeed="14.60" occupancy="0.03" vehicle_count="1"/>
+            </edge>
+            <edge id="e2to3" traveltime="7.89">
+                <lane id="e2to3_0" CO="686.06" CO2="42283.23" NOx="18.47" PMx="0.91" HC="4.15" noise="78.76" fuel="13486.23" electricity="0.00" maxspeed="23.89" meanspeed="12.68" occupancy="0.20" vehicle_count="4"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="6.80">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="11771.21" CO="190.87" HC="1.15" NOx="5.17" PMx="0.26" fuel="3754.42" electricity="0.00" noise="73.69" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="33.24" speed="13.46" angle="90.00" x="33.24" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="11290.66" CO="184.71" HC="1.11" NOx="4.95" PMx="0.25" fuel="3601.15" electricity="0.00" noise="73.37" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="25.28" speed="12.90" angle="90.00" x="25.28" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="10848.19" CO="179.61" HC="1.08" NOx="4.76" PMx="0.24" fuel="3460.03" electricity="0.00" noise="73.09" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="17.45" speed="12.34" angle="90.00" x="17.45" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="9067.78" CO="138.14" HC="0.85" NOx="3.90" PMx="0.19" fuel="2892.17" electricity="0.00" noise="70.64" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="6.10" speed="13.02" angle="90.00" x="6.10" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="5497.96" CO="54.51" HC="0.38" NOx="2.18" PMx="0.09" fuel="1753.59" electricity="0.00" noise="67.25" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="189.71" speed="14.68" angle="90.00" x="-10.29" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="13.63">
+                <lane id="e1to2_0" CO="54.51" CO2="5497.96" NOx="2.18" PMx="0.09" HC="0.38" noise="67.25" fuel="1753.59" electricity="0.00" maxspeed="23.89" meanspeed="14.68" occupancy="0.03" vehicle_count="1"/>
+            </edge>
+            <edge id="e2to3" traveltime="7.73">
+                <lane id="e2to3_0" CO="693.32" CO2="42977.84" NOx="18.78" PMx="0.93" HC="4.20" noise="78.87" fuel="13707.77" electricity="0.00" maxspeed="23.89" meanspeed="12.93" occupancy="0.20" vehicle_count="4"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="6.90">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="11916.47" CO="192.16" HC="1.16" NOx="5.23" PMx="0.26" fuel="3800.75" electricity="0.00" noise="73.75" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="34.61" speed="13.73" angle="90.00" x="34.61" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="11511.27" CO="187.42" HC="1.13" NOx="5.05" PMx="0.25" fuel="3671.52" electricity="0.00" noise="73.51" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="26.60" speed="13.17" angle="90.00" x="26.60" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="11038.71" CO="181.59" HC="1.09" NOx="4.84" PMx="0.24" fuel="3520.79" electricity="0.00" noise="73.20" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="18.71" speed="12.60" angle="90.00" x="18.71" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="9397.65" CO="143.54" HC="0.88" NOx="4.05" PMx="0.20" fuel="2997.38" electricity="0.00" noise="70.98" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="7.42" speed="13.22" angle="90.00" x="7.42" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="5568.98" CO="55.53" HC="0.38" NOx="2.21" PMx="0.10" fuel="1776.24" electricity="0.00" noise="67.34" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="191.19" speed="14.76" angle="90.00" x="-8.81" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="13.55">
+                <lane id="e1to2_0" CO="55.53" CO2="5568.98" NOx="2.21" PMx="0.10" HC="0.38" noise="67.34" fuel="1776.24" electricity="0.00" maxspeed="23.89" meanspeed="14.76" occupancy="0.03" vehicle_count="1"/>
+            </edge>
+            <edge id="e2to3" traveltime="7.59">
+                <lane id="e2to3_0" CO="704.72" CO2="43864.10" NOx="19.17" PMx="0.95" HC="4.27" noise="79.01" fuel="13990.44" electricity="0.00" maxspeed="23.89" meanspeed="13.18" occupancy="0.20" vehicle_count="4"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="7.00">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="12123.26" CO="194.79" HC="1.18" NOx="5.32" PMx="0.27" fuel="3866.71" electricity="0.00" noise="73.87" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="36.01" speed="14.00" angle="90.00" x="36.01" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="11689.90" CO="189.34" HC="1.15" NOx="5.13" PMx="0.26" fuel="3728.49" electricity="0.00" noise="73.61" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="27.95" speed="13.44" angle="90.00" x="27.95" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="11302.48" CO="185.12" HC="1.12" NOx="4.96" PMx="0.25" fuel="3604.92" electricity="0.00" noise="73.40" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="20.00" speed="12.87" angle="90.00" x="20.00" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="9678.01" CO="147.94" HC="0.91" NOx="4.18" PMx="0.20" fuel="3086.80" electricity="0.00" noise="71.26" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="8.77" speed="13.43" angle="90.00" x="8.77" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="6256.86" CO="69.17" HC="0.46" NOx="2.53" PMx="0.11" fuel="1995.63" electricity="0.00" noise="67.93" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="192.67" speed="14.86" angle="90.00" x="-7.33" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="13.46">
+                <lane id="e1to2_0" CO="69.17" CO2="6256.86" NOx="2.53" PMx="0.11" HC="0.46" noise="67.93" fuel="1995.63" electricity="0.00" maxspeed="23.89" meanspeed="14.86" occupancy="0.03" vehicle_count="1"/>
+            </edge>
+            <edge id="e2to3" traveltime="7.44">
+                <lane id="e2to3_0" CO="717.20" CO2="44793.65" NOx="19.58" PMx="0.97" HC="4.35" noise="79.17" fuel="14286.92" electricity="0.00" maxspeed="23.89" meanspeed="13.44" occupancy="0.20" vehicle_count="4"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="7.10">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="12389.03" CO="198.68" HC="1.21" NOx="5.44" PMx="0.27" fuel="3951.47" electricity="0.00" noise="74.06" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="37.44" speed="14.27" angle="90.00" x="37.44" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="11933.27" CO="192.65" HC="1.17" NOx="5.24" PMx="0.26" fuel="3806.11" electricity="0.00" noise="73.78" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="29.32" speed="13.71" angle="90.00" x="29.32" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="11449.31" CO="186.33" HC="1.13" NOx="5.02" PMx="0.25" fuel="3651.75" electricity="0.00" noise="73.45" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="21.31" speed="13.14" angle="90.00" x="21.31" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="10099.28" CO="155.22" HC="0.95" NOx="4.37" PMx="0.21" fuel="3221.16" electricity="0.00" noise="71.69" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="10.13" speed="13.65" angle="90.00" x="10.13" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="6589.08" CO="75.45" HC="0.50" NOx="2.68" PMx="0.12" fuel="2101.60" electricity="0.00" noise="68.24" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="194.17" speed="14.96" angle="90.00" x="-5.83" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="13.37">
+                <lane id="e1to2_0" CO="75.45" CO2="6589.08" NOx="2.68" PMx="0.12" HC="0.50" noise="68.24" fuel="2101.60" electricity="0.00" maxspeed="23.89" meanspeed="14.96" occupancy="0.03" vehicle_count="1"/>
+            </edge>
+            <edge id="e2to3" traveltime="7.30">
+                <lane id="e2to3_0" CO="732.88" CO2="45870.88" NOx="20.07" PMx="1.00" HC="4.45" noise="79.36" fuel="14630.50" electricity="0.00" maxspeed="23.89" meanspeed="13.69" occupancy="0.20" vehicle_count="4"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="7.20">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="12564.23" CO="200.77" HC="1.22" NOx="5.51" PMx="0.28" fuel="4007.35" electricity="0.00" noise="74.15" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="38.89" speed="14.53" angle="90.00" x="38.89" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="12130.74" CO="195.07" HC="1.18" NOx="5.32" PMx="0.27" fuel="3869.09" electricity="0.00" noise="73.89" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="30.71" speed="13.97" angle="90.00" x="30.71" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="11694.47" CO="189.60" HC="1.15" NOx="5.13" PMx="0.26" fuel="3729.95" electricity="0.00" noise="73.62" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="22.65" speed="13.41" angle="90.00" x="22.65" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="10034.51" CO="152.57" HC="0.94" NOx="4.34" PMx="0.21" fuel="3200.51" electricity="0.00" noise="71.57" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="11.52" speed="13.87" angle="90.00" x="11.52" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="6959.55" CO="82.49" HC="0.54" NOx="2.85" PMx="0.13" fuel="2219.75" electricity="0.00" noise="68.57" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="195.68" speed="15.08" angle="90.00" x="-4.32" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="13.26">
+                <lane id="e1to2_0" CO="82.49" CO2="6959.55" NOx="2.85" PMx="0.13" HC="0.54" noise="68.57" fuel="2219.75" electricity="0.00" maxspeed="23.89" meanspeed="15.08" occupancy="0.03" vehicle_count="1"/>
+            </edge>
+            <edge id="e2to3" traveltime="7.17">
+                <lane id="e2to3_0" CO="738.02" CO2="46423.95" NOx="20.30" PMx="1.01" HC="4.49" noise="79.44" fuel="14806.90" electricity="0.00" maxspeed="23.89" meanspeed="13.95" occupancy="0.20" vehicle_count="4"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="7.30">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="12851.83" CO="205.23" HC="1.25" NOx="5.64" PMx="0.29" fuel="4099.08" electricity="0.00" noise="74.35" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="40.37" speed="14.80" angle="90.00" x="40.37" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="12384.19" CO="198.70" HC="1.21" NOx="5.44" PMx="0.27" fuel="3949.93" electricity="0.00" noise="74.06" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="32.14" speed="14.24" angle="90.00" x="32.14" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="11956.32" CO="193.28" HC="1.17" NOx="5.25" PMx="0.26" fuel="3813.46" electricity="0.00" noise="73.81" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="24.02" speed="13.68" angle="90.00" x="24.02" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="10619.40" CO="163.26" HC="1.00" NOx="4.61" PMx="0.23" fuel="3387.06" electricity="0.00" noise="72.16" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="12.93" speed="14.09" angle="90.00" x="12.93" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="7121.47" CO="85.24" HC="0.56" NOx="2.93" PMx="0.14" fuel="2271.40" electricity="0.00" noise="68.74" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="197.20" speed="15.20" angle="90.00" x="-2.80" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="13.16">
+                <lane id="e1to2_0" CO="85.24" CO2="7121.47" NOx="2.93" PMx="0.14" HC="0.56" noise="68.74" fuel="2271.40" electricity="0.00" maxspeed="23.89" meanspeed="15.20" occupancy="0.03" vehicle_count="1"/>
+            </edge>
+            <edge id="e2to3" traveltime="7.04">
+                <lane id="e2to3_0" CO="760.48" CO2="47811.74" NOx="20.93" PMx="1.05" HC="4.62" noise="79.70" fuel="15249.53" electricity="0.00" maxspeed="23.89" meanspeed="14.21" occupancy="0.20" vehicle_count="4"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="7.40">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="13044.34" CO="207.79" HC="1.26" NOx="5.73" PMx="0.29" fuel="4160.48" electricity="0.00" noise="74.46" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="41.88" speed="15.07" angle="90.00" x="41.88" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="12615.78" CO="201.94" HC="1.23" NOx="5.54" PMx="0.28" fuel="4023.79" electricity="0.00" noise="74.21" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="33.59" speed="14.51" angle="90.00" x="33.59" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="12163.63" CO="195.89" HC="1.19" NOx="5.34" PMx="0.27" fuel="3879.58" electricity="0.00" noise="73.94" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="25.42" speed="13.95" angle="90.00" x="25.42" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="10701.04" CO="163.65" HC="1.00" NOx="4.64" PMx="0.23" fuel="3413.09" electricity="0.00" noise="72.20" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="14.36" speed="14.31" angle="90.00" x="14.36" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="7820.79" CO="98.98" HC="0.64" NOx="3.25" PMx="0.15" fuel="2494.44" electricity="0.00" noise="69.36" route="platoon_route" type="EBUS" waiting="0.00" lane="e1to2_0" pos="198.73" speed="15.33" angle="90.00" x="-1.27" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.00" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="13.05">
+                <lane id="e1to2_0" CO="98.98" CO2="7820.79" NOx="3.25" PMx="0.15" HC="0.64" noise="69.36" fuel="2494.44" electricity="0.00" maxspeed="23.89" meanspeed="15.33" occupancy="0.03" vehicle_count="1"/>
+            </edge>
+            <edge id="e2to3" traveltime="6.91">
+                <lane id="e2to3_0" CO="769.28" CO2="48524.79" NOx="21.24" PMx="1.07" HC="4.68" noise="79.81" fuel="15476.95" electricity="0.00" maxspeed="23.89" meanspeed="14.46" occupancy="0.20" vehicle_count="4"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
+        </tls>
+    </data>
+    <data timestep="7.50">
+        <vehicles>
+            <vehicle id="d1" eclass="HBEFA3/PC_G_EU4" CO2="13217.61" CO="210.03" HC="1.28" NOx="5.80" PMx="0.29" fuel="4215.75" electricity="0.00" noise="74.54" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="43.41" speed="15.34" angle="90.00" x="43.41" y="-1.60"/>
+            <vehicle id="d2" eclass="HBEFA3/PC_G_EU4" CO2="12768.74" CO="203.63" HC="1.24" NOx="5.60" PMx="0.28" fuel="4072.58" electricity="0.00" noise="74.27" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="35.07" speed="14.78" angle="90.00" x="35.07" y="-1.60"/>
+            <vehicle id="d3" eclass="HBEFA3/PC_G_EU4" CO2="12374.31" CO="198.63" HC="1.21" NOx="5.43" PMx="0.27" fuel="3946.78" electricity="0.00" noise="74.06" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="26.84" speed="14.22" angle="90.00" x="26.84" y="-1.60"/>
+            <vehicle id="d4" eclass="HBEFA3/PC_G_EU4" CO2="11062.67" CO="169.81" HC="1.04" NOx="4.80" PMx="0.24" fuel="3528.43" electricity="0.00" noise="72.53" route="platoon_route" type="EBUS2" waiting="0.00" lane="e2to3_0" pos="15.81" speed="14.54" angle="90.00" x="15.81" y="-1.60"/>
+            <vehicle id="o1" eclass="HBEFA3/PC_G_EU4" CO2="7952.80" CO="101.04" HC="0.65" NOx="3.31" PMx="0.16" fuel="2536.55" electricity="0.00" noise="69.49" route="platoon_route" type="EBUS" waiting="0.00" lane="e2to3_0" pos="0.18" speed="15.47" angle="90.00" x="0.18" y="-1.60"/>
+        </vehicles>
+        <edges>
+            <edge id=":2_0" traveltime="0.00">
+                <lane id=":2_0_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="48.23" vehicle_count="0"/>
+            </edge>
+            <edge id="e1to2" traveltime="8.37">
+                <lane id="e1to2_0" CO="0.00" CO2="0.00" NOx="0.00" PMx="0.00" HC="0.00" noise="0.00" fuel="0.00" electricity="0.00" maxspeed="23.89" meanspeed="23.89" occupancy="0.02" vehicle_count="0"/>
+            </edge>
+            <edge id="e2to3" traveltime="6.72">
+                <lane id="e2to3_0" CO="883.15" CO2="57376.13" NOx="24.95" PMx="1.25" HC="5.42" noise="80.31" fuel="18300.09" electricity="0.00" maxspeed="23.89" meanspeed="14.87" occupancy="0.20" vehicle_count="5"/>
+            </edge>
+        </edges>
+        <tls>
+            <trafficlight id="2" state="G"/>
         </tls>
     </data>
 </full-export>

@@ -261,6 +261,10 @@ def simSumoCmd(params):
             requireStop = -1
             break
         
+        if stepNum==1:
+            vehs = libsumo.vehicle.getIDList()
+            for i in range(libsumo.vehicle.getIDCount()):
+                libsumo.vehicle.setSpeedFactor(vehs[i],1)
         
             
      
@@ -348,15 +352,15 @@ def test1():
 
     params["objectVeh"] = vehObj
     #[车辆长度，最大加速度,最大减加速度，最大速度，反应时间(0.01到0.1的传输延迟，0.2到0.5的执行延迟),最小间距,不专心,速度噪声]  
-    params["objectVehParams"] = [5,2,9,60/3.6,                       0.5,                           0.5,      0.01,  0.05] 
+    params["objectVehParams"] = [5,2,9,60/3.6,                       0.5,                           0.5,      0.01,  2] 
     params["log"] = False
     minSpeedList = []
     
     for i in range(params["simNum"]):
 
          #加入噪声
-         params["otherVehsParams"] = [5,2+random.uniform(0,1),9,60/3.6,0.3+random.uniform(0,0.1), 0.5 ,0.01,0.05] 
-         params["objectVehParams"] = [5,2+random.uniform(0,1),9,60/3.6,0.3+random.uniform(0,0.1), 0.5, 0.01,0.05] 
+         params["otherVehsParams"] = [5,2+random.uniform(0,1),9,60/3.6,0.3+random.uniform(0,0.1), 0.5 ,0.01,2] 
+         params["objectVehParams"] = [5,2+random.uniform(0,1),9,60/3.6,0.3+random.uniform(0,0.1), 0.5, 0.01,2] 
          statRec1,strRec1,minSpeed,leaderInfo = simSumoCmd(params)
 
 
@@ -396,19 +400,23 @@ def test2(tmp):
     print("vehObj:",vehObj)
     print("vehs_all",vehsOthers_all)#数据命名错误，vehsOthers等于车道上所有车
     print("vehsOthers1",vehsOthers1)
-    print("redLightTime",redLightTime)
+    
     #if vehsOthers1.shape[0] == 0:
     #    return
     #print(vehsOthers)
     #redLightTime = redLightTime
 
-
-
+    print("根据实际情况，我们认为红灯变绿灯时，驾驶员的反应时间和车辆启动时间为1秒")
+    print("而模拟中车辆的启动时间很快，能1秒内加速到2m/s，所以模拟中实际红灯时间加1.5秒")
+    redLightTime= redLightTime+1.5
+    print("redLightTime",redLightTime)
+    
     #time.sleep(5);
     #####################################################################
+    
     params =dict()
-    params["simNum"] = 1000
-    params["redLightTime"] = float(redLightTime+0.01)
+    params["simNum"] = 1
+    
     params["otherVehs"] = vehsOthers1  # [[距离交通灯的距离1，行驶速度1],[距离交通灯的距离2，行驶速度2]]
 
     #[车辆长度，最大加速度,最大减加速度，最大速度，反应时间,最小间距,不专心,速度噪声]                              
@@ -423,10 +431,14 @@ def test2(tmp):
     for i in range(params["simNum"]):
          #print("\nsimNum:%d Start" %i)
          #加入噪声
-         params["otherVehsParams"] = [5,2+random.uniform(0,1),4+random.uniform(0,5),60/3.6+random.uniform(0,20/3.6), \
-                                      0.1+random.uniform(0,0.4), 0.5+random.uniform(0,0.4) ,0.01,0.05] 
-         params["objectVehParams"] = [5,2+random.uniform(0,1),4+random.uniform(0,5),60/3.6+random.uniform(0,20/3.6), \
-                                      0.1+random.uniform(0,0.4), 0.5+random.uniform(0,0.4) ,0.01,0.05] 
+         params["otherVehsParams"] = [5,2+random.uniform(0,1),4+random.uniform(0,5),80/3.6+random.uniform(0,20/3.6), \
+                                      0.1+random.uniform(0,0.4), 0.1+random.uniform(0,0.3) ,0.01,0.05] 
+         params["objectVehParams"] = [5,2+random.uniform(0,1),4+random.uniform(0,5),80/3.6+random.uniform(0,20/3.6), \
+                                      0.1+random.uniform(0,0.4), 0.1+random.uniform(0,0.3) ,0.01,0.05] 
+        
+         #随机0.5秒为驾驶员的反应时间和车辆启动时间的附加随机值
+         params["redLightTime"] = float(redLightTime+random.uniform(0.1,0.5))
+            
          statRec1,strRec1,minSpeed,leaderInfo,requireStop  = simSumoCmd(params)
      
 
@@ -444,6 +456,7 @@ def test2(tmp):
     minSpeedList1 = np.array(minSpeedList)
     if len(minSpeedList)>0:
         print("MonteCarloSimulation minSpeedList ,min:%.2f,max:%.2f,mean:%.2f" %(np.min(minSpeedList1),np.max(minSpeedList1),np.mean(minSpeedList1)))
+        print("MonteCarloSimulation minSpeedList ,min:%.2f,max:%.2f,mean:%.2f" %(np.min(minSpeedList1)*3.6,np.max(minSpeedList1)*3.6,np.mean(minSpeedList1)*3.6))
  
     #plt.hist(minSpeedList)
      
@@ -470,7 +483,7 @@ if 1:
     print(datetime.now(),file=logFile)
     print("index,origin speedFlag,predicted Labels By kerasNN,predicted Labels By MCS",file=dataFile)
      
-    for i in [0]:
+    for i in [201]:
     #for i in range(len1):
         print("\nsampleNum:",i,file=logFile)
         print(datetime.now(),file=logFile)
