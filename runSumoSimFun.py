@@ -475,20 +475,25 @@ from datetime import datetime
 if 1:
     print("运行test2,测试程序2,从pickle中读取样本，样本已经进行[x,y]分割\n\n")
     fpk=open('lowprobSamples.pkf','rb')   
-    [xlowprob1,ylowprobLabel1,ylowprobPredictNN1]=pickle.load(fpk)    
+    [index1,xlowprob1,ylowprobLabel1,ylowprobPredictNN1]=pickle.load(fpk)    
     fpk.close()
+    
+
+    
+    
     len1 = len(xlowprob1)
     logFile=open('log.txt','w+',buffering=10) 
     dataFile=open('data.csv','w+',buffering=10)
     print(datetime.now(),file=logFile)
-    print("index,origin speedFlag,predicted Labels By kerasNN,predicted Labels By MCS",file=dataFile)
-     
-    for i in [201]:
+    print("index,originIndex,origin speedFlag,predicted Labels By kerasNN,predicted Labels By MCS",file=dataFile)
+    
+    print("lowProbSampleOriginIndex:",index1[162])
+    for i in [162]:
     #for i in range(len1):
         print("\nsampleNum:",i,file=logFile)
         print(datetime.now(),file=logFile)
-
         tmp = xlowprob1[i]
+        
         minSpeedList1 = test2(tmp)
         if len(minSpeedList1) == 0:
             continue
@@ -510,10 +515,11 @@ if 1:
             mcsflag =3
         elif tmp<600:
             mcsflag = 4
-        str1 = "%d,%d,%d,%d" %(i,speedFlag,np.argmax(ylowprobPredictNN1[i]),mcsflag)
+        str1 = "%d,%d,%d,%d,%d" %(i,index1[i],speedFlag,np.argmax(ylowprobPredictNN1[i]),mcsflag)
         print(str1,file=dataFile)
 
     logFile.close()   
+    dataFile.close()
 ######################################################################################################################## 
 #test3 #测试程序3,从pickle中读取原始，kerasNN样本，和进行MSsim，并比较
 #1.看execel的fance_comparing.cs，提取需要的样本index
