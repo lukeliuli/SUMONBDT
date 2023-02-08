@@ -343,7 +343,7 @@ def test1():
     time.sleep(5);
     #####################################################################
     params =dict()
-    params["simNum"] = 1
+    params["simNum"] = 10
     params["redLightTime"] = redLightTime
     params["otherVehs"] = vehsOthers1  # [[距离交通灯的距离1，行驶速度1],[距离交通灯的距离2，行驶速度2]]
 
@@ -408,7 +408,7 @@ def test2(tmp):
 
     print("根据实际情况，我们认为红灯变绿灯时，驾驶员的反应时间和车辆启动时间为1秒")
     print("而模拟中车辆的启动时间很快，能1秒内加速到2m/s，所以模拟中实际红灯时间加1.5秒")
-    redLightTime= redLightTime+1.5
+    redLightTime= redLightTime+0
     print("redLightTime",redLightTime)
     
     #time.sleep(5);
@@ -431,13 +431,13 @@ def test2(tmp):
     for i in range(params["simNum"]):
          #print("\nsimNum:%d Start" %i)
          #加入噪声
-         params["otherVehsParams"] = [5,2+random.uniform(0,1),4+random.uniform(0,5),80/3.6+random.uniform(0,20/3.6), \
+         params["otherVehsParams"] = [5,1+random.uniform(0,1),4+random.uniform(0,5),60/3.6+random.uniform(0,20/3.6), \
                                       0.1+random.uniform(0,0.4), 0.1+random.uniform(0,0.3) ,0.01,0.05] 
-         params["objectVehParams"] = [5,2+random.uniform(0,1),4+random.uniform(0,5),80/3.6+random.uniform(0,20/3.6), \
+         params["objectVehParams"] = [5,1+random.uniform(0,1),4+random.uniform(0,5),60/3.6+random.uniform(0,20/3.6), \
                                       0.1+random.uniform(0,0.4), 0.1+random.uniform(0,0.3) ,0.01,0.05] 
         
          #随机0.5秒为驾驶员的反应时间和车辆启动时间的附加随机值
-         params["redLightTime"] = float(redLightTime+random.uniform(0.1,0.5))
+         params["redLightTime"] = float(redLightTime+random.uniform(0.0,0.5))
             
          statRec1,strRec1,minSpeed,leaderInfo,requireStop  = simSumoCmd(params)
      
@@ -487,8 +487,9 @@ if 1:
     print(datetime.now(),file=logFile)
     print("index,originIndex,origin speedFlag,predicted Labels By kerasNN,predicted Labels By MCS",file=dataFile)
     
-    print("lowProbSampleOriginIndex:",index1[162])
-    for i in [162]:
+    testNum = 7516
+    print("lowProbSampleOriginIndex:",testNum,index1[testNum])
+    for i in [testNum]:
     #for i in range(len1):
         print("\nsampleNum:",i,file=logFile)
         print(datetime.now(),file=logFile)
