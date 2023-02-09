@@ -130,87 +130,124 @@ def getKerasResnetRVL(x,enc,saveName):
     
     
     return y
-########################################################################################################################
-########################################################################################################################
-print("0.主程序开始，建立多层嵌套决策树模型，3080ti的GPU是AMD2400CPU 运算速度100倍")
-########################################################################################################################
 
-print("reading data france,读取数据并且把数据进行onehot处理")
-file1 = "./trainData/france_0_allSamples1.csv"
+def string2int(inputString):
+     #print(inputString)
+     tmp = 0
+     try:
+         strTmp=[str(ord(x)) for x in inputString]
+         tmp=tmp.join(strTmp)
+         tmp = float(tmp)/(len(inputString)*128)
+     except:
+         #print(inputString)
+         strTmp = inputString
+         tmp= "0"
+         tmp = 0
+     return tmp
 
-xyDataTmp = pd.read_csv(file1)
-#print(xyDataTmp.info())
-xyData = np.array(xyDataTmp)
-h,w = xyData.shape
-#x = xyData[:,1:23]#简单处理与SUMO数据库一致
-x0rigin = xyData[:,1:w-1]#用所有的数据
-y0rigin  = xyData[:,w-1]
-x0rigin =x0rigin.astype(np.float32)#GPU 加这个
-y0rigin =y0rigin.astype(np.int64)#GPU 加这个
+def test1():
+    ########################################################################################################################
+    ########################################################################################################################
+    print("0.主程序开始，建立多层嵌套决策树模型，3080ti的GPU是AMD2400CPU 运算速度100倍")
+    ########################################################################################################################
+
+    print("reading data france,读取数据并且把数据进行onehot处理")
+    file1 = "./trainData/france_0_allSamples1.csv"
+
+    xyDataTmp = pd.read_csv(file1)
+    print(xyDataTmp.info())
+    xyData = np.array(xyDataTmp)
+    h,w = xyData.shape
+    #rint(xyData[0,:])
+    #nput()
+
+    #x = xyData[:,1:23]#简单处理与SUMO数据库一致
+    w=w-1
+    x0rigin = xyData[:,1:w-1]#用所有的数据
+    y0rigin  = xyData[:,w-1]
+    x0rigin[:,6] = [string2int(inputString) for inputString in x0rigin[:,6] ]#字符串vehLaneID 变为整数
+    x0rigin =x0rigin.astype(np.float32)#GPU 加这个
+    y0rigin =y0rigin.astype(np.int64)#GPU 加这个
+    #rint(x0rigin[0:10,:])
+    #rint(y0rigin[0:10])
+    #nput()
+
+    ros = RandomOverSampler(random_state=0)
+    x0,y0= ros.fit_resample(x0rigin , y0rigin)#对数据不平衡进行处理，保证样本数一致
+
+    x0=x0.astype(np.float32)#GPU 加这个
+    y0=y0.astype(np.int64)#GPU 加这个
+    yl5 = y0
+    print("x0.shape:",x0.shape,"y0.shape:",y0.shape,"y0.type:", type(y0) )
+    del xyDataTmp #节省内存
+    del xyData #节省内存
 
 
-ros = RandomOverSampler(random_state=0)
-x0,y0= ros.fit_resample(x0rigin , y0rigin)#对数据不平衡进行处理，保证样本数一致
-
-x0=x0.astype(np.float32)#GPU 加这个
-y0=y0.astype(np.int64)#GPU 加这个
-yl5 = y0
-print("x0.shape:",x0.shape,"y0.shape:",y0.shape,"y0.type:", type(y0) )
-del xyDataTmp #节省内存
-del xyData #节省内存
 
 
+    ########################################################################################################################
+    print("准备字典，用于保存训练后的数据")
 
-
-########################################################################################################################
-print("准备字典，用于保存训练后的数据")
-
-xFloors=  dict()
-yFloors =  dict()
-dtModeFloors=  dict()
-dtPredictLabel = dict()
-kerasPredictLabel = dict()
-kerasModelNameFloors =dict()
-encFloors= dict()
-########################################################################################################################
-###现在暂时不训练多层模型，只训练5label模型
-if 1:
-    print("5label 模型")
-    x=x0
-    y=yl5
-    x=x.astype(np.float32)#GPU 加这个
-    y=y.astype(np.int64)#GPU 加这个
-    print("x.shape:",x .shape,"y.shape:",y .shape,"y.type:", type(y) )
-    
-    num_labels = 5 
-    nSamples,nFeatures =  x.shape
-    enc = OneHotEncoder()
-    y= y.reshape(nSamples,-1)
-    
-    print("y.shape:",y .shape,"y.type:", type(y) )
-    enc.fit(y)
-    yOneHot=enc.transform(y).toarray()
-    saveName = "hybrid2_KerasSimple3_likeResnet_5label.h5"
+    xFloors=  dict()
+    yFloors =  dict()
+    dtModeFloors=  dict()
+    dtPredictLabel = dict()
+    kerasPredictLabel = dict()
+    kerasModelNameFloors =dict()
+    encFloors= dict()
+    ########################################################################################################################
+    ###现在暂时不训练多层模型，只训练5label模型
     if 1:
-        kerasModel3_5label = kerasFitAndSaveSimple3LikeResnet(x,yOneHot,num_labels,saveName)     
-    yKeras_5label=getKerasResnetRVL(x,enc,saveName)
-    
-    print('keras\n')
-    mat1num = confusion_matrix(y, yKeras_5label)
-    mat2acc = confusion_matrix(y, yKeras_5label,normalize='pred')
-    print('mat1num\n',mat1num)
-    print('mat2acc\n',np.around(mat2acc , decimals=3))
-    
-    
-    
-    
-    dt_5label,dt_PredictLabel = dtFitAndSave(x,yl5,"5label")
-    enc_5label = enc
-    
-    xFloors[0] =  x.copy()
-    yFloors[0] =  y.copy()
-    dtModeFloors[0] =  dt_5label
-    dtPredictLabel[0] = dt_PredictLabel.copy()
-    kerasPredictLabel[0] = yKeras_5label.copy()
-    kerasModelNameFloors[0] =saveName
-    encFloors[0] = enc_5label
+        print("5label 模型")
+        x=x0
+        y=yl5
+
+
+        x=x.astype(np.float32)#GPU 加这个
+        y=y.astype(np.int64)#GPU 加这个
+        print("x.shape:",x .shape,"y.shape:",y .shape,"y.type:", type(y) )
+
+        num_labels = 5 
+        nSamples,nFeatures =  x.shape
+        enc = OneHotEncoder()
+        y= y.reshape(nSamples,-1)
+
+        print("y.shape:",y .shape,"y.type:", type(y) )
+        enc.fit(y)
+        yOneHot=enc.transform(y).toarray()
+        saveName = "hybrid2_KerasSimple3_likeResnet_5label.h5"
+        if 1:
+            kerasModel3_5label = kerasFitAndSaveSimple3LikeResnet(x,yOneHot,num_labels,saveName)     
+        yKeras_5label=getKerasResnetRVL(x,enc,saveName)
+
+        print('keras\n')
+        mat1num = confusion_matrix(y, yKeras_5label)
+        mat2acc = confusion_matrix(y, yKeras_5label,normalize='pred')
+        print('mat1num\n',mat1num)
+        print('mat2acc\n',np.around(mat2acc , decimals=3))
+
+
+
+
+        dt_5label,dt_PredictLabel = dtFitAndSave(x,yl5,"5label")
+        enc_5label = enc
+
+        xFloors[0] =  x.copy()
+        yFloors[0] =  y.copy()
+        dtModeFloors[0] =  dt_5label
+        dtPredictLabel[0] = dt_PredictLabel.copy()
+        kerasPredictLabel[0] = yKeras_5label.copy()
+        kerasModelNameFloors[0] =saveName
+        encFloors[0] = enc_5label
+
+########################################################################################################################
+########################################################################################################################
+########################################################################################################################
+########################################################################################################################
+########################################################################################################################
+
+print("测试程序,运行30次")
+
+for i in range(30):
+    test1()
+
