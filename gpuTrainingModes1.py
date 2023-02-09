@@ -105,7 +105,7 @@ def kerasFitAndSaveSimple3LikeResnet(x,yOneHot,num_labels,saveName):
     tf.keras.callbacks.TensorBoard(log_dir='./logs'),
     ]
 
-    build_model.fit(x,yOneHot,epochs=150, batch_size=10000*1,callbacks=my_callbacks)#GPU用这个
+    build_model.fit(x,yOneHot,epochs=150, batch_size=40000*1,callbacks=my_callbacks)#GPU用这个
     #saveName = "KerasSimple3_likeResnet.h5"
     build_model.save(saveName)
     #plot_model(build_model, to_file='KerasSimple3_likeResnet.png', show_shapes=True)
@@ -158,14 +158,15 @@ def test1():
     print(xyDataTmp.info())
     xyData = np.array(xyDataTmp)
     h,w = xyData.shape
-    #rint(xyData[0,:])
+    print(xyData[0,:])
     #nput()
 
     #x = xyData[:,1:23]#简单处理与SUMO数据库一致
-    w=w-1
+    
     x0rigin = xyData[:,1:w-1]#用所有的数据
     y0rigin  = xyData[:,w-1]
     x0rigin[:,6] = [string2int(inputString) for inputString in x0rigin[:,6] ]#字符串vehLaneID 变为整数
+   
     x0rigin =x0rigin.astype(np.float32)#GPU 加这个
     y0rigin =y0rigin.astype(np.int64)#GPU 加这个
     #rint(x0rigin[0:10,:])
@@ -246,8 +247,8 @@ def test1():
 ########################################################################################################################
 ########################################################################################################################
 
-print("测试程序,运行30次")
+print("测试程序,运行60次,大概10小时")
 
-for i in range(30):
+for i in range(60):
     test1()
 
