@@ -80,7 +80,6 @@ def genSamples(vehInOneEdge,redVehs,speedFlagDict,vehInOneLane):
                     max_speed_lane = 60/3.6
                     
                     redTime = max(timeList) - t
-                    #realVehNum = counter
                     arrivalTimeDivRedTime = vehicle_Red_distane/max_speed_lane/(redTime+0.001)
 
                     #subject为主车样本,
@@ -91,7 +90,8 @@ def genSamples(vehInOneEdge,redVehs,speedFlagDict,vehInOneLane):
                     vehVel,
                     avg_speed_lane,
                     vehicle_Red_distane/(vehVel+0.01),
-                    vehicle_Red_distane/avg_speed_lane,vehLaneID,arrivalTimeDivRedTime]
+                    vehicle_Red_distane/avg_speed_lane,
+                    vehLaneID,arrivalTimeDivRedTime]
 
 
                     #samplesTmp1为当前时刻主车前面的车（最大20车）车辆的状态
@@ -172,7 +172,7 @@ def analyzingRedVehAtCurLane(redVehs,vehInOneEdge,curLaneID):
         locTmp3 = (maxLanePos - vehInOneEdge.vehicle_pos)<100 ##距离红灯100米以内,红灯时间内车道内所有的车
 
         #红灯时间内车道内所有的车,而且必须距离红灯100米以内，排除绿灯时在道路的车,核心数据1
-        vehsAtTimeAndDist = vehInOneEdge[locTmp1 & locTmp2]
+        vehsAtTimeAndDist = vehInOneEdge[locTmp1 & (locTmp2 & locTmp3)]
         vehIDsAtTimeAndDist = vehsAtTimeAndDist.vehicle_id.unique()#符合条件的所有车
         #print(vehsAtTimeAndDist.head(5))
         
@@ -206,6 +206,7 @@ def analyzingRedVehAtCurLane(redVehs,vehInOneEdge,curLaneID):
                 #注意时间分区
                 speedFlagDict[idTmp] = speedFlag
             
+            del vehTmp
             ############################################
             ##再来一次提取速度标记,附加检查，用于检查样本中一些特殊例子，例如车在当前车道和edge突然不见了,跑到其他edge去了
             ##提取符合ID的车，注意采用的是vehInOneEdge,时间规则
@@ -217,8 +218,8 @@ def analyzingRedVehAtCurLane(redVehs,vehInOneEdge,curLaneID):
             ##位置规则与vehInOneLane不一样
             #我认为汽车最后时刻的距离交通灯距离大于10(也就是大于1个车长+变道最小安全距离+1秒速度值），然后不见的原因是变道
             #注意是vehInOneLane的vehTmp,不是vehInOneEdge的vehTmp2
-            dist= maxLanePos-vehTmp.iloc[-1].vehicle_pos
-            vel = vehTmp.iloc[-1].vehicle_speed
+            dist= maxLanePos-vehTmp2.iloc[-1].vehicle_pos
+            vel = vehTmp2.iloc[-1].vehicle_speed
             
             ###对于变道情况，下面的进行了简化，非常重要
             if (dist) >(5+2+vel):#我认为汽车最后时刻的距离交通灯距离大于10(也就是大于1个车长+变道最小安全距离+1秒速度值），然后本车道上突然不见的原因是：变道
@@ -297,8 +298,10 @@ for ilane,curLaneID in enumerate(df.vehicle_lane.unique()):#枚举每一个车�
         edgeStr=t1[0]
               
     resault = df['vehicle_lane'].str.contains(edgeStr)
+    #print(resault)
     resault.fillna(value=False,inplace = True)
     vehInOneEdge = df[resault]#获得当前edge上所有车辆
+    
     vehInOneEdge = vehInOneEdge.sort_values(by='timestep_time',ascending=True)#提取持续的时间段
                       
     
@@ -356,7 +359,7 @@ for tmpFile in filelist:
         dataset = pd.concat([dataset,tmpDF],ignore_index=True,axis=0)
         
 
-filename= "./trainData/"+"0_allSamples.csv" 
+filename= "./trainData/"+"france_0_allSamples1.csv" 
 dataset.to_csv(filename,float_format='%.3f',index=0) 
         
-
+!zip ./france_0_allSamples1.zip ./trainData/france_0_allSamples1.csv
