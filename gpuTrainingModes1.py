@@ -105,7 +105,7 @@ def kerasFitAndSaveSimple3LikeResnet(x,yOneHot,num_labels,saveName):
     tf.keras.callbacks.TensorBoard(log_dir='./logs'),
     ]
 
-    build_model.fit(x,yOneHot,epochs=150, batch_size=40000*1,callbacks=my_callbacks)#GPU用这个
+    build_model.fit(x,yOneHot,epochs=1500, batch_size=40000*1,callbacks=my_callbacks)#GPU用这个
     #saveName = "KerasSimple3_likeResnet.h5"
     build_model.save(saveName)
     #plot_model(build_model, to_file='KerasSimple3_likeResnet.png', show_shapes=True)
