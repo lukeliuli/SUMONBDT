@@ -135,8 +135,8 @@ data/
 trainData/
 trainedModes/
 franceRedData/
-*.txt
 *.pkf
 sumoCfgs1/fcd-output.xml
 sumoCfgs1/full-output.xml
 sumoCfgs1/summary.xml
+log*
