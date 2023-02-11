@@ -99,12 +99,14 @@ def kerasFitAndSaveSimple3LikeResnet(x,yOneHot,num_labels,saveName):
        build_model = keras.models.load_model(saveName)
     except:
        print("Error:keras.models.load_model(%s):" %saveName)
+       input()
     #build_model.fit([x],[yOneHot],epochs=10, batch_size=10000*1)
     
     #checkpoint_filepath = './checkpoints'
     
     my_callbacks = [
-    tf.keras.callbacks.ModelCheckpoint(filepath='./logs/model.{epoch:05d}-{accuracy:.4f}.h5',monitor='accuracy'),
+    tf.keras.callbacks.ModelCheckpoint(filepath='./logs/model.{epoch:05d}.h5',monitor='accuracy'),
+    #tf.keras.callbacks.ModelCheckpoint(filepath='./logs/model.{epoch:05d}-{accuracy:.4f}.h5',monitor='accuracy'),
     #tf.keras.callbacks.TensorBoard(log_dir='./logs'),
     ]
 
@@ -220,7 +222,8 @@ def test1():
         print("y.shape:",y .shape,"y.type:", type(y) )
         enc.fit(y)
         yOneHot=enc.transform(y).toarray()
-        saveName = "hybrid2_KerasSimple3_likeResnet_5label.h5"
+        saveName = "./logs/model.h5"
+                    
         if 1:
             kerasModel3_5label = kerasFitAndSaveSimple3LikeResnet(x,yOneHot,num_labels,saveName)     
         yKeras_5label=getKerasResnetRVL(x,enc,saveName)
@@ -251,8 +254,8 @@ def test1():
 ########################################################################################################################
 ########################################################################################################################
 
-print("测试程序,运行10次")
+print("测试程序,运行20次,20x12min")
 
-for i in range(10):
+for i in range(20):
     test1()
 
