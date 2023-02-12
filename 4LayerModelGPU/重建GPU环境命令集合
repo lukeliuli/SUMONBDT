@@ -1,0 +1,57 @@
+
+## 安装install github  ssh
+cat ssh-keygen -t rsa -C "lukeliuli@163.com"  
+cat ~/.ssh/id_rsa.pub  
+
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCdHMOhJzvpg6M6pM024lTyguZ3OiLzVInk8JWKcpqOslTymTNK8/79iJUwvtnfDCNGWSE/4mjKBtj8KujNwT+437Ij4YoJ2jSVJZZCrWBaX1smWbqmnm0BB/WLEM9XW8KL8iADH0Hc+h8FjKzObyCVAbVqC/KLpqd2brNx7LTPz8Gx7cyfdJbrqwOEB7K5zm41L2Sc2MtgudGehZYa6N3jMbxpWNDbDbBBAC6pXGHyb2HfyzJlErqucy3LRUK+0249djyGedGHI+bOvmnaY0LTcc3ozD4DQjurjP//SP8FeQ+6sgRzUTIMhLmh4zQwnfLmgHPaX0w8gt1gqQJlLIFopw3303FeJZXg22yNVVXm2R43quOEB+sGQnuquc+D0V+ck9WlmS4+qJrzethAwupTBz4/k+ikqekfRAls128twr2avCNYeJFJk5IqLecHrDdXNCiORAUtX7pV+eYz1sjmUHHP3Af+XcXq29gkkfsTTBCxBZI2aQ1WXhF+jqhaCc8= lukeliuli@163.com
+
+
+
+## 安装 install tensorflow-GPU https://blog.csdn.net/vor234/article/details/121975748
+1. 安装tensorflow=2.3,适合2080以下的GPU
+conda create -n tensor23py38gpu python=3.8
+conda activate tensor23py38gpu
+conda install cudatoolkit=10.1 cudnn=7.6.5
+
+pip install tensorflow-gpu==2.3.1 -i https://mirrors.aliyun.com/pypi/simple/
+
+pip install keras==2.3.1 -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install matplotlib -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install pandas -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install scikit-learn -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install imbalanced-learn -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+2. 错误解决
+pip install  numpy==1.23.1 -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install protobuf==3.20.1 i https://pypi.tuna.tsinghua.edu.cn/simple
+
+3. 检测版本
+python
+import tensorflow as tf
+tf.__version__
+print(tf.test.is_gpu_available())
+
+pip install gpustat
+
+watch -n 1 gpustat 
+
+##安装tensorflow2.4 以上，3080,3090 may not be used in  tensorflow2.3.1
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/
+
+or conda install tensorflow-gpu==2.4 -c https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+
+
+conda create -n tensor24py38gpu tensorflow-gpu=2.4.1 python=3.8
+conda activate tensor24py38gpu
+pip install keras==2.4 -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install matplotlib -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install pandas -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install scikit-learn -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install imbalanced-learn -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+##高版本GPU运行慢
+export CUDA_CACHE_MAXSIZE=4294967296
+
