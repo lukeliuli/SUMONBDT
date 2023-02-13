@@ -77,7 +77,7 @@ def kerasFitAndSaveSimple3LikeResnet(x,yOneHot,num_labels,saveName):
     nSamples,features_size = x.shape
     relu_size = 512
     dropout_rate = 0.05
-    hierarchy = [1,1,1,1]#四层，相对与默认3层，对于当前数据集是否能提高正确率
+    hierarchy = [1,1,1,1,]#4层，相对与默认3层，对于当前数据集是否能提高正确率
     global_models = []
     label_size = num_labels
     features = layers.Input(shape=(features_size,))
@@ -222,7 +222,8 @@ def test1():
         print("y.shape:",y .shape,"y.type:", type(y) )
         enc.fit(y)
         yOneHot=enc.transform(y).toarray()
-        saveName = "./logs/model.h5"
+        
+        saveName = "./model.h5"
                     
         if 1:
             kerasModel3_5label = kerasFitAndSaveSimple3LikeResnet(x,yOneHot,num_labels,saveName)     
@@ -256,6 +257,6 @@ def test1():
 
 print("测试程序,运行20次,20x12min")
 
-for i in range(20):
+for i in range(100):
     test1()
 
