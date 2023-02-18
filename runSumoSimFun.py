@@ -158,7 +158,7 @@ def simSumoCmd(params):
         
         if (stepNum == 0):
             dist,vel = objectVeh
-            vel  = min(60/3.6,vel)
+            vel  = min(40/3.6,vel)
             libsumo.vehicle.add(objvehID, routeID, typeID=typeID1, depart='0', departLane='first', \
                         departPos=trafficLightPos-dist, departSpeed=str(vel))
             counter = 0
@@ -174,6 +174,21 @@ def simSumoCmd(params):
         
         libsumo.simulationStep()
         stepNum += 1
+        
+        if stepNum==1 and libsumo.vehicle.getIDCount() != vehsInitNums:#因为各种原因无法在模拟中插入车辆，例如跟车模型限制
+            print("起始模拟车辆数目错误，无法在模拟中插入足够车辆")
+            requireStop = -1
+            statRec1 = []
+            strRec1 = []
+            minSpeed = -1
+            leaderInfo = []
+             
+            break
+            
+        if stepNum==1:
+            vehs = libsumo.vehicle.getIDList()
+            for i in range(libsumo.vehicle.getIDCount()):
+                libsumo.vehicle.setSpeedFactor(vehs[i],1)
 
         ####https://sumo.dlr.de/daily/pydoc/traci._vehicle.html
         states = libsumo.trafficlight.getRedYellowGreenState(nextTLSID)
@@ -193,6 +208,9 @@ def simSumoCmd(params):
         vehLanePos = libsumo.vehicle.getLanePosition(objvehID)
 
         laneID = libsumo.vehicle.getLaneID(objvehID)
+        
+        
+        
         edgeID = libsumo.vehicle.getRoadID(objvehID)
         meanSpeed = libsumo.lane.getLastStepMeanSpeed(laneID)
         laneMaxSpeed = libsumo.lane.getMaxSpeed(laneID)
@@ -254,20 +272,7 @@ def simSumoCmd(params):
                 print(vehs[i]," maxSpeed:",maxSpeed)
 
             
-        print("步数:%d,已经在道路上的车辆数:%d" %(stepNum,libsumo.vehicle.getIDCount()))
-        
-        if stepNum==1 and libsumo.vehicle.getIDCount() != vehsInitNums:#因为各种原因无法在模拟中插入车辆，例如跟车模型限制
-            print("起始模拟车辆数目错误，无法在模拟中插入足够车辆")
-            requireStop = -1
-            break
-        
-        if stepNum==1:
-            vehs = libsumo.vehicle.getIDList()
-            for i in range(libsumo.vehicle.getIDCount()):
-                libsumo.vehicle.setSpeedFactor(vehs[i],1)
-        
-            
-     
+        #print("步数:%d,已经在道路上的车辆数:%d" %(stepNum,libsumo.vehicle.getIDCount()))
             
         #print("running time(ms):%d,tls state: %s,duration:%.3f," % (timeT,states,phaseDur))
         #print("speed:%.2f,lanePos:%s,dist2TLS:%.2f," % (speed,vehLanePos,dist2TLS))
@@ -343,7 +348,7 @@ def test1():
     time.sleep(5);
     #####################################################################
     params =dict()
-    params["simNum"] = 10
+    params["simNum"] = 50
     params["redLightTime"] = redLightTime
     params["otherVehs"] = vehsOthers1  # [[距离交通灯的距离1，行驶速度1],[距离交通灯的距离2，行驶速度2]]
 
@@ -382,9 +387,9 @@ import pickle
 
 
 
-def test2(tmp):
+def configAndRun(tmp):
     
-   
+    len1 = len(tmp)
     redLightTime,distToRedLight,speed,laneAvgSpeed,arriveTime1,arriveTime2,numStillVeh,ArrivalDivRedTime,\
         vehPos_1,vehSpeed_1,vehPos_2,vehSpeed_2,vehPos_3,vehSpeed_3,vehPos_4,vehSpeed_4,vehPos_5,vehSpeed_5,\
         vehPos_6,vehSpeed_6,vehPos_7,vehSpeed_7,vehPos_8,vehSpeed_8,vehPos_9,vehSpeed_9,vehPos_10,vehSpeed_10,\
@@ -397,25 +402,26 @@ def test2(tmp):
     vehsOthers_all = vehsOthers[np.where(vehsOthers[:,0]>0)]
     
     vehsOthers1 = vehsOthers_all[0:-1]#最后一个是目标车，不要
-    print("vehObj:",vehObj)
-    print("vehs_all",vehsOthers_all)#数据命名错误，vehsOthers等于车道上所有车
-    print("vehsOthers1",vehsOthers1)
+    print("vehObj:",np.round(vehObj,3))
+    print("vehs_all",np.round(vehsOthers_all,2))#数据命名错误，vehsOthers等于车道上所有车
+    print("vehsOthers1",np.round(vehsOthers1,2))
     
     #if vehsOthers1.shape[0] == 0:
     #    return
     #print(vehsOthers)
     #redLightTime = redLightTime
 
-    print("根据实际情况，我们认为红灯变绿灯时，驾驶员的反应时间和车辆启动时间为1秒")
+    print("根据实际情况，我们认为红灯变绿灯时，红灯前停止的驾驶员的反应时间和车辆启动时间为1秒")
     print("而模拟中车辆的启动时间很快，能1秒内加速到2m/s，所以模拟中实际红灯时间加1.5秒")
-    redLightTime= redLightTime+0
+    if vehsOthers_all[0][1] <1/3.6:#头车速度低于1km/h
+        redLightTime= redLightTime+1.5
     print("redLightTime",redLightTime)
     
     #time.sleep(5);
     #####################################################################
     
     params =dict()
-    params["simNum"] = 1
+    params["simNum"] = 2
     
     params["otherVehs"] = vehsOthers1  # [[距离交通灯的距离1，行驶速度1],[距离交通灯的距离2，行驶速度2]]
 
@@ -442,16 +448,16 @@ def test2(tmp):
          statRec1,strRec1,minSpeed,leaderInfo,requireStop  = simSumoCmd(params)
      
 
-         #print("simNum:%d End" %i)
-         #print(strRec1)
-         #print("leaderInfo",leaderInfo )
-         #print('minSpeed',minSpeed)
-         #print('requireStop',requireStop)
-            
-         if requireStop <0:
+        #print("simNum:%d End" %i)
+        #print(strRec1)
+        #print("leaderInfo",leaderInfo )
+        #print('minSpeed',minSpeed)
+        #print('requireStop',requireStop)
+
+         if requireStop<0:
             continue
-            
-         minSpeedList.append(minSpeed)
+         if minSpeed >=0:
+             minSpeedList.append(minSpeed)
 
     minSpeedList1 = np.array(minSpeedList)
     if len(minSpeedList)>0:
@@ -472,7 +478,7 @@ def test2(tmp):
 #test2 #测试程序2,从pickle中读取样本，样本已经进行[x,y]分割
 from datetime import datetime
 
-if 1:
+def test2():
     print("运行test2,测试程序2,从pickle中读取样本，样本已经进行[x,y]分割\n\n")
     fpk=open('lowprobSamples.pkf','rb')   
     [index1,xlowprob1,ylowprobLabel1,ylowprobPredictNN1]=pickle.load(fpk)    
@@ -487,15 +493,22 @@ if 1:
     print(datetime.now(),file=logFile)
     print("index,originIndex,origin speedFlag,predicted Labels By kerasNN,predicted Labels By MCS",file=dataFile)
     
-    testNum = 7516
-    print("lowProbSampleOriginIndex:",testNum,index1[testNum])
-    for i in [testNum]:
-    #for i in range(len1):
+    
+    
+    testNum = 110651
+    #print("lowProbSampleOriginIndex:",testNum,index1[testNum])
+    #for i in [testNum]:
+    for i in range(len1):
+        print("\nsampleNum:",i)
         print("\nsampleNum:",i,file=logFile)
         print(datetime.now(),file=logFile)
         tmp = xlowprob1[i]
         
-        minSpeedList1 = test2(tmp)
+        
+        minSpeedList1 = configAndRun(tmp)
+        
+        
+        
         if len(minSpeedList1) == 0:
             continue
         speedSlot = ["[0,5/3.6]","[5/3.6,15/3.6]","[15/3.6,25/3.6]","[25/3.6,35/3.6]","[35/3.6,80/3.6]"]
@@ -522,38 +535,11 @@ if 1:
     logFile.close()   
     dataFile.close()
 ######################################################################################################################## 
-#test3 #测试程序3,从pickle中读取原始，kerasNN样本，和进行MSsim，并比较
-#1.看execel的fance_comparing.cs，提取需要的样本index
-#2.各种各样的手动分析。。。
-if 0:
-    fpk=open('lowprobSamples.pkf','rb')   
-    [xlowprob1,ylowprobLabel1,ylowprobPredictNN1]=pickle.load(fpk)    
-    fpk.close()
-    len1 = len(xlowprob1)
-    for i in [0,1]:
-        xi_tmp = xlowprob1[i]
-        ylabel_tmp = ylowprobLabel1[i]
-        ylowprobPredictNN1_tmp = ylowprobPredictNN1[i]
-        print("index:",i)
-        print("x:",xi_tmp)
-    
+########################################################################################################################   
+########################################################################################################################
 
-'''
-fpk=open('allSamples5label.pkf','rb')   
-[x0,yl5,ykerasNN]=pickle.load(fpk)  
-fpk.close()  
 
-len1 = len(xlowprob1)
-mcs = np.zeros(yl5.shape)
-for i in range(len1):
-    print("\nsampleNum:",i)
-    tmp = xlowprob1[i]
-    minSpeedList1=test2(tmp)
-    mcs[i] = np.mean(minSpeedList1)
-    
-    speedSlot = ["[0,5/3.6]","[5/3.6,15/3.6]","[15/3.6,25/3.6]","[25/3.6,35/3.6]","[35/3.6,80/3.6]"]
-    speedFlag = ylowprobLabel1[i]
-    print("origin speedFlag %d,speedSlot %s" %(speedFlag,speedSlot[speedFlag]))
-    print("predicted Labels By kerasNN:",np.round(ylowprobPredictNN1[i],2))
-'''    
-
+def main():
+    test2()
+if __name__ == "__main__":
+    main()

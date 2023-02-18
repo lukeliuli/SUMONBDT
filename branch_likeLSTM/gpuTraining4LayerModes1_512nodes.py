@@ -185,7 +185,6 @@ def test1():
     #rint(x0rigin[0:10,:])
     #rint(y0rigin[0:10])
     #nput()
-
     ros = RandomOverSampler(random_state=0)
     x0,y0= ros.fit_resample(x0rigin , y0rigin)#对数据不平衡进行处理，保证样本数一致
 
