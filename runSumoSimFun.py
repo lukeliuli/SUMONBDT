@@ -65,7 +65,7 @@ def simSumoCmd(params):
     
     libsumo.close()
     #libsumo.start(["sumo-gui", "-c", path2])
-    libsumo.start([sumoBinary, "-c", path2,'--ignore-route-errors'])
+    libsumo.start([sumoBinary, "-c", path2,'--ignore-route-errors --no-warnings true'])
     
     #####基本车辆参数设定
     
@@ -413,7 +413,9 @@ def configAndRun(tmp):
 
     print("根据实际情况，我们认为红灯变绿灯时，红灯前停止的驾驶员的反应时间和车辆启动时间为1秒")
     print("而模拟中车辆的启动时间很快，能1秒内加速到2m/s，所以模拟中实际红灯时间加1.5秒")
-    if vehsOthers_all[0][1] <1/3.6:#头车速度低于1km/h
+    if vehsOthers_all[0][1] <1/3.6 and vehsOthers_all[0][0] >0:#头车速度低于1km/h
+        redLightTime= redLightTime+1.5
+    if vehsOthers_all[1][1] <1/3.6 and vehsOthers_all[1][0] >0:#存在第二步车，而且速度低于1km/h
         redLightTime= redLightTime+1.5
     print("redLightTime",redLightTime)
     
@@ -421,7 +423,7 @@ def configAndRun(tmp):
     #####################################################################
     
     params =dict()
-    params["simNum"] = 2
+    params["simNum"] = 10
     
     params["otherVehs"] = vehsOthers1  # [[距离交通灯的距离1，行驶速度1],[距离交通灯的距离2，行驶速度2]]
 
