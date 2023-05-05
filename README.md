@@ -19,6 +19,15 @@
 # 最新更新
 * my1Lane1TlsVeh6-server.sumocfg 和 my1Lane1TlsVeh6.rou.xml 用于调节模拟中的车辆和车辆类型参数，并用GUI进行验证
 * mainTest2_hmcnf_keras_dt为mainTestCSVMLP3(hmcnf_keras)的简化和优化代码，代码清晰化和优化
+* 运行环境为conda activate tensor23py36cpu
+* branch_2slot_5sep 为修改程序。 (1) 输入数据为前后2时刻的2slot，(2) 模型的时间分割为5公里每小时，
+* branch_2slot_5sep 主程序mainTest2_hmcnf_keras_dt_2slot_5sep 和 extractFranceSamples1_2slot_5sep.ipynb
+
+---
+
+
+
+
 
 # SUMO+PYTORCH+NBDT的配置命令
 sudo apt-get update  
@@ -127,3 +136,8 @@ docker rm $(docker ps -a -q)
 
 #### 删除单个镜像
 + sudo docker rmi -f  <镜像id>
+    
+#### pydot画神经网络图
+pip install pydot
+pip install pydotplus 
+conda install pydot  
