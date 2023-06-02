@@ -22,7 +22,7 @@
 * 运行环境为conda activate tensor23py36cpu
 * branch_2slot_5sep 为修改程序。 (1) 输入数据为前后2时刻的2slot，(2) 模型的时间分割为5公里每小时，
 * branch_2slot_5sep 主程序mainTest2_hmcnf_keras_dt_2slot_5sep 和 extractFranceSamples1_2slot_5sep.ipynb
-
+* 发现HMCN-F 训练效果很差，所以改为分离样式多层训练主程序mainTest2_hmcnf_keras_dt_2slot_5sep
 ---
 
 
