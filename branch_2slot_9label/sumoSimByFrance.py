@@ -10,7 +10,7 @@
 
 print("#########################################################################")
 print("基于SUMO和蒙特卡洛模拟分析生成预测当前样本的最小速度，原始对应程序为mainSimSumoFranceData，需要在docker的原始环境下运行，没有conda")
-print("程序为0.0")
+print("程序为0.1")
 
 
 #用于简单过路灯模拟
@@ -436,7 +436,7 @@ def configAndRun(tmp):
     #####################################################################
     
     params =dict()
-    params["simNum"] = 10
+    params["simNum"] = 3
     
     params["otherVehs"] = vehsOthers1  # [[距离交通灯的距离1，行驶速度1],[距离交通灯的距离2，行驶速度2]]
 
@@ -483,6 +483,27 @@ def configAndRun(tmp):
      
     return minSpeedList1
   
+def minSpeed2Tag(minSpeed):
+    
+    if minSpeed >40/3.6:
+        speedFlag = 8
+    if minSpeed <= 40/3.6 and minSpeed > 35/3.6:
+        speedFlag = 7
+    if minSpeed <= 35/3.6 and minSpeed > 30/3.6:
+        speedFlag = 6
+    if minSpeed <= 30/3.6 and minSpeed > 25/3.6:
+        speedFlag = 5
+    if minSpeed <= 25/3.6 and minSpeed > 20/3.6:
+        speedFlag = 4
+    if minSpeed <= 20/3.6 and minSpeed > 15/3.6:
+        speedFlag = 3
+    if minSpeed <= 15/3.6 and minSpeed > 10/3.6:
+        speedFlag = 2
+    if minSpeed <= 10/3.6 and minSpeed > 5/3.6:
+        speedFlag = 1
+    if minSpeed <= 5/3.6:
+        speedFlag = 0
+    return speedFlag
 ########################################################################################################################
 #主程序
 
@@ -490,23 +511,51 @@ def configAndRun(tmp):
 #test1()#测试程序1，测试直接从france数据库的提取样本
 
 ########################################################################################################################
-#test2 #测试程序2,从pickle中读取样本，样本已经进行[x,y]分割
+#test2 #测试程序2,从pickle中读取样本，样本已经进行[x,y]分割,样本为原始的1%"
 from datetime import datetime
+from imblearn.under_sampling import RandomUnderSampler
+from collections import Counter
 
+import math
 def test2():
     print("运行test2,测试程序2,从pickle中读取样本，样本已经进行[x,y]分割.样本为2slot,5hier,9label\n\n")
-    fpk=open('samples1.pkf','rb')   
-    [xFloors,yFloors,modSaveNameFloors,encLevels]=pickle.load(fpk)  
+    fpk=open('samples2.pkf','rb')   
+    [xFloors,yFloors,modSaveNameFloors,encLevels,yKerasFloors]=pickle.load(fpk)  
     fpk.close()   
-    logFile=open('log.csv','w+',buffering=10)
-    strLog = "floor,index,outputY,outputAvgSpeed"
+    
+    
+    
+    dataFile=open('sumoSimData15000.csv','w+',buffering=1)
+    strData = "floor,numSamples,index,outputAvgSpeed,outputY,sumoOutput,yKerasOutput"
+    print(strData,file=dataFile)
+    
+    logFile=open('log.txt','w+',buffering=1)
+    strLog = "start time %s" %datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     print(strLog,file=logFile)
     
-    for i in [len(xFloors)-1]:
+  
+    
+    #for i in [len(xFloors)-1]:
+    indexSample = 0
+    for i in range(len(xFloors)):
         levelIndex = i
         x = xFloors[str(i)]
         yCurLayer1 =  yFloors[str(i)]
-        for j in range(min(2000,yCurLayer1.shape[0])):
+        yKeras  = yKerasFloors[str(i)]
+        
+        
+        #欠采样
+        rus = RandomUnderSampler(random_state=0)
+        X_resampled, y_resampled = rus.fit_resample(X, y)
+        print(sorted(Counter(y_resampled).items()))
+    
+        sampleNum =  min(15000,math.floor(yCurLayer1.shape[0]/10))#样本为原始的1%,100样本为3分钟
+        
+        timeNow = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        strLog = "\n floor:%d,sampleNum:%d,start time %s" %(i,sampleNum,timeNow)
+        print(strLog,file=logFile)
+    
+        for j in range(sampleNum):
             #sample_name = 1(ID)+8(keyFeature)+40(otherVehcle)+6(keyFeatures)+40(otherVehs)+1(flag)= 96
             #x-name = 8(keyFeature)+40(otherVehcle)+6(keyFeatures)+40(otherVehs)= 94
             tmp = x[j][0:48]
@@ -518,10 +567,27 @@ def test2():
             
         
             outputAvgSpeed = np.round(np.mean(minSpeedList1),2)
-            strLog = "%d,%d,%s,%.2f" %(i,j,yCurLayer1[j],outputAvgSpeed)
-            print(strLog,file=logFile)
-
+            outputSpeedTag = minSpeed2Tag(outputAvgSpeed)
+            outputY = yCurLayer1[j]
+            #print(outputY,type(outputY))
+            outputY = outputY[0].tolist()
+          
+            strData = "%d,%d,%d,%.2f,%s,%s,%s" %(i, \
+                                                 sampleNum,\
+                                                 j,\
+                                                 outputAvgSpeed, \
+                                                 outputY, \
+                                                 str(outputSpeedTag), \
+                                                 yKeras[j])
+            print(strData,file=dataFile)
+            
+            
+            
+    timeNow = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    strLog = "\n end time %s" %timeNow
+    print(strLog,file=logFile)
     logFile.close() 
+    dataFile.close() 
        
     
     
