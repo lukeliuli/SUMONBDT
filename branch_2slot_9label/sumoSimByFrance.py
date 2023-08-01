@@ -452,9 +452,9 @@ def configAndRun(tmp):
     for i in range(params["simNum"]):
          #print("\nsimNum:%d Start" %i)
          #加入噪声
-         params["otherVehsParams"] = [3,1+random.uniform(0,1),4+random.uniform(0,5),40/3.6+random.uniform(0,20/3.6), \
+         params["otherVehsParams"] = [3,1+random.uniform(0,1),9,40/3.6+random.uniform(0,20/3.6), \
                                       0.1+random.uniform(0,0.4), 0.1+random.uniform(0,0.3) ,0.00,0.00] 
-         params["objectVehParams"] = [3,1+random.uniform(0,1),4+random.uniform(0,5),40/3.6+random.uniform(0,20/3.6), \
+         params["objectVehParams"] = [3,1+random.uniform(0,1),9,40/3.6+random.uniform(0,20/3.6), \
                                       0.1+random.uniform(0,0.4), 0.1+random.uniform(0,0.3) ,0.00,0.00] 
         
          #随机0.5秒为驾驶员的反应时间和车辆启动时间的附加随机值
@@ -612,7 +612,7 @@ def test3():
 
 
     rvl = []
-    numSamples = 10
+    numSamples = 2000
     for j in range(numSamples):
         #sample_name = 1(ID)+8(keyFeature)+40(otherVehcle)+6(keyFeatures)+40(otherVehs)+1(flag)= 96
         #x-name = 8(keyFeature)+40(otherVehcle)+6(keyFeatures)+40(otherVehs)= 94
@@ -649,7 +649,15 @@ def test3():
         timeNow = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         strLog = "\nsampleIndex:%d, time %s" %(j,timeNow)
         print(strLog,file=logFile)
-        
+     
+    df = pd.DataFrame(rvl)
+    fs = "sumoSimData%d.csv" %j
+    #[5+2+9]
+    df.to_csv(fs,index= False, header=['sampleIndex','outputAvgSpeed','originOutput','sumoOutputSpeedTag','kerasPredictLabel',\
+                                      'smv1','smv2',\
+                                      'NN0','NN1','NN2','NN3','NN4','NN5','NN6','NN7','NN8'])
+                                    
+                                  
     logFile.close() 
  
 ######################################################################################################################## 
