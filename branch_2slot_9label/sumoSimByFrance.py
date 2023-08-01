@@ -429,14 +429,14 @@ def configAndRun(tmp):
     if vehsOthers_all[0][1] <1/3.6 and vehsOthers_all[0][0] >0:#头车速度低于1km/h
         redLightTime= redLightTime+1.5
     if vehsOthers_all[1][1] <1/3.6 and vehsOthers_all[1][0] >0:#存在第二步车，而且速度低于1km/h
-        redLightTime= redLightTime+1.5
+        redLightTime= redLightTime
     print("redLightTime",redLightTime)
     
     #time.sleep(5);
     #####################################################################
     
     params =dict()
-    params["simNum"] = 3
+    params["simNum"] = 2
     
     params["otherVehs"] = vehsOthers1  # [[距离交通灯的距离1，行驶速度1],[距离交通灯的距离2，行驶速度2]]
 
@@ -445,17 +445,17 @@ def configAndRun(tmp):
 
     params["objectVeh"] = vehObj
     #[车辆长度，最大加速度,最大减加速度，最大速度，反应时间(0.01到0.1的传输延迟，0.2到0.5的执行延迟),最小间距,不专心,速度噪声]  
-    params["objectVehParams"] = [5,2,9,60/3.6,                       0.5,                           0.5,      0.01,  0.05] 
+    params["objectVehParams"] = [3,2,9,60/3.6,                       0.5,                           0.5,      0.01,  0.05] 
     params["log"] = False
     minSpeedList = []
     
     for i in range(params["simNum"]):
          #print("\nsimNum:%d Start" %i)
          #加入噪声
-         params["otherVehsParams"] = [5,1+random.uniform(0,1),4+random.uniform(0,5),60/3.6+random.uniform(0,20/3.6), \
-                                      0.1+random.uniform(0,0.4), 0.1+random.uniform(0,0.3) ,0.01,0.05] 
-         params["objectVehParams"] = [5,1+random.uniform(0,1),4+random.uniform(0,5),60/3.6+random.uniform(0,20/3.6), \
-                                      0.1+random.uniform(0,0.4), 0.1+random.uniform(0,0.3) ,0.01,0.05] 
+         params["otherVehsParams"] = [3,1+random.uniform(0,1),4+random.uniform(0,5),40/3.6+random.uniform(0,20/3.6), \
+                                      0.1+random.uniform(0,0.4), 0.1+random.uniform(0,0.3) ,0.00,0.00] 
+         params["objectVehParams"] = [3,1+random.uniform(0,1),4+random.uniform(0,5),40/3.6+random.uniform(0,20/3.6), \
+                                      0.1+random.uniform(0,0.4), 0.1+random.uniform(0,0.3) ,0.00,0.00] 
         
          #随机0.5秒为驾驶员的反应时间和车辆启动时间的附加随机值
          params["redLightTime"] = float(redLightTime+random.uniform(0.0,0.5))
@@ -512,6 +512,7 @@ def minSpeed2Tag(minSpeed):
 
 ########################################################################################################################
 #test2 #测试程序2,从pickle中读取样本，样本已经进行[x,y]分割,样本为原始的1%"
+'''
 from datetime import datetime
 from imblearn.under_sampling import RandomUnderSampler
 from collections import Counter
@@ -589,16 +590,75 @@ def test2():
     logFile.close() 
     dataFile.close() 
        
+'''    
     
-    
+########################################################################################################################
+#test3
+from datetime import datetime
 
+import math
+def test3():
+    print("运行test3,测试程序2,从lowprobSamples.pkf，样本已经进行[x,y]分割.样本为2slot,5hier,9label\n\n")
+    fpk=open('lowprobSamples.pkf','rb')   
+    [xlowpra,ylowpraLabel,ylowPredictLabel,ylowpraPredictNN]=pickle.load(fpk)  
+    fpk.close()   
+    
+    
+    logFile=open('log.txt','w+',buffering=1)
+    strLog = "start time %s" %datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    print(strLog,file=logFile)
+    
+    numSamples,numFeatures = xlowpra.shape
+
+
+    rvl = []
+    numSamples = 10
+    for j in range(numSamples):
+        #sample_name = 1(ID)+8(keyFeature)+40(otherVehcle)+6(keyFeatures)+40(otherVehs)+1(flag)= 96
+        #x-name = 8(keyFeature)+40(otherVehcle)+6(keyFeatures)+40(otherVehs)= 94
+        tmp = xlowpra[j][0:48]
+
+        minSpeedList1 = configAndRun(tmp)
+
+        if len(minSpeedList1) == 0:
+            continue
+            
+        
+        outputAvgSpeed = np.round(np.mean(minSpeedList1),2)
+        sumoOutputSpeedTag = minSpeed2Tag(outputAvgSpeed)
+       
+        originOutput = ylowpraLabel[j][0]
+        kerasPredictLabel = ylowPredictLabel[j][0]
+        kerasPredictNN = ylowpraPredictNN[j]
+        #[i = 0,outputAvgSpeed=1,outputY[0]=2,outputSpeedTag=3,ylowPredictLabel[i][0]=4]
+
+        sumoRVL=[j,outputAvgSpeed,originOutput,sumoOutputSpeedTag,kerasPredictLabel]
+        sumoRVL.extend(np.round(minSpeedList1,2))
+        sumoRVL.extend(kerasPredictNN)
+        
+        rvl.append(sumoRVL)
+            
+        if j%1000 ==5:
+            df = pd.DataFrame(rvl)
+            fs = "sumoSimData%d.csv" %j
+            #[5+2+9]
+            df.to_csv(fs,index= False, header=['sampleIndex','outputAvgSpeed','originOutput','sumoOutputSpeedTag','kerasPredictLabel','smv1','smv2',\
+                                               'NN0','NN1','NN2','NN3','NN4','NN5','NN6','NN7','NN8'])
+            
+            
+        timeNow = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        strLog = "\nsampleIndex:%d, time %s" %(j,timeNow)
+        print(strLog,file=logFile)
+        
+    logFile.close() 
+ 
 ######################################################################################################################## 
 ########################################################################################################################   
 ########################################################################################################################
 
 
 def main():
-    test2()
+    test3()
 if __name__ == "__main__":
     main()
     
