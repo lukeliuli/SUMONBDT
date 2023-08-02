@@ -175,10 +175,11 @@ def simSumoCmd(params):
             libsumo.vehicle.add(objvehID, routeID, typeID=typeID1, depart='0', departLane='first', \
                         departPos=trafficLightPos-dist, departSpeed=str(vel))
             counter = 0
+           
             for v in otherVehs:
                 counter = counter+1
                 dist,vel = v
-                vel  = min(60/3.6,vel)
+                vel  = min(40/3.6,vel)
                 #https://sumo.dlr.de/docs/Specification/index.html
                 #https://sumo.dlr.de/docs/Networks/SUMO_Road_Networks.html
                 libsumo.vehicle.add(otherVehID+str(counter), routeID, typeID=typeID2, depart='0', departLane='first', \
@@ -428,7 +429,7 @@ def configAndRun(tmp):
     print("而模拟中车辆的启动时间很快，能1秒内加速到2m/s，所以模拟中实际红灯时间加1.5秒")
     if vehsOthers_all[0][1] <1/3.6 and vehsOthers_all[0][0] >0:#头车速度低于1km/h
         redLightTime= redLightTime+1.5
-    if vehsOthers_all[1][1] <1/3.6 and vehsOthers_all[1][0] >0:#存在第二步车，而且速度低于1km/h
+    if vehsOthers_all.shape[0]>1  and vehsOthers_all[1][1] <1/3.6 and vehsOthers_all[1][0] >0:#存在第二步车，而且速度低于1km/h
         redLightTime= redLightTime
     print("redLightTime",redLightTime)
     
@@ -477,7 +478,7 @@ def configAndRun(tmp):
     minSpeedList1 = np.array(minSpeedList)
     if len(minSpeedList)>0:
         print("MonteCarloSimulation minSpeedList ,min:%.2f,max:%.2f,mean:%.2f" %(np.min(minSpeedList1),np.max(minSpeedList1),np.mean(minSpeedList1)))
-        print("MonteCarloSimulation minSpeedList ,min:%.2f,max:%.2f,mean:%.2f" %(np.min(minSpeedList1)*3.6,np.max(minSpeedList1)*3.6,np.mean(minSpeedList1)*3.6))
+        
  
     #plt.hist(minSpeedList)
      
@@ -613,7 +614,7 @@ def test3():
 
     rvl = []
     #numSamples = 2000
-    for j in range(numSamples):
+    for j in range(0,numSamples):
         #sample_name = 1(ID)+8(keyFeature)+40(otherVehcle)+6(keyFeatures)+40(otherVehs)+1(flag)= 96
         #x-name = 8(keyFeature)+40(otherVehcle)+6(keyFeatures)+40(otherVehs)= 94
         print("#################################sampleNum:",j)
@@ -635,12 +636,12 @@ def test3():
 
         sumoRVL=[j,outputAvgSpeed,originOutput,sumoOutputSpeedTag,kerasPredictLabel]
         sumoRVL.extend(kerasPredictNN)
-        sumoRVL.extend(np.round(minSpeedList1,2))
+        sumoRVL.extend(np.round(minSpeedList1[0:2],2))
         
         
         rvl.append(sumoRVL)
             
-        if j%1000 ==5:
+        if j%100 ==5:
             df = pd.DataFrame(rvl)
             fs = "sumoSimData.csv"
             #[5+2+9]
