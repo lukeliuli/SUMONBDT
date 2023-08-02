@@ -612,10 +612,11 @@ def test3():
 
 
     rvl = []
-    numSamples = 2000
+    #numSamples = 2000
     for j in range(numSamples):
         #sample_name = 1(ID)+8(keyFeature)+40(otherVehcle)+6(keyFeatures)+40(otherVehs)+1(flag)= 96
         #x-name = 8(keyFeature)+40(otherVehcle)+6(keyFeatures)+40(otherVehs)= 94
+        print("#################################sampleNum:",j)
         tmp = xlowpra[j][0:48]
 
         minSpeedList1 = configAndRun(tmp)
@@ -633,17 +634,19 @@ def test3():
         #[i = 0,outputAvgSpeed=1,outputY[0]=2,outputSpeedTag=3,ylowPredictLabel[i][0]=4]
 
         sumoRVL=[j,outputAvgSpeed,originOutput,sumoOutputSpeedTag,kerasPredictLabel]
-        sumoRVL.extend(np.round(minSpeedList1,2))
         sumoRVL.extend(kerasPredictNN)
+        sumoRVL.extend(np.round(minSpeedList1,2))
+        
         
         rvl.append(sumoRVL)
             
         if j%1000 ==5:
             df = pd.DataFrame(rvl)
-            fs = "sumoSimData%d.csv" %j
+            fs = "sumoSimData.csv"
             #[5+2+9]
-            df.to_csv(fs,index= False, header=['sampleIndex','outputAvgSpeed','originOutput','sumoOutputSpeedTag','kerasPredictLabel','smv1','smv2',\
-                                               'NN0','NN1','NN2','NN3','NN4','NN5','NN6','NN7','NN8'])
+            df.to_csv(fs,index= False, header=['sampleIndex','outputAvgSpeed','originOutput','sumoOutputSpeedTag','kerasPredictLabel',\
+                                               'NN0','NN1','NN2','NN3','NN4','NN5','NN6','NN7','NN8',\
+                                               'smv1','smv2'])
             
             
         timeNow = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
