@@ -614,9 +614,10 @@ def test3():
 
     rvl = []
     #numSamples = 2000
+    
     for j in range(0,numSamples):
         #sample_name = 1(ID)+8(keyFeature)+40(otherVehcle)+6(keyFeatures)+40(otherVehs)+1(flag)= 96
-        #x-name = 8(keyFeature)+40(otherVehcle)+6(keyFeatures)+40(otherVehs)= 94
+        #xlowpra:x-name = 8(keyFeature)+40(otherVehcle)+6(keyFeatures)+40(otherVehs)= 94
         print("#################################sampleNum:",j)
         tmp = xlowpra[j][0:48]
 
@@ -637,8 +638,6 @@ def test3():
         sumoRVL=[j,outputAvgSpeed,originOutput,sumoOutputSpeedTag,kerasPredictLabel]
         sumoRVL.extend(kerasPredictNN)
         sumoRVL.extend(np.round(minSpeedList1[0:2],2))
-        
-        
         rvl.append(sumoRVL)
             
         if j%100 ==5:
