@@ -627,8 +627,8 @@ def test3():
     #numSamples = 2000
     paramsVehAll = []
     for j in range(0,numSamples):
-        #sample_name = 1(ID)+8(keyFeature)+40(otherVehcle)+6(keyFeatures)+40(otherVehs)+1(flag)= 96
-        #xlowpra:x-name = 8(keyFeature)+40(otherVehcle)+6(keyFeatures)+40(otherVehs)= 94
+       
+        #xlowpra:x-name = 8(keyFeature)+40(otherVehcle)+7(keyFeatures)+39(otherVehs)= 94
         print("#################################sampleNum:",j)
         tmp = xlowpra[j][0:48]
 
