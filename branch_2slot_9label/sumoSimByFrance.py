@@ -84,13 +84,13 @@ def simSumoCmd(params):
     
         
      # [车辆长度，最大加速度,最大减加速度，最大速度，反应时间,最小间距,不专心,速度噪声]                               
-    length,maxAcc,maxDacc,maxSpeed,tau,minGap,imperfection,speedFactor = objectVehParams
+    length,maxAcc,maxDacc,maxSpeed0,tau,minGap,imperfection,speedFactor = objectVehParams
     
     libsumo.vehicletype.setAccel(typeID1,maxAcc)  
     libsumo.vehicletype.setDecel(typeID1,maxDacc) 
     libsumo.vehicletype.setImperfection(typeID1,imperfection)
     libsumo.vehicletype.setLength(typeID1,length) 
-    libsumo.vehicletype.setMaxSpeed(typeID1,maxSpeed)   
+    libsumo.vehicletype.setMaxSpeed(typeID1,maxSpeed0)   
     libsumo.vehicletype.setMinGap(typeID1,minGap) 
     libsumo.vehicletype.setSpeedFactor(typeID1,speedFactor)  
     libsumo.vehicletype.setTau(typeID1,tau)  
@@ -98,12 +98,12 @@ def simSumoCmd(params):
                           
                             
     # [车辆长度，最大加速度,最大减加速度，最大速度，反应时间,最小间距,速度噪声]                         
-    length,maxAcc,maxDacc,maxSpeed,tau,minGap,imperfection,speedFactor = otherVehsParams
+    length,maxAcc,maxDacc,maxSpeed1,tau,minGap,imperfection,speedFactor = otherVehsParams
     libsumo.vehicletype.setAccel(typeID2,maxAcc)  
     libsumo.vehicletype.setDecel(typeID2,maxDacc) 
     libsumo.vehicletype.setImperfection(typeID2,imperfection)
     libsumo.vehicletype.setLength(typeID2,length) 
-    libsumo.vehicletype.setMaxSpeed(typeID2,maxSpeed)   
+    libsumo.vehicletype.setMaxSpeed(typeID2,maxSpeed1)   
     libsumo.vehicletype.setMinGap(typeID2,minGap) 
     libsumo.vehicletype.setSpeedFactor(typeID2,speedFactor) 
     libsumo.vehicletype.setTau(typeID2,tau) 
@@ -171,7 +171,7 @@ def simSumoCmd(params):
         
         if (stepNum == 0):
             dist,vel = objectVeh
-            vel  = min(40/3.6,vel)
+            vel  = min([40/3.6,vel,maxSpeed0])
             libsumo.vehicle.add(objvehID, routeID, typeID=typeID1, depart='0', departLane='first', \
                         departPos=trafficLightPos-dist, departSpeed=str(vel))
             counter = 0
@@ -179,7 +179,7 @@ def simSumoCmd(params):
             for v in otherVehs:
                 counter = counter+1
                 dist,vel = v
-                vel  = min(40/3.6,vel)
+                vel  = min([40/3.6,vel,maxSpeed1])
                 #https://sumo.dlr.de/docs/Specification/index.html
                 #https://sumo.dlr.de/docs/Networks/SUMO_Road_Networks.html
                 libsumo.vehicle.add(otherVehID+str(counter), routeID, typeID=typeID2, depart='0', departLane='first', \
@@ -401,7 +401,7 @@ import pickle
 
 
 
-def configAndRun(tmp):
+def configAndRun(tmp,index):
     
     len1 = len(tmp)
     redLightTime,distToRedLight,speed,laneAvgSpeed,arriveTime1,arriveTime2,laneID,ArrivalDivRedTime,\
@@ -437,7 +437,7 @@ def configAndRun(tmp):
     #####################################################################
     
     params =dict()
-    params["simNum"] = 2
+    params["simNum"] = 100
     
     params["otherVehs"] = vehsOthers1  # [[距离交通灯的距离1，行驶速度1],[距离交通灯的距离2，行驶速度2]]
 
@@ -450,13 +450,16 @@ def configAndRun(tmp):
     params["log"] = False
     minSpeedList = []
     
+    paramsVehList = []
     for i in range(params["simNum"]):
          #print("\nsimNum:%d Start" %i)
          #加入噪声
-         params["otherVehsParams"] = [3,1+random.uniform(0,1),9,40/3.6+random.uniform(0,20/3.6), \
+         params["otherVehsParams"] = [3,1+random.uniform(0,1),9,15/3.6+random.uniform(0,45/3.6), \
                                       0.1+random.uniform(0,0.4), 0.1+random.uniform(0,0.3) ,0.00,0.00] 
-         params["objectVehParams"] = [3,1+random.uniform(0,1),9,40/3.6+random.uniform(0,20/3.6), \
+         params["objectVehParams"] = [3,1+random.uniform(0,1),9,15/3.6+random.uniform(0,45/3.6), \
                                       0.1+random.uniform(0,0.4), 0.1+random.uniform(0,0.3) ,0.00,0.00] 
+      
+        
         
          #随机0.5秒为驾驶员的反应时间和车辆启动时间的附加随机值
          params["redLightTime"] = float(redLightTime+random.uniform(0.0,0.5))
@@ -474,15 +477,23 @@ def configAndRun(tmp):
             continue
          if minSpeed >=0:
              minSpeedList.append(minSpeed)
+             paramsVehListTmp = [index]
+             paramsVehListTmp.extend(params["objectVehParams"])
+             paramsVehListTmp.extend(params["otherVehsParams"])
+             paramsVehListTmp.extend([minSpeed])
+             #print('\n paramsVehListTmp',paramsVehListTmp)
+             paramsVehList.append(paramsVehListTmp)
+             
+             
 
     minSpeedList1 = np.array(minSpeedList)
     if len(minSpeedList)>0:
         print("MonteCarloSimulation minSpeedList ,min:%.2f,max:%.2f,mean:%.2f" %(np.min(minSpeedList1),np.max(minSpeedList1),np.mean(minSpeedList1)))
         
- 
+   
     #plt.hist(minSpeedList)
      
-    return minSpeedList1
+    return minSpeedList1,paramsVehList
   
 def minSpeed2Tag(minSpeed):
     
@@ -614,14 +625,14 @@ def test3():
 
     rvl = []
     #numSamples = 2000
-    
+    paramsVehAll = []
     for j in range(0,numSamples):
         #sample_name = 1(ID)+8(keyFeature)+40(otherVehcle)+6(keyFeatures)+40(otherVehs)+1(flag)= 96
         #xlowpra:x-name = 8(keyFeature)+40(otherVehcle)+6(keyFeatures)+40(otherVehs)= 94
         print("#################################sampleNum:",j)
         tmp = xlowpra[j][0:48]
 
-        minSpeedList1 = configAndRun(tmp)
+        minSpeedList1,paramsVehList = configAndRun(tmp,j)
 
         if len(minSpeedList1) == 0:
             continue
@@ -638,15 +649,25 @@ def test3():
         sumoRVL=[j,outputAvgSpeed,originOutput,sumoOutputSpeedTag,kerasPredictLabel]
         sumoRVL.extend(kerasPredictNN)
         sumoRVL.extend(np.round(minSpeedList1[0:2],2))
+        
         rvl.append(sumoRVL)
-            
+        
+        paramsVehAll.extend(paramsVehList)   
+       
         if j%100 ==5:
             df = pd.DataFrame(rvl)
-            fs = "sumoSimData.csv"
-            #[5+2+9]
+            fs = "sumoSimDataTmp.csv"
+            #[5+9+2+8]
+            #车辆长度，最大加速度,最大减加速度，最大速度，反应时间(0.01到0.1的传输延迟，0.2到0.5的执行延迟),最小间距,不专心,速度噪声
+            #'vehLen','maxAcc','maxDAcc','maxSpeed','reacTime','minGap','Impat','speedFactor'
             df.to_csv(fs,index= False, header=['sampleIndex','outputAvgSpeed','originOutput','sumoOutputSpeedTag','kerasPredictLabel',\
                                                'NN0','NN1','NN2','NN3','NN4','NN5','NN6','NN7','NN8',\
                                                'smv1','smv2'])
+            df = pd.DataFrame(paramsVehAll)
+            fs = "paramsVehAllTmp.csv"
+            df.to_csv(fs,index= False, header=['sampleIndex','vehLen0','maxAcc0','maxDAcc0','maxSpeed0','reacTime0','minGap0','Impat0','speedFactor0',\
+                                       'vehLen','maxAcc','maxDAcc','maxSpeed','reacTime','minGap','Impat','speedFactor',\
+                                               'minSpeed0'])
             
             
         timeNow = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -657,9 +678,14 @@ def test3():
     fs = "sumoSimData%d.csv" %j
     #[5+2+9]
     df.to_csv(fs,index= False, header=['sampleIndex','outputAvgSpeed','originOutput','sumoOutputSpeedTag','kerasPredictLabel',\
-                                      'smv1','smv2',\
-                                      'NN0','NN1','NN2','NN3','NN4','NN5','NN6','NN7','NN8'])
-                                    
+                                               'NN0','NN1','NN2','NN3','NN4','NN5','NN6','NN7','NN8',\
+                                               'smv1','smv2'])
+    
+    df = pd.DataFrame(paramsVehAll)
+    fs = "paramsVehAll%d.csv" %j
+    df.to_csv(fs,index= False, header=['sampleIndex','vehLen0','maxAcc0','maxDAcc0','maxSpeed0','reacTime0','minGap0','Impat0','speedFactor0',\
+                                       'vehLen','maxAcc','maxDAcc','maxSpeed','reacTime','minGap','Impat','speedFactor',\
+                                               'minSpeed0'])
                                   
     logFile.close() 
  
