@@ -426,12 +426,12 @@ def configAndRun(tmp,index):
     #redLightTime = redLightTime
 
     print("根据实际情况，我们认为红灯变绿灯时，红灯前停止的驾驶员的反应时间和车辆启动时间为1秒")
-    print("而模拟中车辆的启动时间很快，能1秒内加速到2m/s，所以模拟中实际红灯时间加1.5秒")
-    if vehsOthers_all[0][1] <1/3.6 and vehsOthers_all[0][0] >0:#头车速度低于1km/h
-        redLightTime= redLightTime+1.5
-    if vehsOthers_all.shape[0]>1  and vehsOthers_all[1][1] <1/3.6 and vehsOthers_all[1][0] >0:#存在第二步车，而且速度低于1km/h
-        redLightTime= redLightTime
-    print("redLightTime",redLightTime)
+    print("而模拟中车辆的启动时间很快，能1秒内加速到2m/s，所以模拟中实际红灯时间加1.5秒,(暂时不改)")
+    #if vehsOthers_all[0][1] <1/3.6 and vehsOthers_all[0][0] >0:#头车速度低于1km/h
+    #    redLightTime= redLightTime+1.5
+    #if vehsOthers_all.shape[0]>1  and vehsOthers_all[1][1] <1/3.6 and vehsOthers_all[1][0] >0:#存在第二步车，而且速度低于1km/h
+    #    redLightTime= redLightTime
+    #print("redLightTime",redLightTime)
     
     #time.sleep(5);
     #####################################################################
@@ -452,44 +452,45 @@ def configAndRun(tmp,index):
     
     paramsVehList = []
     for i in range(params["simNum"]):
-         #print("\nsimNum:%d Start" %i)
-         #加入噪声
-         params["otherVehsParams"] = [3,1+random.uniform(0,1),9,15/3.6+random.uniform(0,45/3.6), \
-                                      0.1+random.uniform(0,0.4), 0.1+random.uniform(0,0.3) ,0.00,0.00] 
-         params["objectVehParams"] = [3,1+random.uniform(0,1),9,15/3.6+random.uniform(0,45/3.6), \
-                                      0.1+random.uniform(0,0.4), 0.1+random.uniform(0,0.3) ,0.00,0.00] 
-      
-        
-        
-         #随机0.5秒为驾驶员的反应时间和车辆启动时间的附加随机值
-         params["redLightTime"] = float(redLightTime+random.uniform(0.0,0.5))
-            
-         statRec1,strRec1,minSpeed,leaderInfo,requireStop  = simSumoCmd(params)
+          #print("\nsimNum:%d Start" %i)
+          #加入噪声
+          params["otherVehsParams"] = [3,1+random.uniform(0,1),9,15/3.6+random.uniform(0,45/3.6), \
+                                  0.1+random.uniform(0,0.4), 0.1+random.uniform(0,0.3) ,0.00,0.00] 
+          params["objectVehParams"] = [3,1+random.uniform(0,1),9,15/3.6+random.uniform(0,45/3.6), \
+                                  0.1+random.uniform(0,0.4), 0.1+random.uniform(0,0.3) ,0.00,0.00] 
+
+
+
+          #随机0.5秒为驾驶员的反应时间和车辆启动时间的附加随机值
+          params["redLightTime"] = float(redLightTime)
+
+          statRec1,strRec1,minSpeed,leaderInfo,requireStop  = simSumoCmd(params)
      
 
-        #print("simNum:%d End" %i)
-        #print(strRec1)
-        #print("leaderInfo",leaderInfo )
-        #print('minSpeed',minSpeed)
-        #print('requireStop',requireStop)
+          #print("simNum:%d End" %i)
+          #print(strRec1)
+          #print("leaderInfo",leaderInfo )
+          #print('minSpeed',minSpeed)
+          #print('requireStop',requireStop)
 
-         if requireStop<0:
-            continue
-         if minSpeed >=0:
-             minSpeedList.append(minSpeed)
-             paramsVehListTmp = [index]
-             paramsVehListTmp.extend(params["objectVehParams"])
-             paramsVehListTmp.extend(params["otherVehsParams"])
-             paramsVehListTmp.extend([minSpeed])
-             #print('\n paramsVehListTmp',paramsVehListTmp)
-             paramsVehList.append(paramsVehListTmp)
+          if requireStop<0:
+              continue
              
+          if minSpeed >=0:
+              minSpeedList.append(minSpeed)
+              paramsVehListTmp = [index]
+              paramsVehListTmp.extend(params["objectVehParams"])
+              paramsVehListTmp.extend(params["otherVehsParams"])
+              paramsVehListTmp.extend([minSpeed])
+              #print('\n paramsVehListTmp',paramsVehListTmp)
+              paramsVehList.append(paramsVehListTmp)
+
              
 
     minSpeedList1 = np.array(minSpeedList)
     if len(minSpeedList)>0:
         print("MonteCarloSimulation minSpeedList ,min:%.2f,max:%.2f,mean:%.2f" %(np.min(minSpeedList1),np.max(minSpeedList1),np.mean(minSpeedList1)))
-        
+
    
     #plt.hist(minSpeedList)
      
