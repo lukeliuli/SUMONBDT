@@ -23,6 +23,8 @@
 * branch_2slot_5sep 为修改程序。 (1) 输入数据为前后2时刻的2slot，(2) 模型的时间分割为5公里每小时，
 * branch_2slot_5sep 主程序mainTest2_hmcnf_keras_dt_2slot_5sep 和 extractFranceSamples1_2slot_5sep.ipynb
 * 发现HMCN-F 训练效果很差，所以改为分离样式多层训练主程序mainTest2_hmcnf_keras_dt_2slot_5sep
+* mainSimpleStep3为简化的步骤3程序，注意只训练最底层1层模型,用于分析模型和误差
+* mainSimpleStep4为简化的步骤4程序，注意只能接mainSimpleStep3的输出结果，用于分析模型和误差
 ---
 
 

@@ -323,85 +323,14 @@ def getVehicleInfo(objvehID):
 
     return info
 
-########################################################################################################################
-###测试程序1，测试直接从france数据库的提取样本
-def test1():
-    ####获得一个样本进行测试
-    df1 = pd.read_csv('./trainData/france_0_allSamples1.csv')
-    #df1.head(5)
-    df2 = df1.loc[df1['redLightTime']>10]
-    df2 = df2.loc[df1['speedFlag'] ==3]
-    df2 = df2.loc[df1['vehPos_3'] >0]
 
-
-
-    randIndex = random.randint(0,len(df2))
-    tmp = df2.iloc[randIndex].values
-
-
-    vehID,redLightTime,distToRedLight,speed,laneAvgSpeed,arriveTime1,arriveTime2,numStillVeh,ArrivalDivRedTime,\
-        vehPos_1,vehSpeed_1,vehPos_2,vehSpeed_2,vehPos_3,vehSpeed_3,vehPos_4,vehSpeed_4,vehPos_5,vehSpeed_5,\
-        vehPos_6,vehSpeed_6,vehPos_7,vehSpeed_7,vehPos_8,vehSpeed_8,vehPos_9,vehSpeed_9,vehPos_10,vehSpeed_10,\
-        vehPos_11,vehSpeed_11,vehPos_12,vehSpeed_12,vehPos_13,vehSpeed_13,vehPos_14,vehSpeed_14,vehPos_15,vehSpeed_15,\
-        vehPos_16,vehSpeed_16,vehPos_17,vehSpeed_17,vehPos_18,vehSpeed_18,vehPos_19,vehSpeed_19,vehPos_20,vehSpeed_20,\
-        speedFlag = tmp
-    vehObj = np.array([distToRedLight,speed])
-    vehsOthers = tmp[9:-1]
-    vehsOthers = vehsOthers.reshape(-1,2)
-    vehsOthers_all = vehsOthers[np.where(vehsOthers[:,0]>0)]
-    vehsOthers1 = vehsOthers_all[0:-1]
-    print("vehObj:",vehObj)
-    print("vehsOthers1",vehsOthers1)
-    print("vehs_all",vehsOthers_all)#数据命名错误，vehsOthers等于车道上所有车
-    
-    #print(vehsOthers)
-    #redLightTime = redLightTime
-
-
-
-    time.sleep(5);
-    #####################################################################
-    params =dict()
-    params["simNum"] = 50
-    params["redLightTime"] = redLightTime
-    params["otherVehs"] = vehsOthers1  # [[距离交通灯的距离1，行驶速度1],[距离交通灯的距离2，行驶速度2]]
-
-    #[车辆长度，最大加速度,最大减加速度，最大速度，反应时间,最小间距,不专心,速度噪声]                              
-    params["otherVehsParams"] = [5,2,9,60/3.6,     0.5, 0.5 ,0.01,0.05] 
-
-    params["objectVeh"] = vehObj
-    #[车辆长度，最大加速度,最大减加速度，最大速度，反应时间(0.01到0.1的传输延迟，0.2到0.5的执行延迟),最小间距,不专心,速度噪声]  
-    params["objectVehParams"] = [5,2,9,60/3.6,                       0.5,                           0.5,      0.01,  2] 
-    params["log"] = False
-    minSpeedList = []
-    
-    for i in range(params["simNum"]):
-
-         #加入噪声
-         params["otherVehsParams"] = [5,2+random.uniform(0,1),9,60/3.6,0.3+random.uniform(0,0.1), 0.5 ,0.01,2] 
-         params["objectVehParams"] = [5,2+random.uniform(0,1),9,60/3.6,0.3+random.uniform(0,0.1), 0.5, 0.01,2] 
-         statRec1,strRec1,minSpeed,leaderInfo = simSumoCmd(params)
-
-
-         print("\nsimNum:%d" %i)
-         print(strRec1)
-         print("leaderInfo",leaderInfo )
-         print('minSpeed',minSpeed)
-         minSpeedList.append(minSpeed)
-
-    minSpeedList1 = np.array(minSpeedList)
-    print("minSpeedList ,min:%.2f,max:%.2f,mean:%.2f" %(np.min(minSpeedList1),np.max(minSpeedList1),np.mean(minSpeedList1)))
-    speedSlot = ["[0,5/3.6]","[5/3.6,15/3.6]","[15/3.6,25/3.6]","[25/3.6,35/3.6]","[35/3.6,80/3.6]"]
-    print("origin speedFlag %d,speedSlot %s\n\n" %(speedFlag,speedSlot[speedFlag]))
-    plt.hist(minSpeedList)
- 
 ########################################################################################################################
 ###测试程序2,从pickle中读取样本,注意与france csv不一样，输入数据只有48，把vehID,speedFlag 已经去掉了
 import pickle
 
 
 
-def configAndRun(tmp,index):
+def configAndRun(tmp,index,simNum =10):
     
     len1 = len(tmp)
     redLightTime,distToRedLight,speed,laneAvgSpeed,arriveTime1,arriveTime2,laneID,ArrivalDivRedTime,\
@@ -437,7 +366,7 @@ def configAndRun(tmp,index):
     #####################################################################
     
     params =dict()
-    params["simNum"] = 100
+    params["simNum"] = simNum
     
     params["otherVehs"] = vehsOthers1  # [[距离交通灯的距离1，行驶速度1],[距离交通灯的距离2，行驶速度2]]
 
@@ -446,7 +375,7 @@ def configAndRun(tmp,index):
 
     params["objectVeh"] = vehObj
     #[车辆长度，最大加速度,最大减加速度，最大速度，反应时间(0.01到0.1的传输延迟，0.2到0.5的执行延迟),最小间距,不专心,速度噪声]  
-    params["objectVehParams"] = [3,2,9,60/3.6,                       0.5,                           0.5,      0.01,  0.05] 
+    params["objectVehParams"] = [2,2,9,60/3.6,                       0.5,                           0.5,      0.01,  0.05] 
     params["log"] = False
     minSpeedList = []
     
@@ -454,9 +383,9 @@ def configAndRun(tmp,index):
     for i in range(params["simNum"]):
           #print("\nsimNum:%d Start" %i)
           #加入噪声
-          params["otherVehsParams"] = [3,1+random.uniform(0,1),9,15/3.6+random.uniform(0,45/3.6), \
+          params["otherVehsParams"] = [2,1+random.uniform(0,1),9,15/3.6+random.uniform(0,45/3.6), \
                                   0.1+random.uniform(0,0.4), 0.1+random.uniform(0,0.3) ,0.00,0.00] 
-          params["objectVehParams"] = [3,1+random.uniform(0,1),9,15/3.6+random.uniform(0,45/3.6), \
+          params["objectVehParams"] = [2,1+random.uniform(0,1),9,15/3.6+random.uniform(0,45/3.6), \
                                   0.1+random.uniform(0,0.4), 0.1+random.uniform(0,0.3) ,0.00,0.00] 
 
 
@@ -521,89 +450,9 @@ def minSpeed2Tag(minSpeed):
 #主程序
 
 
-#test1()#测试程序1，测试直接从france数据库的提取样本
 
-########################################################################################################################
-#test2 #测试程序2,从pickle中读取样本，样本已经进行[x,y]分割,样本为原始的1%"
-'''
-from datetime import datetime
-from imblearn.under_sampling import RandomUnderSampler
-from collections import Counter
 
-import math
-def test2():
-    print("运行test2,测试程序2,从pickle中读取样本，样本已经进行[x,y]分割.样本为2slot,5hier,9label\n\n")
-    fpk=open('samples2.pkf','rb')   
-    [xFloors,yFloors,modSaveNameFloors,encLevels,yKerasFloors]=pickle.load(fpk)  
-    fpk.close()   
-    
-    
-    
-    dataFile=open('sumoSimData15000.csv','w+',buffering=1)
-    strData = "floor,numSamples,index,outputAvgSpeed,outputY,sumoOutput,yKerasOutput"
-    print(strData,file=dataFile)
-    
-    logFile=open('log.txt','w+',buffering=1)
-    strLog = "start time %s" %datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    print(strLog,file=logFile)
-    
-  
-    
-    #for i in [len(xFloors)-1]:
-    indexSample = 0
-    for i in range(len(xFloors)):
-        levelIndex = i
-        x = xFloors[str(i)]
-        yCurLayer1 =  yFloors[str(i)]
-        yKeras  = yKerasFloors[str(i)]
-        
-        
-        #欠采样
-        rus = RandomUnderSampler(random_state=0)
-        X_resampled, y_resampled = rus.fit_resample(X, y)
-        print(sorted(Counter(y_resampled).items()))
-    
-        sampleNum =  min(15000,math.floor(yCurLayer1.shape[0]/10))#样本为原始的1%,100样本为3分钟
-        
-        timeNow = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        strLog = "\n floor:%d,sampleNum:%d,start time %s" %(i,sampleNum,timeNow)
-        print(strLog,file=logFile)
-    
-        for j in range(sampleNum):
-            #sample_name = 1(ID)+8(keyFeature)+40(otherVehcle)+6(keyFeatures)+40(otherVehs)+1(flag)= 96
-            #x-name = 8(keyFeature)+40(otherVehcle)+6(keyFeatures)+40(otherVehs)= 94
-            tmp = x[j][0:48]
-           
-            minSpeedList1 = configAndRun(tmp)
-            
-            if len(minSpeedList1) == 0:
-                continue
-            
-        
-            outputAvgSpeed = np.round(np.mean(minSpeedList1),2)
-            outputSpeedTag = minSpeed2Tag(outputAvgSpeed)
-            outputY = yCurLayer1[j]
-            #print(outputY,type(outputY))
-            outputY = outputY[0].tolist()
-          
-            strData = "%d,%d,%d,%.2f,%s,%s,%s" %(i, \
-                                                 sampleNum,\
-                                                 j,\
-                                                 outputAvgSpeed, \
-                                                 outputY, \
-                                                 str(outputSpeedTag), \
-                                                 yKeras[j])
-            print(strData,file=dataFile)
-            
-            
-            
-    timeNow = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    strLog = "\n end time %s" %timeNow
-    print(strLog,file=logFile)
-    logFile.close() 
-    dataFile.close() 
-       
-'''    
+
     
 ########################################################################################################################
 #test3
@@ -627,13 +476,14 @@ def test3():
     rvl = []
     #numSamples = 2000
     paramsVehAll = []
+    simNum =  10
     for j in range(0,numSamples):
        
         #xlowpra:x-name = 8(keyFeature)+40(otherVehcle)+7(keyFeatures)+39(otherVehs)= 94
         print("#################################sampleNum:",j)
         tmp = xlowpra[j][0:48]
 
-        minSpeedList1,paramsVehList = configAndRun(tmp,j)
+        minSpeedList1,paramsVehList = configAndRun(tmp,j,simNum)
 
         if len(minSpeedList1) == 0:
             continue
@@ -681,22 +531,86 @@ def test3():
     df.to_csv(fs,index= False, header=['sampleIndex','outputAvgSpeed','originOutput','sumoOutputSpeedTag','kerasPredictLabel',\
                                                'NN0','NN1','NN2','NN3','NN4','NN5','NN6','NN7','NN8',\
                                                'smv1','smv2'])
+    fs = "sumoSimData.csv"
+    #[5+2+9]
+    df.to_csv(fs,index= False, header=['sampleIndex','outputAvgSpeed','originOutput','sumoOutputSpeedTag','kerasPredictLabel',\
+                                               'NN0','NN1','NN2','NN3','NN4','NN5','NN6','NN7','NN8',\
+                                               'smv1','smv2'])
     
     df = pd.DataFrame(paramsVehAll)
     fs = "paramsVehAll%d.csv" %j
     df.to_csv(fs,index= False, header=['sampleIndex','vehLen0','maxAcc0','maxDAcc0','maxSpeed0','reacTime0','minGap0','Impat0','speedFactor0',\
                                        'vehLen','maxAcc','maxDAcc','maxSpeed','reacTime','minGap','Impat','speedFactor',\
                                                'minSpeed0'])
+    fs = "paramsVehAll.csv"
+    df.to_csv(fs,index= False, header=['sampleIndex','vehLen0','maxAcc0','maxDAcc0','maxSpeed0','reacTime0','minGap0','Impat0','speedFactor0',\
+                                       'vehLen','maxAcc','maxDAcc','maxSpeed','reacTime','minGap','Impat','speedFactor',\
+                                               'minSpeed0'])
                                   
     logFile.close() 
  
+#################################################################################################################################
+###################################################################################################################################
+import math
+def test1():
+    print("运行test1,测试程序2,从lowprobSamples.pkf，样本已经进行[x,y]分割.样本为2slot,5hier,9label\n\n")
+    fpk=open('lowprobSamples.pkf','rb')   
+    [xlowpra,ylowpraLabel,ylowPredictLabel,ylowpraPredictNN]=pickle.load(fpk)  
+    fpk.close()    
+ 
+    
+    numSamples,numFeatures = xlowpra.shape
+
+
+    rvl = []
+    #numSamples = 2000
+    paramsVehAll = []
+    simNum =  100
+    for j in [0,1,6]:
+       
+        #xlowpra:x-name = 8(keyFeature)+40(otherVehcle)+7(keyFeatures)+39(otherVehs)= 94
+        print("####################################################")
+        print("sampleNum:",j)
+        tmp = xlowpra[j][0:48]
+
+        minSpeedList1,paramsVehList = configAndRun(tmp,j,simNum)
+
+        if len(minSpeedList1) == 0:
+            continue
+            
+        
+        outputAvgSpeed = np.round(np.mean(minSpeedList1),2)
+        sumoOutputSpeedTag = minSpeed2Tag(outputAvgSpeed)
+       
+        originOutput = ylowpraLabel[j][0]
+        kerasPredictLabel = ylowPredictLabel[j][0]
+        kerasPredictNN = ylowpraPredictNN[j]
+        #[i = 0,outputAvgSpeed=1,outputY[0]=2,outputSpeedTag=3,ylowPredictLabel[i][0]=4]
+
+        sumoRVL=[j,outputAvgSpeed,originOutput,sumoOutputSpeedTag,kerasPredictLabel]
+        sumoRVL.extend(kerasPredictNN)
+        sumoRVL.extend(np.round(minSpeedList1[0:2],2))
+        
+        rvl.append(sumoRVL)
+        paramsVehAll.extend(paramsVehList)   
+        print("sumoOutputSpeedTag:",sumoOutputSpeedTag)
+        print("originOutput:",originOutput)
+        print("kerasPredictLabel:",kerasPredictLabel)
+        print("x[0:8]:",tmp[0:8])
+        input()
+     
+     
+
 ######################################################################################################################## 
 ########################################################################################################################   
 ########################################################################################################################
 
 
 def main():
-    test3()
+    print("test1,用于测试测一个样本并进行分析")
+    test1()
+    #print("test3,运行模拟主程序，用于获得SUMO数据")
+    #test3()
 if __name__ == "__main__":
     main()
     
