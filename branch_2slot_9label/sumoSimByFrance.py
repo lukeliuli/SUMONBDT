@@ -42,6 +42,36 @@ import numpy as np
 import os
 import time
 ########################################################################################################################
+    # 当前车道，每个红灯车的所有时刻的样本
+name1A = ["vehID", "redLightTime", "distToRedLight", "speed", "laneAvgSpeed",
+         "arriveTime1", "arriveTime2", "vehLaneID", "ArrTimeDivRedTime"]#9
+name1B = ["redLightTime", "distToRedLight", "speed", "laneAvgSpeed",
+         "arriveTime1", "arriveTime2", "vehLaneID", "ArrTimeDivRedTime"]#8
+name1C = ["redLightTime", "distToRedLight", "speed", "laneAvgSpeed",
+         "arriveTime1", "arriveTime2","ArrTimeDivRedTime"]#7，去掉"vehID"，"vehLaneID"
+name2 = ["vehPos_1", "vehSpeed_1", "vehPos_2", "vehSpeed_2",
+         "vehPos_3", "vehSpeed_3", "vehPos_4", "vehSpeed_4"]
+name3 = ["vehPos_5", "vehSpeed_5", "vehPos_6", "vehSpeed_6",
+         "vehPos_7", "vehSpeed_7", "vehPos_8", "vehSpeed_8"]
+name4 = ["vehPos_9", "vehSpeed_9", "vehPos_10", "vehSpeed_10",
+         "vehPos_11", "vehSpeed_11", "vehPos_12", "vehSpeed_12"]
+name5 = ["vehPos_13", "vehSpeed_13", "vehPos_14", "vehSpeed_14",
+         "vehPos_15", "vehSpeed_15", "vehPos_16", "vehSpeed_16"]
+name6 = ["vehPos_17", "vehSpeed_17", "vehPos_18", "vehSpeed_18",
+         "vehPos_19", "vehSpeed_19", "vehPos_20", "vehSpeed_20"]
+
+name6_error = ["vehPos_17", "vehSpeed_17", "vehPos_18", "vehSpeed_18",
+         "vehPos_19", "vehSpeed_19", "vehPos_20"] #原始数据出现错误，
+vehAll = name2+name3+name4+name5+name6 #40
+headName49 = name1A+vehAll
+headName48 = name1B+vehAll
+
+headName2SlotX95 = headName49+name1C+name2+name3+name4+name5+name6_error #9+40+7+39= 95
+headName2SlotXY96 = headName2SlotX95+['minSpeedFlag'] ##96
+
+headName2SlotX94 = headName48+name1C+name2+name3+name4+name5+name6_error #48+40+7+39 =  94
+
+
 
 def simSumoCmd(params):
     #print(params)
@@ -371,22 +401,21 @@ def configAndRun(tmp,index,simNum =10):
     params["otherVehs"] = vehsOthers1  # [[距离交通灯的距离1，行驶速度1],[距离交通灯的距离2，行驶速度2]]
 
     #[车辆长度，最大加速度,最大减加速度，最大速度，反应时间,最小间距,不专心,速度噪声]                              
-    params["otherVehsParams"] = [5,2,9,60/3.6,     0.5, 0.5 ,0.01,0.05] 
+    params["otherVehsParams"] = [4,2,9,60/3.6,     0.5, 0.5 ,0.01,0.05] 
 
     params["objectVeh"] = vehObj
     #[车辆长度，最大加速度,最大减加速度，最大速度，反应时间(0.01到0.1的传输延迟，0.2到0.5的执行延迟),最小间距,不专心,速度噪声]  
-    params["objectVehParams"] = [2,2,9,60/3.6,                       0.5,                           0.5,      0.01,  0.05] 
+    params["objectVehParams"] = [4,2,9,60/3.6,                       0.5,                           0.5,      0.01,  0.05] 
     params["log"] = False
     minSpeedList = []
     
     paramsVehList = []
-    for i in range(params["simNum"]):
-          #print("\nsimNum:%d Start" %i)
+    #for i in range(params["simNum"]):
+    while(len(minSpeedList)<params["simNum"]) :
+          print("\nsimNum:%d Start" %len(minSpeedList))
           #加入噪声
-          params["otherVehsParams"] = [2,1+random.uniform(0,1),9,15/3.6+random.uniform(0,45/3.6), \
-                                  0.1+random.uniform(0,0.4), 0.1+random.uniform(0,0.3) ,0.00,0.00] 
-          params["objectVehParams"] = [2,1+random.uniform(0,1),9,15/3.6+random.uniform(0,45/3.6), \
-                                  0.1+random.uniform(0,0.4), 0.1+random.uniform(0,0.3) ,0.00,0.00] 
+          params["otherVehsParams"] = [2,2,9,random.uniform(10/3.6,45/3.6),random.uniform(0.01,1.5), 0.1 ,0.00,0.00] 
+          params["objectVehParams"] = [2,2,9,random.uniform(10/3.6,45/3.6),random.uniform(0.01,0.1), 0.1 ,0.00,0.00] 
 
 
 
@@ -418,7 +447,7 @@ def configAndRun(tmp,index,simNum =10):
 
     minSpeedList1 = np.array(minSpeedList)
     if len(minSpeedList)>0:
-        print("MonteCarloSimulation minSpeedList ,min:%.2f,max:%.2f,mean:%.2f" %(np.min(minSpeedList1),np.max(minSpeedList1),np.mean(minSpeedList1)))
+        print("MonteCarloSimulation %d times,minSpeedList ,min:%.2f,max:%.2f,mean:%.2f" %(len(minSpeedList),np.min(minSpeedList1),np.max(minSpeedList1),np.mean(minSpeedList1)))
 
    
     #plt.hist(minSpeedList)
@@ -476,8 +505,13 @@ def test3():
     rvl = []
     #numSamples = 2000
     paramsVehAll = []
-    simNum =  10
-    for j in range(0,numSamples):
+    simNum =  500
+    
+    #16,66,129,386慢，404，664,701慢，04慢，934,920,1164,1152,1095,1046,1282
+    #样本2049,1874的车辆位置和速度状态，明显不符合物理限制
+    jTmp = np.append(np.arange(0,1873),np.arange(1874,2049))
+    jTmpIndex = np.append(jTmp,np.arange(2050,numSamples))
+    for j in  jTmpIndex:
        
         #xlowpra:x-name = 8(keyFeature)+40(otherVehcle)+7(keyFeatures)+39(otherVehs)= 94
         print("#################################sampleNum:",j)
@@ -505,7 +539,7 @@ def test3():
         
         paramsVehAll.extend(paramsVehList)   
        
-        if j%100 ==5:
+        if j%2 ==1:
             df = pd.DataFrame(rvl)
             fs = "sumoSimDataTmp.csv"
             #[5+9+2+8]
@@ -519,6 +553,7 @@ def test3():
             df.to_csv(fs,index= False, header=['sampleIndex','vehLen0','maxAcc0','maxDAcc0','maxSpeed0','reacTime0','minGap0','Impat0','speedFactor0',\
                                        'vehLen','maxAcc','maxDAcc','maxSpeed','reacTime','minGap','Impat','speedFactor',\
                                                'minSpeed0'])
+
             
             
         timeNow = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -565,9 +600,9 @@ def test1():
     rvl = []
     #numSamples = 2000
     paramsVehAll = []
-    simNum =  100
-    for j in [0,1,6]:
-       
+    simNum =  500
+    #for j in [0,1,6]:
+    for j in [1282]:   
         #xlowpra:x-name = 8(keyFeature)+40(otherVehcle)+7(keyFeatures)+39(otherVehs)= 94
         print("####################################################")
         print("sampleNum:",j)
@@ -596,7 +631,17 @@ def test1():
         print("sumoOutputSpeedTag:",sumoOutputSpeedTag)
         print("originOutput:",originOutput)
         print("kerasPredictLabel:",kerasPredictLabel)
+        print(name1B)
         print("x[0:8]:",tmp[0:8])
+        
+        ##数据分析用
+        pdParamsVehAll = pd.DataFrame(paramsVehAll,columns =['sampleIndex','vehLen0','maxAcc0','maxDAcc0','maxSpeed0','reacTime0','minGap0','Impat0','speedFactor0',\
+                                       'vehLen','maxAcc','maxDAcc','maxSpeed','reacTime','minGap','Impat','speedFactor',\
+                                               'minSpeed0'])
+        indexTmp = pdParamsVehAll['reacTime']>1
+        dataVPTmp1=pdParamsVehAll[indexTmp]
+        dataVPTmp1 = dataVPTmp1[['minSpeed0','maxSpeed0','reacTime0','reacTime','maxSpeed']]
+        print('reacTime>1:\n',dataVPTmp1)
         input()
      
      
@@ -609,6 +654,7 @@ def test1():
 def main():
     print("test1,用于测试测一个样本并进行分析")
     test1()
+    
     #print("test3,运行模拟主程序，用于获得SUMO数据")
     #test3()
 if __name__ == "__main__":

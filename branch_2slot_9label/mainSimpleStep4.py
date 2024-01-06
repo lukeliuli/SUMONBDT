@@ -254,8 +254,12 @@ yKerasSumo= model.predict([x_train], batch_size=2560)
         
 nSamples,nFeatures = x_train.shape
         
+    
+ghostNum1  = 0
+
 for j in range(nSamples):
-    print('\n j:',j)  
+    print('#################################################################')  
+    print('j:',j) 
     dataVP = dfSimVehParams.loc[dfSimVehParams['sampleIndex'] == j]#模拟100次
     dataSD = dfSumoData.loc[dfSumoData['sampleIndex'] == j]
     yNN =  yKerasSumo[j]
@@ -268,29 +272,28 @@ for j in range(nSamples):
                                        'smv1','smv2']
 
 
-
-    print("originOutput:" ,dataSD['originOutput'].item())#item对于Series
-    print("sumoOutputSpeedTag:" ,dataSD['sumoOutputSpeedTag'].item())
-    print("kerasPredictLabel:" ,dataSD['kerasPredictLabel'].item())
-    print("dataSD:\n" ,headSumoData,"\n",dataSD.values)#values对应dataframe
-    tmp = x_train[j][0:48]
-    print("x:",np.round(tmp,2))
+   
+    kerasPredictLabel  = dataSD['kerasPredictLabel'].item()
+    sumoOutputSpeedTag  = dataSD['sumoOutputSpeedTag'].item()
+    print(dataSD[['originOutput','kerasPredictLabel','sumoOutputSpeedTag']])#item对于Series
+    #tmp = x_train[j][0:48]
+    #print("x:",np.round(tmp,2))
+    
+    
     #如果初始模型和蒙特卡洛模拟预测都能通过路口，但是概率比较低，
     #但是加入道路特征和设定车辆延迟比较高时不能通过路口，认为出现幽灵堵  
     yKerasSumoFlag = np.argmax(yNN)
-    if  dataSD['kerasPredictLabel'].item() > 0 and yKerasSumoFlag == 0:
-
-        print(dataVP['maxSpeed0']*3.6)
-        dataVPTmp1=dataVP['minSpeed0']
-        print(dataVPTmp1)
-        print(x_train[j].shape)
-
-        print(name1B)
-        tmp = x_train[j][0:48]
-        print(np.round(tmp,2))
+    ###论文中解释幽灵堵车情况
+    if yKerasSumoFlag == 0 and sumoOutputSpeedTag > 0:
+        ghostNum1 = ghostNum1+1
+        #认为遇到了幽灵堵车现象，分析进行
+        dataVPTmp1=dataVP
+        dataVPTmp1 = dataVPTmp1[['minSpeed0','maxSpeed0','reacTime0','reacTime','maxSpeed']]
+        print("其他车反应时间小于1秒:\n",dataVPTmp1)
         input()
-                
-            
+        
 
+  
+    
             
             
