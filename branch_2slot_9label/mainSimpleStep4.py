@@ -138,35 +138,6 @@ def convertY2Hieral(y):
 
     return y1,hierarchy 
 
-    # 当前车道，每个红灯车的所有时刻的样本
-name1A = ["vehID", "redLightTime", "distToRedLight", "speed", "laneAvgSpeed",
-         "arriveTime1", "arriveTime2", "vehLaneID", "ArrTimeDivRedTime"]#9
-name1B = ["redLightTime", "distToRedLight", "speed", "laneAvgSpeed",
-         "arriveTime1", "arriveTime2", "vehLaneID", "ArrTimeDivRedTime"]#8
-name1C = ["redLightTime", "distToRedLight", "speed", "laneAvgSpeed",
-         "arriveTime1", "arriveTime2","ArrTimeDivRedTime"]#7，去掉"vehID"，"vehLaneID"
-name2 = ["vehPos_1", "vehSpeed_1", "vehPos_2", "vehSpeed_2",
-         "vehPos_3", "vehSpeed_3", "vehPos_4", "vehSpeed_4"]
-name3 = ["vehPos_5", "vehSpeed_5", "vehPos_6", "vehSpeed_6",
-         "vehPos_7", "vehSpeed_7", "vehPos_8", "vehSpeed_8"]
-name4 = ["vehPos_9", "vehSpeed_9", "vehPos_10", "vehSpeed_10",
-         "vehPos_11", "vehSpeed_11", "vehPos_12", "vehSpeed_12"]
-name5 = ["vehPos_13", "vehSpeed_13", "vehPos_14", "vehSpeed_14",
-         "vehPos_15", "vehSpeed_15", "vehPos_16", "vehSpeed_16"]
-name6 = ["vehPos_17", "vehSpeed_17", "vehPos_18", "vehSpeed_18",
-         "vehPos_19", "vehSpeed_19", "vehPos_20", "vehSpeed_20"]
-
-name6_error = ["vehPos_17", "vehSpeed_17", "vehPos_18", "vehSpeed_18",
-         "vehPos_19", "vehSpeed_19", "vehPos_20"] #原始数据出现错误，
-vehAll = name2+name3+name4+name5+name6 #40
-headName49 = name1A+vehAll
-headName48 = name1B+vehAll
-
-headName2SlotX95 = headName49+name1C+name2+name3+name4+name5+name6_error #9+40+7+39= 95
-headName2SlotXY96 = headName2SlotX95+['minSpeedFlag'] ##96
-
-headName2SlotX94 = headName48+name1C+name2+name3+name4+name5+name6_error #48+40+7+39 =  94
-print("\n2slot的数据列表为：headName2SlotXY96\n",headName2SlotXY96)
 
 ############################################################################
 ####HMCM-F ,层次模型，发现hmcn-f训练效果很差，所以采用分离式
@@ -196,7 +167,7 @@ def sepHier1_SUMO(x,yOneHot,num_labels,saveName,levelIndex,numLayers,numEpochs =
 
     
     build_model.compile(optimizer=tf.keras.optimizers.Adam(lr=0.001),loss='categorical_crossentropy',metrics=['accuracy'])
-    if 1:
+    if 0:
         build_model = keras.models.load_model(saveName)
     if 1:#用于画图
         #build_model.fit([x],[yOneHot],epochs=1, batch_size=10000*1)
@@ -208,6 +179,42 @@ def sepHier1_SUMO(x,yOneHot,num_labels,saveName,levelIndex,numLayers,numEpochs =
     build_model.fit(x,yOneHot,epochs=numEpochs,batch_size=160000*1)#GPU用这个
     build_model.save(saveName)
     return build_model
+
+# 当前车道，每个红灯车的所有时刻的样本
+name1A = ["vehID", "redLightTime", "distToRedLight", "speed", "laneAvgSpeed",
+         "arriveTime1", "arriveTime2", "vehLaneID", "ArrTimeDivRedTime"]#9
+name1B = ["redLightTime", "distToRedLight", "speed", "laneAvgSpeed",
+         "arriveTime1", "arriveTime2", "vehLaneID", "ArrTimeDivRedTime"]#8
+name1C = ["redLightTime", "distToRedLight", "speed", "laneAvgSpeed",
+         "arriveTime1", "arriveTime2","ArrTimeDivRedTime"]#7，去掉"vehID"，"vehLaneID"
+name2 = ["vehPos_1", "vehSpeed_1", "vehPos_2", "vehSpeed_2",
+         "vehPos_3", "vehSpeed_3", "vehPos_4", "vehSpeed_4"]
+name3 = ["vehPos_5", "vehSpeed_5", "vehPos_6", "vehSpeed_6",
+         "vehPos_7", "vehSpeed_7", "vehPos_8", "vehSpeed_8"]
+name4 = ["vehPos_9", "vehSpeed_9", "vehPos_10", "vehSpeed_10",
+         "vehPos_11", "vehSpeed_11", "vehPos_12", "vehSpeed_12"]
+name5 = ["vehPos_13", "vehSpeed_13", "vehPos_14", "vehSpeed_14",
+         "vehPos_15", "vehSpeed_15", "vehPos_16", "vehSpeed_16"]
+name6 = ["vehPos_17", "vehSpeed_17", "vehPos_18", "vehSpeed_18",
+         "vehPos_19", "vehSpeed_19", "vehPos_20", "vehSpeed_20"]
+
+name6_error = ["vehPos_17", "vehSpeed_17", "vehPos_18", "vehSpeed_18",
+         "vehPos_19", "vehSpeed_19", "vehPos_20"] #原始数据出现错误，
+vehAll = name2+name3+name4+name5+name6 #40
+headName49 = name1A+vehAll
+headName48 = name1B+vehAll
+
+headName2SlotX95 = headName49+name1C+name2+name3+name4+name5+name6_error #9+40+7+39= 95
+headName2SlotXY96 = headName2SlotX95+['minSpeedFlag'] ##96
+otherVeh = name2+name3+name4+name5+name6_error 
+headName2SlotX94 = headName48+name1C+name2+name3+name4+name5+name6_error #48+40+7+39 =  94
+print("2slot的数据列表为：headName2SlotXY96\n")
+print("去掉vehicleID,2slot的X输入数据列表为：headName2SlotX94\n")
+print("第二层模型的x的输入为103或者108：headName2SlotX94+SUMO动态特征")
+print("sumoSimDataLevel7.csv里面的sampleIndex，相对于步骤1的lowprobSamplesLevel%d.pkf")
+print("stage2ForMainSimpleStep3.pkf里面的xOriginSumoAdded（也就是X），用于训练，不对应sumoSimDataLevel7.csv里面的sampleIndex")
+
+
 
 
 
@@ -226,13 +233,42 @@ print(" 预测幽灵堵车.原因为本来这条道路机容易出现幽灵堵�
 \nE.如果初始模型和蒙特卡洛模拟预测都能通过路口，但是概率比较高，但是加入道路特征和设定车辆延迟比较高时不能通过路口，不知道。\
 \nF.如果原始模型和SUMO增强模型都预测能高速通过路口，但是概率比较低而SUMO模拟预测为不能通过路口，那是什么呢？？也许是提前减速，也就是减低最大速度。")
 
-dfSumoData = pd.read_csv('sumoSimData.csv', sep=',')
+########################################################################################################
+'''将输出重定向到文件'''
+import sys 
+fs1 = open('printlog.txt', 'w+')
+sys.stdout = fs1  # 将输出重定向到文件
 
-headSumoData = ['sampleIndex','outputAvgSpeed','originOutput','sumoOutputSpeedTag','kerasPredictLabel',\
-                                               'NN0','NN1','NN2','NN3','NN4','NN5','NN6','NN7','NN8',\
-                                               'smv1','smv2']
+########################################################################################################
+level = 7
 
-dfSimVehParams = pd.read_csv('paramsVehAll.csv', sep=',')
+if level==7:
+    dfSumoData = pd.read_csv('./data/sumoSimDataLevel7.csv', sep=',')
+
+    headSumoData = ['sampleIndex','outputAvgSpeed','originOutput','sumoOutputSpeedTag','kerasPredictLabel',\
+                                                   'NN0','NN1','NN2','NN3','NN4','NN5','NN6','NN7','NN8',\
+                                                   'smv1','smv2']
+    xInputHeader = headName2SlotX94+['sumoOutputSpeedTag','kerasPredictLabel',\
+                                                   'NN0','NN1','NN2','NN3','NN4','NN5','NN6','NN7','NN8',\
+                                            'outputAvgSpeed','smv1','smv2']
+    
+    dfSimVehParams = pd.read_csv('./data/paramsVehAllLevel7.csv', sep=',')
+    
+if level==2:
+    
+    dfSumoData = pd.read_csv('./data/sumoSimDataLevel2.csv', sep=',')
+
+    headSumoData = ['sampleIndex','outputAvgSpeed','originOutput','sumoOutputSpeedTag','kerasPredictLabel',\
+                                                   'NN0','NN1','NN2','NN3',\
+                                                   'smv1','smv2']
+    
+    xInputHeader = headName2SlotX94+['sumoOutputSpeedTag','kerasPredictLabel',\
+                                                   'NN0','NN1','NN2','NN3','outputAvgSpeed','smv1','smv2']
+    
+    dfSimVehParams = pd.read_csv('./data/paramsVehAllLevel2.csv', sep=',')
+
+
+
 
 
 headSimVehParams = ['sampleIndex','vehLen0','maxAcc0','maxDAcc0','maxSpeed0','reacTime0','minGap0','Impat0','speedFactor0',\
@@ -247,53 +283,109 @@ headSimVehParams = ['sampleIndex','vehLen0','maxAcc0','maxDAcc0','maxSpeed0','re
 fpk=open('stage2ForMainSimpleStep3.pkf','rb') 
 [xOriginSumoAdded,yOriginSumoAdded,saveName,enc,x_train,y_train,yKerasSumoPredict]=pickle.load(fpk)  
 
+#np.concatenate([lowproKerasStage1Input,x1_sumoOutput,x2_yKerasOutput,x3_outputListNN,x4_outputAvgSpeed,x5_sumoOutList],axis=1)#71%
+print('xOriginSumoAdded.shape:',xOriginSumoAdded.shape)
+xInputDF = pd.DataFrame(xOriginSumoAdded,columns=xInputHeader)
+
+fs = "./data/step4_xInput_level%d.csv" %level
+xInputDF.to_csv(fs,index= False)
 
 model_name = saveName 
 model = keras.models.load_model(model_name)
-yKerasSumo= model.predict([x_train], batch_size=2560)
+yKerasSumo= model.predict([xOriginSumoAdded], batch_size=2560)
         
-nSamples,nFeatures = x_train.shape
-        
-    
-ghostNum1  = 0
+nSamples,nFeatures = xOriginSumoAdded.shape
 
+print("xOriginSumoAdded.shape:",xOriginSumoAdded.shape)
+print("dfSumoData.shape:",dfSumoData.shape)
+print("dfSimVehParams.shape:",dfSimVehParams.shape)   
+
+
+ghostNum1  = 0  
+ghostNum2  = 0 
+flag0Num1  = 0
+simpleFeatures1 = np.array([])
+simpleFeatures2 = np.array([])
 for j in range(nSamples):
     print('#################################################################')  
     print('j:',j) 
-    dataVP = dfSimVehParams.loc[dfSimVehParams['sampleIndex'] == j]#模拟100次
-    dataSD = dfSumoData.loc[dfSumoData['sampleIndex'] == j]
+    '''xOriginSumoAdded（也就是X），用于训练，行标号不对应sumoSimDataLevel7.csv里面的sampleIndex'''
+    '''根据xOriginSumoAdded行标号，获得sumoSimDataLevel7.csv行标号对应的sampleIndex'''
+    yNN =  yKerasSumo[j]
+    #print('yNN:',np.round(yNN,2))
+    yKerasSumoFlag = np.argmax(yNN)
+    if yKerasSumoFlag>0:
+        continue
+    
+    dataSD = dfSumoData.iloc[j]
+    sampleIndex = dataSD['sampleIndex'].item()
+    dataVP = dfSimVehParams[dfSimVehParams['sampleIndex'] == sampleIndex]
     yNN =  yKerasSumo[j]
     print('yNN:',np.round(yNN,2))
 
 
     #进行分析
-    headSumoData = ['sampleIndex','outputAvgSpeed','originOutput','sumoOutputSpeedTag','kerasPredictLabel',\
-                                       'NN0','NN1','NN2','NN3','NN4','NN5','NN6','NN7','NN8',\
-                                       'smv1','smv2']
-
+    xtmp = xOriginSumoAdded[j]
+    vehs = xtmp[8:48]
+    vehs = vehs.reshape(-1,2)
+    vehs = vehs[np.where(vehs[:,0]>0)]
+    vehsOthers1 = vehs[0:-1]#最后一个是目标车，不要
+    numFrontVeh,tmp = vehsOthers1.shape
+    redTimeLeft = xtmp[0]
+    dist = xtmp[1] 
+    speed = xtmp[2]
+    maxSpeed = xtmp[3]
 
    
     kerasPredictLabel  = dataSD['kerasPredictLabel'].item()
     sumoOutputSpeedTag  = dataSD['sumoOutputSpeedTag'].item()
+   
     print(dataSD[['originOutput','kerasPredictLabel','sumoOutputSpeedTag']])#item对于Series
     #tmp = x_train[j][0:48]
     #print("x:",np.round(tmp,2))
-    
+    print("yKerasSumoFlag:",yKerasSumoFlag)
     
     #如果初始模型和蒙特卡洛模拟预测都能通过路口，但是概率比较低，
     #但是加入道路特征和设定车辆延迟比较高时不能通过路口，认为出现幽灵堵  
     yKerasSumoFlag = np.argmax(yNN)
+    print("yKerasSumoFlag:",yKerasSumoFlag)
+    
     ###论文中解释幽灵堵车情况
-    if yKerasSumoFlag == 0 and sumoOutputSpeedTag > 0:
-        ghostNum1 = ghostNum1+1
+    if yKerasSumoFlag == 0: 
+        flag0Num1 = flag0Num1+1
+        
         #认为遇到了幽灵堵车现象，分析进行
         dataVPTmp1=dataVP
         dataVPTmp1 = dataVPTmp1[['minSpeed0','maxSpeed0','reacTime0','reacTime','maxSpeed']]
-        print("其他车反应时间小于1秒:\n",dataVPTmp1)
-        input()
+        dataVPTmp1 = dataVPTmp1[(dataVPTmp1['maxSpeed0'] > 40/3.6) & (dataVPTmp1['maxSpeed'] > 40/3.6)]
+        dataVPTmp1 = dataVPTmp1[(dataVPTmp1['reacTime0'] <1.2) & (dataVPTmp1['reacTime'] <1.2)]
+      
+        meanSpeed = dataVPTmp1['minSpeed0'].mean()
+        if  numFrontVeh >0 and sumoOutputSpeedTag  > 0:
+            ghostNum1 = ghostNum1+1
         
+        if  numFrontVeh >0 and  meanSpeed>= 5/3.6:
+            ghostNum2 = ghostNum2+1
+            
+     
+        
+        if  numFrontVeh >0 and meanSpeed  >= 5/3.6:
+            f1 = numFrontVeh*2+redTimeLeft
+            f2 = dist/speed
+            simpleFeatures2 = np.append(simpleFeatures2,[f1,f2,f1/f2])
+        
+        if numFrontVeh >0 and meanSpeed  < 5/3.6:
+            f1 = numFrontVeh*2+redTimeLeft
+            f2 = dist/speed
+            simpleFeatures1 = np.append(simpleFeatures1,[f1,f2,f1/f2])
+           
+        
+print('#################################################################') 
+strTmp1 = "flag0Num1:%d,ghostNum1:%d,value:%3f" %(flag0Num1,ghostNum1,ghostNum1*1.0/flag0Num1)
+strTmp2 = "flag0Num1:%d,ghostNum2:%d,value:%3f" %(flag0Num1,ghostNum2,ghostNum2*1.0/flag0Num1)
+print(strTmp1)
+print(strTmp2)
 
-  
-    
+
             
             

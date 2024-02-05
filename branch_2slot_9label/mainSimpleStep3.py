@@ -170,8 +170,11 @@ headName2SlotX95 = headName49+name1C+name2+name3+name4+name5+name6_error #9+40+7
 headName2SlotXY96 = headName2SlotX95+['minSpeedFlag'] ##96
 
 headName2SlotX94 = headName48+name1C+name2+name3+name4+name5+name6_error #48+40+7+39 =  94
-print("\n2slot的数据列表为：headName2SlotXY96\n",headName2SlotXY96)
-
+print("2slot的数据列表为：headName2SlotXY96")
+print("去掉vehicleID,2slot的X输入数据列表为：headName2SlotX94")
+print("第二层模型的x的输入为103或者108：headName2SlotX94+SUMO动态特征")
+print("sumoSimDataLevel7.csv里面的sampleIndex，相对于步骤1的lowprobSamplesLevel%d.pkf")
+print("stage2ForMainSimpleStep3.pkf里面的xOriginSumoAdded，不对应sumoSimDataLevel7.csv里面的sampleIndex")
 ############################################################################
 ####HMCM-F ,层次模型，发现hmcn-f训练效果很差，所以采用分离式
 ###每一层的识别模型都是4层模型
@@ -200,7 +203,7 @@ def sepHier1_SUMO(x,yOneHot,num_labels,saveName,levelIndex,numLayers,numEpochs =
 
     
     build_model.compile(optimizer=tf.keras.optimizers.Adam(lr=0.001),loss='categorical_crossentropy',metrics=['accuracy'])
-    if 1:
+    if 0:
         build_model = keras.models.load_model(saveName)
     if 1:#用于画图
         #build_model.fit([x],[yOneHot],epochs=1, batch_size=10000*1)
@@ -223,8 +226,11 @@ print("程序编号为3.1，主程序开始运行")
 
 ####原始的keras训练数据中的低概率数据，阶段1
 #sample_name = 1(ID)+8(keyFeature)+40(otherVehcle)+6(keyFeatures)+40(otherVehs)+1(flag)= 96
-#xlowpra:x-name = 8(keyFeature)+40(otherVehcle)+6(keyFeatures)+40(otherVehs)= 94      
-fpk=open('lowprobSamples.pkf','rb')   
+#xlowpra:x-name = 8(keyFeature)+40(otherVehcle)+6(keyFeatures)+40(otherVehs)= 94
+level = 7
+
+strTmp = 'lowprobSamplesLevel%d.pkf' %level
+fpk=open(strTmp,'rb')   
 [xlowpra,ylowpraLabel,ylowPredictLabel,ylowpraPredictNN]=pickle.load(fpk)  
 print("xlowpra",xlowpra.shape)
 fpk.close()      
@@ -232,29 +238,34 @@ fpk.close()
 
 
 ####原始的keras训练数据，阶段2
-df = pd.read_csv('sumoSimData.csv', sep=',')
+strTmp = './data/sumoSimDataLevel%d.csv' %level
+df = pd.read_csv(strTmp, sep=',')
 
 print("sumoSimData.csv",df.shape)
 print("sumoSimData.csv",df.columns)
 numSamples,numFeatures = df.shape
 
-##['sampleIndex','outputAvgSpeed','originOutput','sumoOutputSpeedTag','kerasPredictLabel','smv1','smv2',\
- ##                                              'NN0','NN1','NN2','NN3','NN4','NN5','NN6','NN7','NN8'])
+
     
 
 sumoOutput='sumoOutputSpeedTag'
 yKerasOutput='kerasPredictLabel'
 originOutput ='originOutput'
 sumoOutList = ['smv1','smv2']
-outputListNN = ['NN0','NN1','NN2','NN3','NN4','NN5','NN6','NN7','NN8']
+outputListNNall = ['NN0','NN1','NN2','NN3','NN4','NN5','NN6','NN7','NN8']
+numNN = ylowpraPredictNN.shape[1]
+outputListNN = outputListNNall[0:numNN]
 outputAvgSpeed = 'outputAvgSpeed'
 
+'''根据成功仿真的样本标号，这里对原始lowprobIndexd进行了筛选,用于后期加入原始特征'''
 df1 = df[ "sampleIndex"]
 lowprobIndex = df1.iloc[0:numSamples].to_numpy()
-lowproKerasStage1Input = xlowpra[lowprobIndex]#这里对原始lowprobIndexd进行了筛选
-#print(originLowproKerasInput[0:3].shape)
-#print(originLowproKerasInput[0:3])
+xlowpra2 = xlowpra[lowprobIndex]#这里对原始lowprobIndexd进行了筛选
 
+print('xlowpra2.shape:',xlowpra2.shape)
+#print('xlowpra2[0]:',xlowpra2[0])
+
+##############################################################################
 df1 = df[sumoOutput]
 x1_sumoOutput = df1.iloc[0:numSamples].to_numpy().reshape(-1,1)
 
@@ -300,7 +311,7 @@ if 1:
     print(score) 
     
     df = pd.DataFrame(np.around(mat2acc , decimals=3))
-    fs = "低概率样本的原始kerasNN模型的混淆矩阵结果.csv"
+    fs = "./data/低概率样本的原始Level%dkerasNN模型的混淆矩阵结果.csv" %level
     df.to_csv(fs,index= False, header= False)
 
 
@@ -310,11 +321,10 @@ print("\n#############################加入新特征SUMO+阶段1的特征,对�
 
 #基于lowprobIndex对原始低概率样本进行了筛选
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#lowproKerasStage1Input = xlowpra[lowprobIndex]#这里对原始lowprobIndexd进行了筛选
-#
+'''开始训练第二层模型前的数据预处理'''
 
-print('lowproKerasStage1Inputx.shape:', lowproKerasStage1Input.shape)
-x = np.concatenate([lowproKerasStage1Input,x1_sumoOutput,x2_yKerasOutput,x3_outputListNN,x4_outputAvgSpeed,x5_sumoOutList],axis=1)#71%
+'''将场景静态特征和SUMO动态特征进行的整合'''
+x = np.concatenate([xlowpra2,x1_sumoOutput,x2_yKerasOutput,x3_outputListNN,x4_outputAvgSpeed,x5_sumoOutList],axis=1)#71%
 
  
 print('x.shape:',x.shape)
@@ -324,45 +334,32 @@ for i in range(rN.shape[0]):
     x[rN[i],cN[i]] = 0
      
 
-
-#保存加入SUMO特征的全体样本
-xOriginSumoAdded = x 
-yOriginSumoAdded = yOriginOutput
-    
-    
-print("测试：不分层，只训练最底层的模型")
-    
-
 y=yOriginOutput.reshape(1,-1)[0]
 x=x.astype(np.float32)#GPU 加这个
 y=y.astype(np.int64)#GPU 加这个
 print("x.shape:",x .shape,"y.shape:",y .shape,"y.type:", type(y) )
 
 
-
 #保存原始全部数据
 xOriginSumoAdded   = x
 yOriginSumoAdded  = y
 
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.9, random_state=0)
 
-
-x_train = x
-y_train = y
 nSamples,nFeatures =  x_train.shape
  
 tmp = x_train[0][0:48]
 print("x_train[0]:",np.round(tmp,2))
 
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-numEpochs =100#1500/60/60*5 = 2houer
+'''开始训练第二层模型'''
 
 
+numEpochs =2000          #1500/60/60*5 = 2houer
 numLayers = 4
 enc = OneHotEncoder()
 nSamples,nFeatures =  x_train.shape
        
-
-
         
 y_train= y_train.reshape(nSamples,-1)
 enc.fit(y_train)
@@ -380,25 +377,27 @@ print("num_labels:", num_labels)
 numLayers = 4
 levelIndex = 7
 saveName = "modelSepStage2ForMainSimpleStep3.h5"
-#saveName = "../trainedModes/modelSep-2level%d-%dlayer-2slots-gpu1.h5" %(i,numLayers)#基于拥堵定义的2层结构
 print("saveName:",saveName)
 
 print("#############################\n加入新特征SUMO+阶段1的特征,对低概率样本重新训练多级独立kerasNN的进行分析（开始训练完成）\n")
 
-sepHier1_SUMO(x_train,yOneHot,num_labels,saveName,levelIndex,numLayers,numEpochs)
+build_model = sepHier1_SUMO(x_train,yOneHot,num_labels,saveName,levelIndex,numLayers,numEpochs)
 
-
-print("#############################\n加入新特征SUMO+阶段1的特征,对低概率样本重新训练多级独立kerasNN的进行分析（已经训练完成）\n")
+print("#############################\n加入新特征SUMO+阶段1的特征,对低概率样本重新训练多级独立kerasNN的进行分析（已经训练完成）")
 
 ######################
 print("只做最低层，对加入SUMO特征的全体低概率样本进行识别的结果")
 
-x = x_train  
+
 yPredict=getKerasResnetRVL(x,enc,saveName)#输出格式为['0','1']
 yKerasSumoPredict = yPredict
 
-print(yPredict[0:10])
 
+print("yPredict.shape:",yPredict.shape)
+print("yPredict[0:10]:",yPredict[0:10])
+
+tmp1 = classification_report(yOriginOutput,yPredict)
+print(tmp1)
 mat1num = confusion_matrix(yOriginOutput,yPredict)
 print(mat1num)
 mat2acc = confusion_matrix(yOriginOutput,yPredict,normalize='pred')  

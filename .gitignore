@@ -130,7 +130,7 @@ dmypy.json
 
 logs/
 data/
-
+*.txt
 *.csv
 trainData/
 trainedModes/
@@ -139,4 +139,5 @@ franceRedData/
 sumoCfgs1/fcd-output.xml
 sumoCfgs1/full-output.xml
 sumoCfgs1/summary.xml
-log*
+*log*
+*h5

@@ -22,6 +22,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn import naive_bayes
 
 from sklearn.metrics import accuracy_score
+import matplotlib.pyplot as plt
 
 def analyzX(tmp):
     
@@ -46,13 +47,13 @@ def analyzX(tmp):
     
     
     
-dfSumoData = pd.read_csv('sumoSimDataTmp1.csv', sep=',')
+dfSumoData = pd.read_csv('sumoSimData.csv', sep=',')
 
 headSumoData = ['sampleIndex','outputAvgSpeed','originOutput','sumoOutputSpeedTag','kerasPredictLabel',\
                                                'NN0','NN1','NN2','NN3','NN4','NN5','NN6','NN7','NN8',\
                                                'smv1','smv2']
 
-dfSimVehParams = pd.read_csv('paramsVehAllTmp1.csv', sep=',')
+dfSimVehParams = pd.read_csv('paramsVehAll.csv', sep=',')
 
 
 headSimVehParams = ['sampleIndex','vehLen0','maxAcc0','maxDAcc0','maxSpeed0','reacTime0','minGap0','Impat0','speedFactor0',\
@@ -93,7 +94,7 @@ for j in range(nSamples):
      #论文用
      ##预测不停车过路口停车线
      #第一种情况，直接给出结论，不能不停车过路口并给出SUMO仿真验证
-    if 0 and originOutput == 0 and sumoOutputSpeedTag== 0 :
+    if 1 and originOutput == 0 and sumoOutputSpeedTag== 0 :
             
             print("originOutput == 0 and sumoOutputSpeedTag== 0")
             print("第一种情况，直接给出结论，不能不停车过路口并给出SUMO仿真验证")
@@ -101,7 +102,7 @@ for j in range(nSamples):
             dfSVP = dfSimVehParams[indT]
             print('dfSVP.shape:',dfSVP.shape)
             
-            tmp1 = (dfSVP['maxSpeed0']>20/3.6) & (dfSVP['maxSpeed']>20/3.6) & (dfSVP['reacTime0']<0.8) & (dfSVP['reacTime']<0.8)
+            tmp1 = (dfSVP['maxSpeed0']>20/3.6) & (dfSVP['maxSpeed']>20/3.6)  & (dfSVP['reacTime']<0.8)
             dfSVP1 = dfSVP[tmp1]
             dfSVP1 = dfSVP1[['maxSpeed0','minSpeed0']]
             print('dfSVP1.shape:',dfSVP1.shape)
@@ -205,13 +206,13 @@ for j in range(nSamples):
             print('redLightTime,distToRedLight,speed,laneAvgSpeed,arriveTime1,arriveTime2\n')
             print(redLightTime,distToRedLight,speed,laneAvgSpeed,arriveTime1,arriveTime2)
          
-            #print("如果实际为0，SUMO大于0，有排队车辆，同时按照车道平均速度到达停车线的时间在小于红灯时间，就是红灯太长了，导致实际为0")
-            #print("SUMO大于0，是因为目标车辆的设置最大速度有一定的压制")
+            '''如果实际为0，SUMO大于0，有排队车辆，同时按照车道平均速度到达停车线的时间在小于红灯时间，就是红灯太长了，导致实际为0")'''
+            '''SUMO大于0，是因为目标车辆的设置最大速度有一定的压制")'''
             
             nVehsFront = vehsOthers1.shape[0]
             if nVehsFront>0 and arriveTime2>redLightTime:#按照车道平均速度到达停车线的时间在大于红灯时间,有排队车辆，
                 print("如果实际为0，SUMO大于0，有排队车辆，同时按照车道平均速度到达停车线的时间在大于红灯时间，可以理解为幽灵停车")
-                tmp1 =   (dfSVP['reacTime0']<0.8)  & (dfSVP['reacTime']>1.1)
+                tmp1 =   (dfSVP['reacTime']>1.1)
                 dfSVP1 = dfSVP[tmp1]
                 dfSVP1 = dfSVP1[['maxSpeed0','minSpeed0']]
                 print('dfSVP1.shape:',dfSVP1.shape)
@@ -219,19 +220,38 @@ for j in range(nSamples):
                 print('dfSVP1[reacTime]>1:\n',dfSVP1)
                 print(dfSVP1.mean())
                 
-                tmp1 =   (dfSVP['reacTime0']<0.8)  & (dfSVP['reacTime']<0.3)
+                plt.scatter(dfSVP1['maxSpeed0'], dfSVP1['minSpeed0'],marker='o',label='>1.1')
+                plt.title('maxSpeed0 and minSpeed0')
+                plt.xlabel('maxSpeed0')
+                plt.ylabel('minSpeed0')
+                plt.savefig('tmp1.png')  # 保存为png格式图片
+                
+               
+                
+                #fs = "tmp1ForPlot1.csv"
+                #dfSVP1.to_csv(fs,index= False, header= False)
+                
+                tmp1 =   (dfSVP['reacTime']<0.3)
                 dfSVP1 = dfSVP[tmp1]
                 dfSVP1 = dfSVP1[['maxSpeed0','minSpeed0']]
                 print('dfSVP1.shape:',dfSVP1.shape)
                 print('nVehsFront:',nVehsFront)
                 print('dfSVP1[reacTime]<0.3:\n',dfSVP1)
                 print(dfSVP1.mean())
-            
+                
+                plt.scatter(dfSVP1['maxSpeed0'], dfSVP1['minSpeed0'],marker='+',label='<0.3')
+                plt.title('maxSpeed0 and minSpeed0')
+                plt.xlabel('maxSpeed0')
+                plt.ylabel('minSpeed0')
+                plt.legend()
+                plt.savefig('tmp2.png')  # 保存为png格式图片
+               
+                plt.close()
                 input()
                 
                 
     #幽灵停车对比           
-    if 1 and originOutput > 0 and sumoOutputSpeedTag >0:
+    if 0 and originOutput > 0 and sumoOutputSpeedTag >0:
             print("#########################################")
             print("幽灵停车对比分析")
             indT= dfSimVehParams['sampleIndex'] == sampleIndex
@@ -252,7 +272,7 @@ for j in range(nSamples):
             nVehsFront = vehsOthers1.shape[0]
             if nVehsFront>0 and arriveTime2>redLightTime:#按照车道平均速度到达停车线的时间在大于红灯时间,有排队车辆，
                 print("如果实际为0，SUMO大于0，有排队车辆，同时按照车道平均速度到达停车线的时间在大于红灯时间，可以理解为幽灵停车")
-                tmp1 =   (dfSVP['reacTime0']<0.8)  & (dfSVP['reacTime']>1.2)
+                tmp1 =   dfSVP['reacTime']>1.1
                 dfSVP1 = dfSVP[tmp1]
                 dfSVP1 = dfSVP1[['maxSpeed0','minSpeed0']]
                 print('dfSVP1.shape:',dfSVP1.shape)
@@ -260,14 +280,26 @@ for j in range(nSamples):
                 print('dfSVP1[reacTime]>1:\n',dfSVP1)
                 print(dfSVP1.mean())
                 
-                tmp1 =   (dfSVP['reacTime0']<0.8)  & (dfSVP['reacTime']<0.3)
+                plt.scatter(dfSVP1['maxSpeed0'], dfSVP1['minSpeed0'],marker='o',label='>1.1')
+                plt.title('maxSpeed0 and minSpeed0')
+                plt.xlabel('maxSpeed0')
+                plt.ylabel('minSpeed0')
+                plt.savefig('tmp3.png')  # 保存为png格式图片
+                
+                tmp1 =   dfSVP['reacTime']<0.3
                 dfSVP1 = dfSVP[tmp1]
                 dfSVP1 = dfSVP1[['maxSpeed0','minSpeed0']]
                 print('dfSVP1.shape:',dfSVP1.shape)
                 print('nVehsFront:',nVehsFront)
                 print('dfSVP1[reacTime]<0.3:\n',dfSVP1)
                 print(dfSVP1.mean())
-            
+                
+                plt.scatter(dfSVP1['maxSpeed0'], dfSVP1['minSpeed0'],marker='+',label='>1.1')
+                plt.title('maxSpeed0 and minSpeed0')
+                plt.xlabel('maxSpeed0')
+                plt.ylabel('minSpeed0')
+                plt.savefig('tmp4.png')  # 保存为png格式图片
+                plt.close()
                 input()
 '''  
 print('###################################################')

@@ -10,7 +10,7 @@
 
 print("#########################################################################")
 print("基于SUMO和蒙特卡洛模拟分析生成预测当前样本的最小速度，原始对应程序为mainSimSumoFranceData，需要在docker的原始环境下运行，没有conda")
-print("程序为0.1")
+print("程序标号3，以及是并行仿真版本")
 
 
 #用于简单过路灯模拟
@@ -414,8 +414,8 @@ def configAndRun(tmp,index,simNum =10):
     while(len(minSpeedList)<params["simNum"])  and emptyRun < 50:
           print("\nsampleIndex: %d,simNum:%d Start" %(index,len(minSpeedList)))
           #加入噪声
-          params["otherVehsParams"] = [2,random.uniform(1,2),9,random.uniform(15/3.6,45/3.6),random.uniform(0.01,1.5), 0.1 ,0.00,0.00] 
-          params["objectVehParams"] = [2,random.uniform(1,2),9,random.uniform(15/3.6,45/3.6),random.uniform(0.01,0.1), 0.1 ,0.00,0.00] 
+          params["otherVehsParams"] = [2,random.uniform(1,2),9,random.uniform(15/3.6,70/3.6),random.uniform(0.01,1.5), 0.1 ,0.00,0.00] 
+          params["objectVehParams"] = [2,random.uniform(1,2),9,random.uniform(15/3.6,70/3.6),random.uniform(0.01,0.1), 0.1 ,0.00,0.00] 
 
 
 
@@ -481,50 +481,47 @@ def minSpeed2Tag(minSpeed):
 
 
 
-
-
-    
-########################################################################################################################
-#test3
-from datetime import datetime
-
-import math
-import time
-def test3():
-    print("运行test3,测试程序2,从lowprobSamples.pkf，样本已经进行[x,y]分割.样本为2slot,5hier,9label\n\n")
-    fpk=open('lowprobSamples.pkf','rb')   
+def test4ParallSim1(sections,labels,level):
+    '''从test3,修改而来，主要修改地方为根据输入参数进行样本分割，并将结果进行保存到独立的文件夹中'''
+    print("test4ParallSim1,从lowprobSamples.pkf，样本已经进行[x,y]分割.样本为2slot,5hier,9label\n\n")
+    print("test4ParallSim1,样本section为:")
+    print(sections)
+    strTmp = 'lowprobSamplesLevel%d.pkf' %level
+    fpk=open(strTmp,'rb')   
     [xlowpra,ylowpraLabel,ylowPredictLabel,ylowpraPredictNN]=pickle.load(fpk)  
     fpk.close()   
     
-    
-    logFile=open('log.txt','w+',buffering=1)
+    logFile=open("./tmpData/"+labels+'log.txt','w+',buffering=1)
     strLog = "start time %s" %datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     print(strLog,file=logFile)
     
     numSamples,numFeatures = xlowpra.shape
     strLog = "numSamples %d,numFeatures%d" %(numSamples,numFeatures)
     print(strLog,file=logFile)
+   
 
     rvl = []
     #numSamples = 2000
     paramsVehAll = []
-    simNum =  50#sim==500,运行一个样本时间为10秒
+    simNum =  50  #sim==500,运行一个样本时间为10秒
     
-    #16,66,129,386慢，404，664,701慢，04慢，934,920,1164,1152,1095,1047,1282
-    #样本2049,1874的车辆位置和速度状态，明显不符合物理限制
-    jTmp = np.append(np.arange(0,1873),np.arange(1874,2049))
-    jTmpIndex = np.append(jTmp,np.arange(2050,numSamples))
-    jTmpIndex = np.arange(numSamples)
-    for j in  jTmpIndex:
-       
+ 
+    stt = round(numSamples*sections[0])
+    end = round(numSamples*sections[1])
+    jTmpIndex = np.arange(stt,end)
+    
+    strLog = "start:%d,end:%d" %(stt,end)
+    print(strLog,file=logFile)
+   
+  
+    for j in jTmpIndex:
+        
         #xlowpra:x-name = 8(keyFeature)+40(otherVehcle)+7(keyFeatures)+39(otherVehs)= 94
-        print("#################################sampleNum:",j)
         tmp = xlowpra[j][0:48]
 
         minSpeedList1,paramsVehList = configAndRun(tmp,j,simNum)
 
         if len(minSpeedList1) == 0:
-            print("j,len(minSpeedList1) == 0")
             continue
             
         
@@ -543,200 +540,113 @@ def test3():
         rvl.append(sumoRVL)
         
         paramsVehAll.extend(paramsVehList)   
-       
-        if j%100 ==50:
-            time.sleep(1)
-            df = pd.DataFrame(rvl)
-            fs = "sumoSimDataTmp.csv"
-            #[5+9+2+8]
-            #车辆长度，最大加速度,最大减加速度，最大速度，反应时间(0.01到0.1的传输延迟，0.2到0.5的执行延迟),最小间距,不专心,速度噪声
-            #'vehLen','maxAcc','maxDAcc','maxSpeed','reacTime','minGap','Impat','speedFactor'
-            df.to_csv(fs,index= False, header=['sampleIndex','outputAvgSpeed','originOutput','sumoOutputSpeedTag','kerasPredictLabel',\
-                                               'NN0','NN1','NN2','NN3','NN4','NN5','NN6','NN7','NN8',\
-                                               'smv1','smv2'])
-            df = pd.DataFrame(paramsVehAll)
-            fs = "paramsVehAllTmp.csv"
-            df.to_csv(fs,index= False, header=['sampleIndex','vehLen0','maxAcc0','maxDAcc0','maxSpeed0','reacTime0','minGap0','Impat0','speedFactor0',\
-                                       'vehLen','maxAcc','maxDAcc','maxSpeed','reacTime','minGap','Impat','speedFactor',\
-                                               'minSpeed0'])
-
-            
-            
+        
         timeNow = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         strLog = "\nsampleIndex:%d, time End %s" %(j,timeNow)
         print(strLog,file=logFile)
+       
+
+
+            
+            
+     
      
     df = pd.DataFrame(rvl)
-    fs = "sumoSimData%d.csv" %j
+    fs ="./tmpData/"+labels+"sumoSimData.csv"
     #[5+2+9]
-    df.to_csv(fs,index= False, header=['sampleIndex','outputAvgSpeed','originOutput','sumoOutputSpeedTag','kerasPredictLabel',\
-                                               'NN0','NN1','NN2','NN3','NN4','NN5','NN6','NN7','NN8',\
-                                               'smv1','smv2'])
-    fs = "sumoSimData.csv"
-    #[5+2+9]
-    df.to_csv(fs,index= False, header=['sampleIndex','outputAvgSpeed','originOutput','sumoOutputSpeedTag','kerasPredictLabel',\
-                                               'NN0','NN1','NN2','NN3','NN4','NN5','NN6','NN7','NN8',\
-                                               'smv1','smv2'])
-    
+    if level == 2:
+        df.to_csv(fs,index= False, header=['sampleIndex','outputAvgSpeed','originOutput','sumoOutputSpeedTag','kerasPredictLabel',\
+                                               'NN0','NN1','NN2','NN3','smv1','smv2'])
+        
+    if level == 7:
+        df.to_csv(fs,index= False, header=['sampleIndex','outputAvgSpeed','originOutput','sumoOutputSpeedTag','kerasPredictLabel',\
+                                           'NN0','NN1','NN2','NN3','NN4','NN5','NN6','NN7','NN8','smv1','smv2'])
     df = pd.DataFrame(paramsVehAll)
-    fs = "paramsVehAll%d.csv" %j
-    df.to_csv(fs,index= False, header=['sampleIndex','vehLen0','maxAcc0','maxDAcc0','maxSpeed0','reacTime0','minGap0','Impat0','speedFactor0',\
-                                       'vehLen','maxAcc','maxDAcc','maxSpeed','reacTime','minGap','Impat','speedFactor',\
-                                               'minSpeed0'])
-    fs = "paramsVehAll.csv"
+    fs = "./tmpData/"+labels+"paramsVehAll.csv"
     df.to_csv(fs,index= False, header=['sampleIndex','vehLen0','maxAcc0','maxDAcc0','maxSpeed0','reacTime0','minGap0','Impat0','speedFactor0',\
                                        'vehLen','maxAcc','maxDAcc','maxSpeed','reacTime','minGap','Impat','speedFactor',\
                                                'minSpeed0'])
                                   
-    logFile.close() 
- 
-#################################################################################################################################
-###################################################################################################################################
-import math
-def test1():
-    print("运行test1,测试程序2,从lowprobSamples.pkf，样本已经进行[x,y]分割.样本为2slot,5hier,9label\n\n")
-    
-    fpk=open('lowprobSamples.pkf','rb')   
-    [xlowpra,ylowpraLabel,ylowPredictLabel,ylowpraPredictNN]=pickle.load(fpk)  
-    fpk.close()   
-    
-    
-    
-    numSamples,numFeatures = xlowpra.shape
+  
 
-
-    rvl = []
-    #numSamples = 2000
-    paramsVehAll = []
-    simNum =  500
-    
-    #16,66,129,386慢，404，664,701慢，04慢，934,920,1164,1152,1095,1047,1282
-    #样本2049,1874的车辆位置和速度状态，明显不符合物理限制
-    jTmpIndex = [3,16,66]
-    for j in  jTmpIndex:
-       
-        #xlowpra:x-name = 8(keyFeature)+40(otherVehcle)+7(keyFeatures)+39(otherVehs)= 94
-        print("#################################sampleNum:",j)
-        tmp = xlowpra[j][0:48]
-
-        minSpeedList1,paramsVehList = configAndRun(tmp,j,simNum)
-
-        if len(minSpeedList1) == 0:
-            continue
-            
-        
-        outputAvgSpeed = np.round(np.mean(minSpeedList1),2)
-        sumoOutputSpeedTag = minSpeed2Tag(outputAvgSpeed)
-       
-        originOutput = ylowpraLabel[j][0]
-        kerasPredictLabel = ylowPredictLabel[j][0]
-        kerasPredictNN = ylowpraPredictNN[j]
-        #[i = 0,outputAvgSpeed=1,outputY[0]=2,outputSpeedTag=3,ylowPredictLabel[i][0]=4]
-
-        sumoRVL=[j,outputAvgSpeed,originOutput,sumoOutputSpeedTag,kerasPredictLabel]
-        sumoRVL.extend(kerasPredictNN)
-        sumoRVL.extend(np.round(minSpeedList1[0:2],2))
-        
-        rvl.append(sumoRVL)
-        
-        paramsVehAll.extend(paramsVehList)   
-       
-
-###################################################################################################################################
-'''
-import multiprocessing
-
-def worker(args):
-    j,simNum=args
-    
-    fpk=open('lowprobSamples.pkf','rb')   
-    [xlowpra,ylowpraLabel,ylowPredictLabel,ylowpraPredictNN]=pickle.load(fpk)  
-    fpk.close()   
-    
-    #xlowpra:x-name = 8(keyFeature)+40(otherVehcle)+7(keyFeatures)+39(otherVehs)= 94
-    print("#################################sampleNum:",j)
-    tmp = xlowpra[j][0:48]
-
-    
-    minSpeedList1,paramsVehList = configAndRun(tmp,j,simNum)
-
-    if len(minSpeedList1) == 0:
-        print("j,len(minSpeedList1) == 0")
-        return
-
-
-    outputAvgSpeed = np.round(np.mean(minSpeedList1),2)
-    sumoOutputSpeedTag = minSpeed2Tag(outputAvgSpeed)
-
-    originOutput = ylowpraLabel[j][0]
-    kerasPredictLabel = ylowPredictLabel[j][0]
-    kerasPredictNN = ylowpraPredictNN[j]
-    #[i = 0,outputAvgSpeed=1,outputY[0]=2,outputSpeedTag=3,ylowPredictLabel[i][0]=4]
-
-    sumoRVL=[j,outputAvgSpeed,originOutput,sumoOutputSpeedTag,kerasPredictLabel]
-    sumoRVL.extend(kerasPredictNN)
-    sumoRVL.extend(np.round(minSpeedList1[0:2],2))
-
-    #rvl.append(sumoRVL)
-
-      
-    df = pd.DataFrame(sumoRVL)
-    fs = "./tmpData/sumoSimDataTmp%d.csv" %j
-    #[5+9+2+8]
-    #车辆长度，最大加速度,最大减加速度，最大速度，反应时间(0.01到0.1的传输延迟，0.2到0.5的执行延迟),最小间距,不专心,速度噪声
-    #'vehLen','maxAcc','maxDAcc','maxSpeed','reacTime','minGap','Impat','speedFactor'
-    df.to_csv(fs,index= False, header=['sampleIndex','outputAvgSpeed','originOutput','sumoOutputSpeedTag','kerasPredictLabel',\
-                                   'NN0','NN1','NN2','NN3','NN4','NN5','NN6','NN7','NN8',\
-                                   'smv1','smv2'])
-    df = pd.DataFrame(paramsVehList)
-    fs = "./tmpData/paramsVehAllTmp%.csv" %j
-    df.to_csv(fs,index= False, header=['sampleIndex','vehLen0','maxAcc0','maxDAcc0','maxSpeed0','reacTime0','minGap0','Impat0','speedFactor0',\
-                           'vehLen','maxAcc','maxDAcc','maxSpeed','reacTime','minGap','Impat','speedFactor',\
-                                   'minSpeed0'])
-       
-    
-    
-def test2():
-    fpk=open('lowprobSamples.pkf','rb')   
-    [xlowpra,ylowpraLabel,ylowPredictLabel,ylowpraPredictNN]=pickle.load(fpk)  
-    fpk.close()   
-    numSamples,numFeatures = xlowpra.shape
-    
-   
-    jTmp = np.append(np.arange(0,1873),np.arange(1874,2049))
-    jTmpIndex = np.append(jTmp,np.arange(2050,numSamples))
-    params = []
-    simNum = 2
-    for j in  jTmpIndex: 
-        params.append([j,simNum])
-        
-    print(params[0])
-    input() 
-    # 创建进程池
-    pool = multiprocessing.Pool(6)
-    # 启动进程池中的进程
-    pool.map(worker, params)
-    # 关闭进程池
-    pool.close()
-    # 等待进程池中的进程结束
-    pool.join()   
-'''
 ######################################################################################################################## 
 ########################################################################################################################   
 ########################################################################################################################
 
+from multiprocessing import Process
+from datetime import datetime
+import math
+import time
 
 def main():
     
     #print("test1,用于测试测一个样本并进行分析")
     #test1()
     
-    print("test3,运行模拟主程序，用于获得SUMO数据")
-    test3()
+    #print("test3,运行模拟主程序，用于获得SUMO数据")
+    #test3()
     
-    '''print("test2,运行多进程模拟主程序，用于获得SUMO数据,无法进行多线程，SUMO编程暂时还没有加入多线程属性")'''
-    #test2()
+    '''print("test4ParallSim1,运行多进程模拟主程序，用于获得SUMO数据")'''
+    
+    timeST = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    #主多线程程序
+    level = 7
+    if 1: 
+        
+        sectionNum = 6
+        sectionProcess = dict()
+        for i in np.arange(sectionNum):
+            sectionValue = [i/sectionNum,(i+1)/sectionNum]
+            sectionName = "section%d#%3f_%3f#" %(i,sectionValue[0],sectionValue[1])
+            
+            sectionProcess[i] = Process(target=test4ParallSim1, args=(sectionValue, sectionName,level ))
+        for i in np.arange(sectionNum):
+            sectionProcess[i].start()
+            
+        for i in np.arange(sectionNum):
+            sectionProcess[i].join()
+       
+    timeED = datetime.now().strftime("%Y-%m-%d %H:%M:%S") 
+
+    print("start:%s" %timeST)
+    print("end:%s" %timeED)
+    
+    #测试多线程
+    if 0:
+        p1 = Process(target=test4ParallSim1, args=([0.000,0.01], 'sectionOnly1', ))
+        p1.start()
+        p1.join()
+    
+    if 1:#将平行数据转为数据整合一个文件
+        sectionNum = 6
+        sectionProcess = dict()
+        dfSumoData = pd.DataFrame()
+        dfParamsVeh = pd.DataFrame()
+        
+        for i in np.arange(sectionNum):
+            sectionValue = [i/sectionNum,(i+1)/sectionNum]
+            sectionName = "section%d#%3f_%3f#" %(i,sectionValue[0],sectionValue[1])
+            
+            fname ="./tmpData/"+sectionName+"sumoSimData.csv"
+            dfSumoDataTmp = pd.read_csv(fname, sep=',')
+            dfSumoData = pd.concat([dfSumoData,dfSumoDataTmp])
+            
+            fname ="./tmpData/"+sectionName+"paramsVehAll.csv"
+            dfParamsVehTmp = pd.read_csv(fname, sep=',')
+            dfParamsVeh = pd.concat([dfParamsVeh,dfParamsVehTmp])
+        
+        print(dfSumoData.info())
+        print(dfParamsVeh.info())
+        
+        strTmp = "./data/sumoSimDataLevel%d.csv" %level
+        dfSumoData.to_csv(strTmp,index= False)
+        
+        strTmp = "./data/paramsVehAllLevel%d.csv" %level
+        dfParamsVeh.to_csv(strTmp,index= False)
+        
 if __name__ == "__main__":
+    
     main()
     
 
