@@ -10,7 +10,7 @@
 
 print("#########################################################################")
 print("基于SUMO和蒙特卡洛模拟分析生成预测当前样本的最小速度，原始对应程序为mainSimSumoFranceData，需要在docker的原始环境下运行，没有conda")
-print("程序标号3，以及是并行仿真版本")
+print("程序标号3，以及是只运行一次版本")
 
 
 #用于简单过路灯模拟
@@ -34,13 +34,15 @@ import libsumo
 import matplotlib.pyplot as plt  
 
 
-import datetime  # For datetime objects
+
 import os.path  # To manage paths
 import sys  # To find out the script name (in argv[0])
 import pandas as pd
 import numpy as np
 import os
 import time
+from numpy import random
+from datetime import datetime
 ########################################################################################################################
     # 当前车道，每个红灯车的所有时刻的样本
 name1A = ["vehID", "redLightTime", "distToRedLight", "speed", "laneAvgSpeed",
@@ -358,9 +360,8 @@ def getVehicleInfo(objvehID):
 import pickle
 
 
-
-def configAndRun(tmp,index,simNum =10):
-    
+def configAndRun(tmp,simNum,rectTimeParam,maxSpeedSections):
+    index = 0
     len1 = len(tmp)
     redLightTime,distToRedLight,speed,laneAvgSpeed,arriveTime1,arriveTime2,laneID,ArrivalDivRedTime,\
         vehPos_1,vehSpeed_1,vehPos_2,vehSpeed_2,vehPos_3,vehSpeed_3,vehPos_4,vehSpeed_4,vehPos_5,vehSpeed_5,\
@@ -383,8 +384,9 @@ def configAndRun(tmp,index,simNum =10):
     #print(vehsOthers)
     #redLightTime = redLightTime
 
-    print("根据实际情况，我们认为红灯变绿灯时，红灯前停止的驾驶员的反应时间和车辆启动时间为1秒")
-    print("而模拟中车辆的启动时间很快，能1秒内加速到2m/s，所以模拟中实际红灯时间加1.5秒,(暂时不改)")
+    '''"根据实际情况，我们认为红灯变绿灯时，红灯前停止的驾驶员的反应时间和车辆启动时间为1秒")
+    print("而模拟中车辆的启动时间很快，能1秒内加速到2m/s，所以模拟中实际红灯时间加1.5秒,(暂时不改)")'''
+    
     #if vehsOthers_all[0][1] <1/3.6 and vehsOthers_all[0][0] >0:#头车速度低于1km/h
     #    redLightTime= redLightTime+1.5
     #if vehsOthers_all.shape[0]>1  and vehsOthers_all[1][1] <1/3.6 and vehsOthers_all[1][0] >0:#存在第二步车，而且速度低于1km/h
@@ -410,12 +412,19 @@ def configAndRun(tmp,index,simNum =10):
     
     paramsVehList = []
     emptyRun = 0#因为任何应用空转
-    #for i in range(params["simNum"]):
+   
+
+ 
+
     while(len(minSpeedList)<params["simNum"])  and emptyRun < 250:
-          print("\nsampleIndex: %d,simNum:%d Start" %(index,len(minSpeedList)))
+          print("simNum:%d Start" %(len(minSpeedList)))
           #加入噪声
-          params["otherVehsParams"] = [2,random.uniform(1,2),9,random.uniform(15/3.6,70/3.6),random.uniform(0.01,1.5), 0.1 ,0.00,0.00] 
-          params["objectVehParams"] = [2,random.uniform(1,2),9,random.uniform(15/3.6,70/3.6),random.uniform(0.01,0.1), 0.1 ,0.00,0.00] 
+          params["otherVehsParams"] = [1,2,9,70/3.6,0.8, 0.1 ,0.00,0.00] 
+           
+          tmp = random.normal(loc=rectTimeParam[0], scale=rectTimeParam[1])
+          reactTimeTmp = max(0.1,tmp)
+          maxSpeedObj = random.uniform(maxSpeedSections[0],maxSpeedSections[1])
+          params["objectVehParams"] = [1,2,9,maxSpeedObj,reactTimeTmp,0.1 ,0.00,0.00] 
 
 
 
@@ -480,174 +489,33 @@ def minSpeed2Tag(minSpeed):
 #主程序
 
 
-
-def test4ParallSim1(sections,labels,level):
-    '''从test3,修改而来，主要修改地方为根据输入参数进行样本分割，并将结果进行保存到独立的文件夹中'''
-    print("test4ParallSim1,从lowprobSamples.pkf，样本已经进行[x,y]分割.样本为2slot,5hier,9label\n\n")
-    print("test4ParallSim1,样本section为:")
-    print(sections)
-    strTmp = 'lowprobSamplesLevel%d.pkf' %level
-    fpk=open(strTmp,'rb')   
-    [xlowpra,ylowpraLabel,ylowPredictLabel,ylowpraPredictNN]=pickle.load(fpk)  
-    fpk.close()   
-    
-    logFile=open("./tmpData/"+labels+'log.txt','w+',buffering=1)
-    strLog = "start time %s" %datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    print(strLog,file=logFile)
-    
-    numSamples,numFeatures = xlowpra.shape
-    strLog = "numSamples %d,numFeatures%d" %(numSamples,numFeatures)
-    print(strLog,file=logFile)
+#minSpeedList1,paramsVehList,outputAvgSpeed,sumoOutputSpeedTag = simOnce(xtmp,simNum,predRectTime,maxSpeedList[maxSpeedFlag])
+def simOnce(x,simNum,rectTimeParam,maxSpeedSections):
    
+    timeNow = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    print("simOnce Time Start",timeNow)
+        
+    #xlowpra:x-name = 8(keyFeature)+40(otherVehcle)+7(keyFeatures)+39(otherVehs)= 94
+    #普通参数下的进行模拟，例如其他车的最大速度固定为70km/h
+    #
+    minSpeedList1,paramsVehList = configAndRun(x,simNum,rectTimeParam,maxSpeedSections)
 
-    rvl = []
-    #numSamples = 2000
-    paramsVehAll = []
-    simNum =  500  #sim==500,运行一个样本时间为10秒
+    if len(minSpeedList1) == 0:
+        print("len(minSpeedList1) == 0")
+        return [-1,-1,-1,-1]
+        
+    outputAvgSpeed = np.round(np.mean(minSpeedList1),2)
+    sumoOutputSpeedTag = minSpeed2Tag(outputAvgSpeed)
+
     
- 
-    stt = round(numSamples*sections[0])
-    end = round(numSamples*sections[1])
-    jTmpIndex = np.arange(stt,end)
+
+    timeEnd = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    print("simOnce Time End",timeEnd)
+       
+    return minSpeedList1,paramsVehList,outputAvgSpeed,sumoOutputSpeedTag
     
-    strLog = "start:%d,end:%d" %(stt,end)
-    print(strLog,file=logFile)
-   
-  
-    for j in jTmpIndex:
-        
-        #xlowpra:x-name = 8(keyFeature)+40(otherVehcle)+7(keyFeatures)+39(otherVehs)= 94
-        tmp = xlowpra[j][0:48]
-
-        minSpeedList1,paramsVehList = configAndRun(tmp,j,simNum)
-
-        if len(minSpeedList1) == 0:
-            continue
-            
-        
-        outputAvgSpeed = np.round(np.mean(minSpeedList1),2)
-        sumoOutputSpeedTag = minSpeed2Tag(outputAvgSpeed)
-       
-        originOutput = ylowpraLabel[j][0]
-        kerasPredictLabel = ylowPredictLabel[j][0]
-        kerasPredictNN = ylowpraPredictNN[j]
-        #[i = 0,outputAvgSpeed=1,outputY[0]=2,outputSpeedTag=3,ylowPredictLabel[i][0]=4]
-
-        sumoRVL=[j,outputAvgSpeed,originOutput,sumoOutputSpeedTag,kerasPredictLabel]
-        sumoRVL.extend(kerasPredictNN)
-        sumoRVL.extend(np.round(minSpeedList1[0:2],2))
-        
-        rvl.append(sumoRVL)
-        
-        paramsVehAll.extend(paramsVehList)   
-        
-        timeNow = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        strLog = "\nsampleIndex:%d, time End %s" %(j,timeNow)
-        print(strLog,file=logFile)
-       
-
-
             
             
      
      
-    df = pd.DataFrame(rvl)
-    fs ="./tmpData/"+labels+"sumoSimData.csv"
-    #[5+2+9]
-    if level == 2:
-        df.to_csv(fs,index= False, header=['sampleIndex','outputAvgSpeed','originOutput','sumoOutputSpeedTag','kerasPredictLabel',\
-                                               'NN0','NN1','NN2','NN3','smv1','smv2'])
-        
-    if level == 7:
-        df.to_csv(fs,index= False, header=['sampleIndex','outputAvgSpeed','originOutput','sumoOutputSpeedTag','kerasPredictLabel',\
-                                           'NN0','NN1','NN2','NN3','NN4','NN5','NN6','NN7','NN8','smv1','smv2'])
-    df = pd.DataFrame(paramsVehAll)
-    fs = "./tmpData/"+labels+"paramsVehAll.csv"
-    df.to_csv(fs,index= False, header=['sampleIndex','vehLen0','maxAcc0','maxDAcc0','maxSpeed0','reacTime0','minGap0','Impat0','speedFactor0',\
-                                       'vehLen','maxAcc','maxDAcc','maxSpeed','reacTime','minGap','Impat','speedFactor',\
-                                               'minSpeed0'])
-                                  
-  
-
-######################################################################################################################## 
-########################################################################################################################   
-########################################################################################################################
-
-from multiprocessing import Process
-from datetime import datetime
-import math
-import time
-
-def main():
-    
-    #print("test1,用于测试测一个样本并进行分析")
-    #test1()
-    
-    #print("test3,运行模拟主程序，用于获得SUMO数据")
-    #test3()
-    
-    '''print("test4ParallSim1,运行多进程模拟主程序，用于获得SUMO数据")'''
-    
-    timeST = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    
-    #主多线程程序
-    level = 7
-    if 1: 
-        
-        sectionNum = 6
-        sectionProcess = dict()
-        for i in np.arange(sectionNum):
-            sectionValue = [i/sectionNum,(i+1)/sectionNum]
-            sectionName = "section%d#%3f_%3f#" %(i,sectionValue[0],sectionValue[1])
-            
-            sectionProcess[i] = Process(target=test4ParallSim1, args=(sectionValue, sectionName,level ))
-        for i in np.arange(sectionNum):
-            sectionProcess[i].start()
-            
-        for i in np.arange(sectionNum):
-            sectionProcess[i].join()
-       
-    timeED = datetime.now().strftime("%Y-%m-%d %H:%M:%S") 
-
-    print("start:%s" %timeST)
-    print("end:%s" %timeED)
-    
-    #测试多线程
-    if 0:
-        p1 = Process(target=test4ParallSim1, args=([0.000,0.01], 'sectionOnly1', ))
-        p1.start()
-        p1.join()
-    
-    if 1:#将平行数据转为数据整合一个文件
-        sectionNum = 6
-        sectionProcess = dict()
-        dfSumoData = pd.DataFrame()
-        dfParamsVeh = pd.DataFrame()
-        
-        for i in np.arange(sectionNum):
-            sectionValue = [i/sectionNum,(i+1)/sectionNum]
-            sectionName = "section%d#%3f_%3f#" %(i,sectionValue[0],sectionValue[1])
-            
-            fname ="./tmpData/"+sectionName+"sumoSimData.csv"
-            dfSumoDataTmp = pd.read_csv(fname, sep=',')
-            dfSumoData = pd.concat([dfSumoData,dfSumoDataTmp])
-            
-            fname ="./tmpData/"+sectionName+"paramsVehAll.csv"
-            dfParamsVehTmp = pd.read_csv(fname, sep=',')
-            dfParamsVeh = pd.concat([dfParamsVeh,dfParamsVehTmp])
-        
-        print(dfSumoData.info())
-        print(dfParamsVeh.info())
-        
-        strTmp = "./data/sumoSimDataLevel%d_simNum500.csv" %level
-        dfSumoData.to_csv(strTmp,index= False)
-        
-        strTmp = "./data/paramsVehAllLevel%d_simNum500.csv" %level
-        dfParamsVeh.to_csv(strTmp,index= False)
-        
-if __name__ == "__main__":
-    
-    main()
-    
-
-
+   
