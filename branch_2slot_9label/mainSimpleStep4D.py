@@ -229,231 +229,13 @@ def testRectTimeReg():
     dfTmp.to_csv(strtmp,index= False)
 
 
-##################################################################################################################################################
-##################################################################################################################################################
-'''只运行一个例子，numSample = 100,simNum = 50,耗时6分钟
-A.图2 不同标记下的最小速度分布,获得优化参数下的预测值'''
-'''
-def  runMain(labelList,numRunSample1=1000000,simNum = 50,level= 7):
-    
-    
-    strTmp = './data/printlog_step4D_labelList%s.txt' %(str(labelList))
-    fs1 = open(strTmp, 'w+')
-    sys.stdout = fs1  # 将输出重定向到文件
 
-    #columns=['index','sampleIndex','originOutput','dist','speed','redTimeLeft','numFrontVeh',\
-    #                                      'arriveTime1', 'arriveTime2','minSpeed0','maxSpeed0','reacTime0','reacTime','maxSpeed'])
-
-    #读，识别和模拟合成在一起的样本的基本数据库,step4b_analy1_SSVP_level7.csv'
-    strTmp = './data/step4b_analy1_SSVP_level%d.csv' %level
-    dfSSVP = pd.read_csv(strTmp)#来自于step4B
-
-    #clomus = headName2SlotX94 
-    strTmp = 'lowprobSamplesLevel%d.pkf' %level
-    fpk=open(strTmp,'rb')   
-    [xlowpra,ylowpraLabel,ylowPredictLabel,ylowpraPredictNN]=pickle.load(fpk)  
-    print("xlowpra",xlowpra.shape)
-    fpk.close()  
-
-    pipelineList,mseList = rectTimeReg()
- 
-    
-    analy3 = []
-    for i in labelList:
-        originOutput = i
-
-        dataLabel = dfSumoData[dfSumoData['originOutput']==originOutput]
-        numSample,nFeatures = dataLabel.shape
-        print("label:%d,numSamples:%d,nFeatures:%d" %(i,numSample,nFeatures)) 
-
-        #测试用
-        numSample = min(numRunSample1,numSample)
-
-        for j in range(numSample):
-            print("\n\n label,iLoc:",i,j)
-            dfTmp1 = dataLabel.iloc[j]                        
-            sampleIndex = int(dfTmp1['sampleIndex'].item())
-            xtmp = xlowpra[sampleIndex]##clomus = headName2SlotX94 
-            xtmp = xtmp[0:48]
-            vehs = xtmp[8:48]
-            vehs = vehs.reshape(-1,2)
-            vehs = vehs[np.where(vehs[:,0]>0)]
-            vehsOthers1 = vehs[0:-1]#最后一个是目标车，不要
-            numFrontVeh,tmp = vehsOthers1.shape
-
-            redTimeLeft = xtmp[0]
-            dist = xtmp[1] 
-            speed = xtmp[2]
-            maxSpeed = xtmp[3]
-            arriveTime1 = xtmp[4]
-            arriveTime2= xtmp[5]
-
-            mse = mseList[i]
-            pipeline = pipelineList[i]
-
-            xTmp1  = [dist,speed,redTimeLeft,numFrontVeh,maxSpeed,arriveTime1,arriveTime2]
-            x = np.array([xTmp1])
-            y_pred = pipeline.predict(x)
-            reacTime_mu = y_pred[0]
-            reacTime_sigma = mse
-            predRectTime = [reacTime_mu,reacTime_sigma]
-
-
-            
-            label= i
-            counter =  j
-            for k in range(5):
-                maxSpeedFlag = k
-                maxSpeedList =[[20/3.6,30/3.6],[30/3.6,40/3.6],[40/3.6,50/3.6],[50/3.6,60/3.6],[60/3.6,70/3.6]]
-                minSpeedList1,paramsVehList,outputAvgSpeed,sumoOutputSpeedTag = simOnce(xtmp,simNum,predRectTime,maxSpeedList[maxSpeedFlag])
-                if outputAvgSpeed>0:
-                    analy3.append([sampleIndex,label,counter,simNum,minSpeedList1,paramsVehList,outputAvgSpeed,sumoOutputSpeedTag,maxSpeedFlag])
-
-
-    df_analy3 = pd.DataFrame(analy3,columns=['sampleIndex','label','counter','simNum','minSpeedList1','paramsVehList',\
-                                            'outputAvgSpeed','sumoOutputSpeedTag','maxSpeedFlag'])
-
-    fs = "./data/step4D_simData_level%d_labelList%s.csv" %(level,str(labelList))
-    df_analy3.to_csv(fs,index=False)
-    
-    analyz1(labelList, df_analy3)
-   
-###################################################################################################    
-def analyz1(labelList, df_analy3):
-    #labelList = range(9)
-    stt =  np.zeros([9,5]).tolist()
-    nonStopRatio = np.zeros([9,5]).tolist()
-
-    
-    for j in labelList:
-        label = j
-        dataVPTmp1 = df_analy3[df_analy3['label']==label]
-
-        for k in range(5):
-            dataVPTmp2 = dataVPTmp1[(dataVPTmp1['maxSpeedFlag'] == k)]
-            
-            tmpValues2 = dataVPTmp2['minSpeedList1']
-            dataTmp = []
-            for ii in range(len(tmpValues2)):
-                tmpV = tmpValues2.iloc[ii]
-                dataTmp.extend(tmpV.tolist())
-            
-            stt[j][k] = dataTmp
-            
- 
-    
-               
-    #labelList = range(9)
-    #labelTitle = ['0','1','2','3','4','5','6','7','8','9']
-    labelTitle = [str(x) for x in labelList]
-    maxSpeedListTmp =['[20,30]','[30,40]','[40,50]','[50,60]','[60,70]']
-    
-    for j in labelList:
-
-        strTmp = 'label-%d' %j
-        plt.title(strTmp)
-        plt.boxplot([stt[j][0],stt[j][1],stt[j][2],stt[j][3],stt[j][4]],showfliers=False,labels =maxSpeedListTmp)
-        strTmp = './data/Step4Dpy_label%d_maxSpeed.png' %j
-        plt.savefig(strTmp)  # 保存为png格式图片
-        plt.close()  
-        
-
-    for i in labelList:
-        for j in range(5):
-
-            maxSpeedList =[[20,30],[30,40],[40,50],[50,60],[60,70]]
-            s1,s2 =  maxSpeedList[j]
-
-            minSpeedList = stt[i][j]
-            minSpeedList1 = [num for num in  minSpeedList if num > s1/3.6 and num <s2/3.6]
-            
-           
-            nonStopRatio[i][j] = len(minSpeedList1)/len(minSpeedList) *100
-
-    strTmp = './data/stage4d_minSpeedList_ratio_labelList%s.pkf' %str(labelList)
-    fpk=open(strTmp,'wb+')  
-    pickle.dump([nonStopRatio,stt],fpk)
-    fpk.close()    
-    nonStopRatio = np.round(nonStopRatio,4)
-    print(nonStopRatio)
-    
-    dfTmp = pd.DataFrame(nonStopRatio,columns=maxSpeedListTmp)
-    strtmp = "./data/step4D_nonStopRatio_labelList%s.csv" %str(labelList)
-    dfTmp.to_csv(strtmp,index= False)
-    
-
-    
-###################################################################################################
-###################################################################################################
-#labelList = range(1),numSample1=20,simNum = 50,耗时6分钟
-#labelList = range(9),numSample1=20,simNum = 10,耗时10分钟
-#labelList = range(9),numSample1=20,simNum = 30,耗时25分钟
-#labelList = range(9),numSample1=200,simNum = 100,耗时???25*30分钟
-#multiProcess,labelList = range(9),numSample1=20,simNum = 10,耗时2min20sec,6核12线程
-#multiProcess,labelList = range(9),numSample1=200,simNum = 50,耗时?? 2min20sec *50=97min
-
-from multiprocessing import Process
-from datetime import datetime
-import math
-import time
-
-'''
-
-'''
-def mainMultiprocessing1():
-    
-    timeST = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    
-    numRunSample=200
-    simNum = 50
-   
-    if 0: 
-        
-        sectionNum = 6
-        sectionProcess = dict()
-        labelList = dict()
-        labelList = [[0],[1,2],[3,4],[5,6],[7],[8]]
-        level = 7
-     
-        
-        for i in np.arange(sectionNum):
-            sectionProcess[i] = Process(target=runMain, args=(labelList[i], numRunSample,simNum,level ))
-            
-        for i in np.arange(sectionNum):
-            sectionProcess[i].start()
-            
-        for i in np.arange(sectionNum):
-            sectionProcess[i].join()
-       
-   
-    
-    if 1:
-        sectionNum = 6
-        labelListA = [[0],[1,2],[3,4],[5,6],[7],[8]]
-        analy = np.zeros([9,5]).tolist()
-        for i in np.arange(sectionNum):
-            strTmp = './data/step4D_numSample1=200_simNum = 50/step4D_nonStopRatio_labelList%s.csv' %str(labelListA[i])
-            dfData = pd.read_csv(strTmp, sep=',')
-            for j in labelListA[i]:
-                tmpData =dfData.iloc[j]
-                analy[j][0] = tmpData[0]
-                analy[j][1] = tmpData[1]
-                analy[j][2] = tmpData[2]
-                analy[j][3] = tmpData[3]
-                analy[j][4] = tmpData[4]
-         
-        maxSpeedListTmp =['[20,30]','[30,40]','[40,50]','[50,60]','[60,70]']
-        dfTmp = pd.DataFrame(analy,columns=maxSpeedListTmp)
-        strtmp = "./data/step4D_nonStopRatio_all.csv" 
-        dfTmp.to_csv(strtmp,index= False)
-        
-    timeED = datetime.now().strftime("%Y-%m-%d %H:%M:%S") 
-    print("start:%s" %timeST)
-    print("end:%s" %timeED)
-    
-'''    
 ###################################################################################################
 def analyMaxSpeed(df_analy3,labelList):
+    
+    maxSpeedListLabel =[[10,15],[20,25],[30,35],[40,45],[50,70]]
+    maxSpeedListLabel = [str(maxSpeedListLabel[i]) for i in range(5)]
+    
     stt =  (np.zeros([9,5])).tolist()
   
     nonStopRatio = np.zeros([9,5]).tolist()
@@ -481,22 +263,22 @@ def analyMaxSpeed(df_analy3,labelList):
     #labelList = range(9)
     #labelTitle = ['0','1','2','3','4','5','6','7','8','9']
     labelTitle = [str(x) for x in labelList]
-    maxSpeedListTmp =['[20,30]','[30,40]','[40,50]','[50,60]','[60,70]']
+    
     
     for j in labelList:
 
         strTmp = 'label-%d' %j
-        #plt.title(strTmp)
-        #plt.boxplot([stt[j][0],stt[j][1],stt[j][2],stt[j][3],stt[j][4]],showfliers=False,labels=maxSpeedListTmp)
-        #strTmp = './data/Step4Dpy_label%d_maxSpeed.png' %j
-        #plt.savefig(strTmp)  # 保存为png格式图片
-        #plt.close()  
+        plt.title(strTmp)
+        plt.boxplot([stt[j][0],stt[j][1],stt[j][2],stt[j][3],stt[j][4]],showfliers=False,labels=maxSpeedListLabel)
+        strTmp = './data/Step4Dpy_label%d_maxSpeed.png' %j
+        plt.savefig(strTmp)  # 保存为png格式图片
+        plt.close()  
         
 
     for i in labelList:
         for j in range(5):
 
-            maxSpeedList =[[20,30],[30,40],[40,50],[50,60],[60,70]]
+            
             s1,s2 =  maxSpeedList[j]
 
             minSpeedList = stt[i][j]
@@ -522,6 +304,7 @@ def analyMaxSpeed(df_analy3,labelList):
 
 def  runMain(labelList, sectionValue,sectionName,numRunSample =60,simNum = 10,level= 7):
     
+    maxSpeedList =[[10/3.6,15/3.6],[20/3.6,25/3.6],[30/3.6,35/3.6],[40/3.6,45/3.6],[50/3.6,70/3.6]]
     
     strTmp = './data/printlog_step4D_%s.txt' %(sectionName)
     fs1 = open(strTmp, 'w+')
@@ -597,7 +380,7 @@ def  runMain(labelList, sectionValue,sectionName,numRunSample =60,simNum = 10,le
             counter =  j
             for k in range(5):
                 maxSpeedFlag = k
-                maxSpeedList =[[20/3.6,30/3.6],[30/3.6,40/3.6],[40/3.6,50/3.6],[50/3.6,60/3.6],[60/3.6,70/3.6]]
+                
                 minSpeedList1,paramsVehList,outputAvgSpeed,sumoOutputSpeedTag = simOnce(xtmp,simNum,predRectTime,maxSpeedList[maxSpeedFlag])
                 if outputAvgSpeed>0:
                     analy3.append([sampleIndex,label,counter,simNum,minSpeedList1,paramsVehList,outputAvgSpeed,sumoOutputSpeedTag,maxSpeedFlag])
@@ -613,14 +396,12 @@ def  runMain(labelList, sectionValue,sectionName,numRunSample =60,simNum = 10,le
     strTmp ='./data/step4D_simData_level%d_%s.pkf' %(level,sectionName)
     fpk=open(strTmp,'wb+')  
     pickle.dump([df_analy3,sectionName],fpk)
-    fpk.close()    
+    fpk.close()   
+    return df_analy3
    
    
 ###################################################################################################
-#numSamples = 18,simNum = 2 ，section = 6,amd2400,34sec
-#numSamples = 18,simNum = 5 ，section = 6,amd2400,1min45sec
-#numSamples = 180,simNum = 5 ，section = 6,amd2400,9min20sec
-#numSamples = 180,simNum = 5 ，section = 12,amd2400,7min34sec
+
 
 def mainMultiprocessing2():
     
@@ -669,6 +450,95 @@ def mainMultiprocessing2():
     print("end:%s" %timeED)    
     
 ###################################################################################################
+
+###################################################################################################
+#numSamples = 18,simNum = 2 ，section = 6,amd2400,34sec
+#numSamples = 18,simNum = 5 ，section = 6,amd2400,1min45sec
+#numSamples = 180,simNum = 5 ，section = 6,amd2400,9min20sec
+#numSamples = 180,simNum = 5 ，section = 12,amd2400,7min34sec
+#numSamples = 180,simNum = 5 ，section = 12,featurize 16kernels,7min
+#numSamples = 180,simNum = 5 ，section = 16,featurize 16kernels,5min
+#numSamples = 180,simNum = 5 ，section = 64,featurize 64kernels,3min
+
+#numSamples = 1800,simNum = 5 ，section = 64,featurize 64kernels,53min
+#numSamples = 1800,simNum = 5 ，section = 900,featurize64kernels+pool,36MIN
+
+#numSamples = 180,simNum = 5 ，section = 90,amd2400+pool,6min40sec
+#numSamples = 180,simNum = 5 ，section = 60,amd2400+pool,7min20sec
+#numSamples = 1800,simNum = 5 ，section = 900,amd2400+pool,36+28=64
+#numSamples = 36000,simNum = 2 ，section = 600,amd2400+pool,1hour26min
+#numSamples = 46000,simNum = 5 ，section = 9000,amd2400+pool,1hour26min
+import multiprocessing as mp
+
+
+
+def job0(z):
+    sectionCounter = z[0]
+    params = z[1]
+    labelList = params['labelList']
+    level = params['level']
+    numRunSample = params['numRunSample']
+    simNum = params['simNum']
+    sectionValue = params['sectionValue']
+    sectionName = params['sectionName']
+    #print(sectionCounter,params)
+    df =runMain(labelList, sectionValue,sectionName,numRunSample,simNum,level)
+    return sectionCounter,df
+
+def mainMultiprocessing3():
+    
+
+    timeST = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    print("start:%s" %timeST)
+    
+    sectionNum = 50
+    data_list = np.zeros([sectionNum,2]).tolist()
+    level = 7
+    numRunSample = 46000
+    labelList = range(9)
+    simNum = 5
+    
+    if 1: 
+        for i in np.arange(sectionNum): 
+            sectionValue = [i/sectionNum,(i+1)/sectionNum]
+            sectionName = "section%d[%.3f_%.3f]" %(i,sectionValue[0],sectionValue[1])
+            params = dict()
+            params['labelList'] = labelList
+            params['level'] = level
+            params['numRunSample'] = numRunSample
+            params['simNum'] = simNum
+            params['sectionName'] = sectionName
+            params['sectionValue'] = sectionValue
+            params['sectionCounter'] = i
+            data_list[i] = [i,params]
+        
+        pool = mp.Pool() # 无参数时，使用所有cpu核
+        # pool = mp.Pool(processes=3) # 有参数时，使用CPU核数量为3
+        res = pool.map(job0, data_list)
+        #print(res)
+        
+    if 1:#将平行数据转为数据整合一个文件
+        dfData = pd.DataFrame()
+        for i in np.arange(sectionNum):
+            sectionValue = [i/sectionNum,(i+1)/sectionNum]
+            sectionName = "section%d[%.3f_%.3f]" %(i,sectionValue[0],sectionValue[1])
+            
+            strTmp = './data/step4D_simData_level%d_%s.pkf' %(level,sectionName)
+            fpk=open(strTmp,'rb')  
+            [df_section,name] = pickle.load(fpk)
+            fpk.close()  
+            dfData = pd.concat([dfData,df_section])
+        
+         
+        analyMaxSpeed(dfData,labelList)    
+    
+    timeED = datetime.now().strftime("%Y-%m-%d %H:%M:%S") 
+    print("start:%s" %timeST)
+    print("end:%s" %timeED)  
+
+   
+   
 ###################################################################################################
 
-mainMultiprocessing2()
+#mainMultiprocessing2()
+mainMultiprocessing3()
