@@ -423,7 +423,7 @@ def configAndRun(tmp,simNum,rectTimeParam,maxSpeedSections):
            
           tmp = random.normal(loc=rectTimeParam[0], scale=rectTimeParam[1])
           reactTimeTmp = max(0.1,tmp)
-          maxSpeedObj = random.uniform(maxSpeedSections[0],maxSpeedSections[1])
+          maxSpeedObj = random.uniform(maxSpeedSections[0]/3.6,maxSpeedSections[1]/3.6)
           params["objectVehParams"] = [1,2,9,maxSpeedObj,reactTimeTmp,0.1 ,0.00,0.00] 
 
 

@@ -231,14 +231,14 @@ def testRectTimeReg():
 
 
 ###################################################################################################
-def analyMaxSpeed(df_analy3,labelList):
+def analyMaxSpeed(df_analy3,labelList,maxSpeedList):
     
-    maxSpeedListLabel =[[10,15],[20,25],[30,35],[40,45],[50,70]]
-    maxSpeedListLabel = [str(maxSpeedListLabel[i]) for i in range(5)]
     
-    stt =  (np.zeros([9,5])).tolist()
+    maxSpeedListLabel = [str(maxSpeedList[i]) for i in range(len(maxSpeedList))]
+    
+    stt =  (np.zeros([len(labelList),len(maxSpeedList)])).tolist()
   
-    nonStopRatio = np.zeros([9,5]).tolist()
+    nonStopRatio = np.zeros([len(labelList),len(maxSpeedList)]).tolist()
 
     
     for j in labelList:
@@ -291,10 +291,10 @@ def analyMaxSpeed(df_analy3,labelList):
     fpk=open(strTmp,'wb+')  
     pickle.dump([nonStopRatio,stt],fpk)
     fpk.close()    
-    nonStopRatio = np.round(nonStopRatio,4)
+    nonStopRatio = np.round(nonStopRatio,3)
     print(nonStopRatio)
     
-    dfTmp = pd.DataFrame(nonStopRatio,columns=maxSpeedListTmp)
+    dfTmp = pd.DataFrame(nonStopRatio,columns=maxSpeedListLabel )
     strtmp = "./data/step4D_nonStopRatio.csv"
     dfTmp.to_csv(strtmp,index= False)
     
@@ -302,10 +302,10 @@ def analyMaxSpeed(df_analy3,labelList):
     
 ###################################################################################################
 
-def  runMain(labelList, sectionValue,sectionName,numRunSample =60,simNum = 10,level= 7):
+def  runMain(labelList, sectionValue,sectionName,maxSpeedList,numRunSample =60,simNum = 10,level= 7):
     
-    maxSpeedList =[[10/3.6,15/3.6],[20/3.6,25/3.6],[30/3.6,35/3.6],[40/3.6,45/3.6],[50/3.6,70/3.6]]
-    
+    #maxSpeedList =[[10/3.6,15/3.6],[20/3.6,25/3.6],[30/3.6,35/3.6],[40/3.6,45/3.6],[50/3.6,70/3.6]]
+    #maxSpeedList =[[10,15],[20,25],[30,35],[40,80]]
     strTmp = './data/printlog_step4D_%s.txt' %(sectionName)
     fs1 = open(strTmp, 'w+')
     sys.stdout = fs1  # 将输出重定向到文件
@@ -378,7 +378,7 @@ def  runMain(labelList, sectionValue,sectionName,numRunSample =60,simNum = 10,le
             
             label= i
             counter =  j
-            for k in range(5):
+            for k in range(len(maxSpeedList)):
                 maxSpeedFlag = k
                 
                 minSpeedList1,paramsVehList,outputAvgSpeed,sumoOutputSpeedTag = simOnce(xtmp,simNum,predRectTime,maxSpeedList[maxSpeedFlag])
@@ -400,56 +400,7 @@ def  runMain(labelList, sectionValue,sectionName,numRunSample =60,simNum = 10,le
     return df_analy3
    
    
-###################################################################################################
 
-
-def mainMultiprocessing2():
-    
-    timeST = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    
-    sectionNum = 12
-    sectionProcess = dict()
-    labelList = list(range(9))
-
-    level = 7
-    numSamples = 180
-    simNum = 5
-   
-    if 1: 
-        
-        for i in np.arange(sectionNum): 
-            sectionValue = [i/sectionNum,(i+1)/sectionNum]
-            sectionName = "section%d[%.3f_%.3f]" %(i,sectionValue[0],sectionValue[1])
-            sectionProcess[i] = Process(target=runMain, args=(labelList, sectionValue,sectionName,numSamples,simNum,level))
-            
-        for i in np.arange(sectionNum):
-            sectionProcess[i].start()
-            
-        for i in np.arange(sectionNum):
-            sectionProcess[i].join()
-       
-   
-    
-    if 1:#将平行数据转为数据整合一个文件
-        dfData = pd.DataFrame()
-        for i in np.arange(sectionNum):
-            sectionValue = [i/sectionNum,(i+1)/sectionNum]
-            sectionName = "section%d[%.3f_%.3f]" %(i,sectionValue[0],sectionValue[1])
-            
-            strTmp = './data/step4D_simData_level%d_%s.pkf' %(level,sectionName)
-            fpk=open(strTmp,'rb')  
-            [df_section,name] = pickle.load(fpk)
-            fpk.close()  
-            dfData = pd.concat([dfData,df_section])
-        
-         
-        analyMaxSpeed(dfData,labelList)    
-    
-    timeED = datetime.now().strftime("%Y-%m-%d %H:%M:%S") 
-    print("start:%s" %timeST)
-    print("end:%s" %timeED)    
-    
-###################################################################################################
 
 ###################################################################################################
 #numSamples = 18,simNum = 2 ，section = 6,amd2400,34sec
@@ -467,7 +418,11 @@ def mainMultiprocessing2():
 #numSamples = 180,simNum = 5 ，section = 60,amd2400+pool,7min20sec
 #numSamples = 1800,simNum = 5 ，section = 900,amd2400+pool,36+28=64
 #numSamples = 36000,simNum = 2 ，section = 600,amd2400+pool,1hour26min
-#numSamples = 46000,simNum = 5 ，section = 9000,amd2400+pool,1hour26min
+#numSamples = 46000,simNum = 5 ，section = 50,amd2400+pool,2hou45
+#numSamples = 180,simNum = 5 ，section = 50,amd2400+pool,7min4
+#numSamples = 180,simNum = 5 ，section = 50,amd2400+pool,7min4
+#numSamples = 18000,simNum = 5 ，section = 3000,amd2400+pool,3h14min
+#numSamples = 18000,simNum = 15 ，section = 3000,amd2400+pool,8h41min
 import multiprocessing as mp
 
 
@@ -481,8 +436,9 @@ def job0(z):
     simNum = params['simNum']
     sectionValue = params['sectionValue']
     sectionName = params['sectionName']
+    maxSpeedList =  params['maxSpeedList']
     #print(sectionCounter,params)
-    df =runMain(labelList, sectionValue,sectionName,numRunSample,simNum,level)
+    df =runMain(labelList, sectionValue,sectionName,maxSpeedList,numRunSample,simNum,level)
     return sectionCounter,df
 
 def mainMultiprocessing3():
@@ -491,13 +447,13 @@ def mainMultiprocessing3():
     timeST = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     print("start:%s" %timeST)
     
-    sectionNum = 50
+    sectionNum = 3000
     data_list = np.zeros([sectionNum,2]).tolist()
     level = 7
-    numRunSample = 46000
-    labelList = range(9)
-    simNum = 5
-    
+    numRunSample = 18000
+    labelList = list(range(9))
+    simNum = 15
+    maxSpeedList =[[5,10],[10,20],[20,30],[30,40],[40,120]]
     if 1: 
         for i in np.arange(sectionNum): 
             sectionValue = [i/sectionNum,(i+1)/sectionNum]
@@ -510,6 +466,7 @@ def mainMultiprocessing3():
             params['sectionName'] = sectionName
             params['sectionValue'] = sectionValue
             params['sectionCounter'] = i
+            params['maxSpeedList'] =  maxSpeedList
             data_list[i] = [i,params]
         
         pool = mp.Pool() # 无参数时，使用所有cpu核
@@ -530,7 +487,7 @@ def mainMultiprocessing3():
             dfData = pd.concat([dfData,df_section])
         
          
-        analyMaxSpeed(dfData,labelList)    
+        analyMaxSpeed(dfData,labelList,maxSpeedList)    
     
     timeED = datetime.now().strftime("%Y-%m-%d %H:%M:%S") 
     print("start:%s" %timeST)
