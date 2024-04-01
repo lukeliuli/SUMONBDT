@@ -50,8 +50,10 @@ from sklearn.metrics import accuracy_score
 
 from imblearn.over_sampling import SMOTE
 
+import sys
+import argparse
 
-
+from sklearn.model_selection import train_test_split
 
 ########################################################################################################################
 ###简单模型3，resnet_like
@@ -129,7 +131,7 @@ def convertY2Hieral(y):
    #              "7":["5678","678",   "67","7","7"],\
    #              "8":["5678","678",   "8","8","8"],\
    #               }
-    
+    '''
     hierarchy = [2,3,4,5,6,7,8,9]
     labelDict = {"0":["01234",        "01234",        "01234",   "01234",      "0123","012","01","0"],\
                   "1":["01234",        "01234",        "01234",  "01234",     "0123","012","01","1"],\
@@ -140,6 +142,20 @@ def convertY2Hieral(y):
                  "6":["5678",            "678",        "6",        "6",       "6", "6","6","6"],\
                  "7":["5678",             "678",       "78",       "7",       "7", "7","7","7"],\
                  "8":["5678",             "678",       "78" ,      "8",        "8", "8","8","8"],\
+                  }
+    '''
+    #smote
+    hierarchy = [2,3,4,5,6,7,8,9]
+                      #0                 #1            #2          #3             #4        #5  #6      #7                 
+    labelDict = {"0":["0",               "0",          "0",       "0",          "0",     "0",  "0",    "0"],\
+                  "1":["12345678",       "1234567",    "123456",  "12345",      "1234",  "123","12",   "1"],\
+                  "2":["12345678",       "1234567",    "123456",  "12345",      "1234",  "123","12",   "2"],\
+                  "3":["12345678",       "1234567",    "123456",  "12345",      "1234",  "123","3",    "3"],\
+                 "4":["12345678",        "1234567",    "123456",  "12345" ,     "1234",  "4",  "4",    "4"],\
+                 "5":["12345678",        "1234567",    "123456",   "12345",      "5",     "5",  "5",    "5"],\
+                 "6":["12345678",        "1234567",    "123456",  "6",         "6",     "6",  "6",    "6"],\
+                 "7":["12345678",        "1234567",     "7",       "7",         "7",     "7",  "7",    "7"],\
+                 "8":["12345678",         "8",          "8" ,      "8",         "8",     "8",  "8",    "8"],\
                   }
     '''
     hierarchy = [5,9]
@@ -179,35 +195,7 @@ def string2int(inputString):
          tmp = 0
      return tmp
 
-    # 当前车道，每个红灯车的所有时刻的样本
-name1A = ["vehID", "redLightTime", "distToRedLight", "speed", "laneAvgSpeed",
-         "arriveTime1", "arriveTime2", "vehLaneID", "ArrTimeDivRedTime"]#9
-name1B = ["redLightTime", "distToRedLight", "speed", "laneAvgSpeed",
-         "arriveTime1", "arriveTime2", "vehLaneID", "ArrTimeDivRedTime"]#8
-name1C = ["redLightTime", "distToRedLight", "speed", "laneAvgSpeed",
-         "arriveTime1", "arriveTime2","ArrTimeDivRedTime"]#7，去掉"vehID"，"vehLaneID"
-name2 = ["vehPos_1", "vehSpeed_1", "vehPos_2", "vehSpeed_2",
-         "vehPos_3", "vehSpeed_3", "vehPos_4", "vehSpeed_4"]
-name3 = ["vehPos_5", "vehSpeed_5", "vehPos_6", "vehSpeed_6",
-         "vehPos_7", "vehSpeed_7", "vehPos_8", "vehSpeed_8"]
-name4 = ["vehPos_9", "vehSpeed_9", "vehPos_10", "vehSpeed_10",
-         "vehPos_11", "vehSpeed_11", "vehPos_12", "vehSpeed_12"]
-name5 = ["vehPos_13", "vehSpeed_13", "vehPos_14", "vehSpeed_14",
-         "vehPos_15", "vehSpeed_15", "vehPos_16", "vehSpeed_16"]
-name6 = ["vehPos_17", "vehSpeed_17", "vehPos_18", "vehSpeed_18",
-         "vehPos_19", "vehSpeed_19", "vehPos_20", "vehSpeed_20"]
 
-name6_error = ["vehPos_17", "vehSpeed_17", "vehPos_18", "vehSpeed_18",
-         "vehPos_19", "vehSpeed_19", "vehPos_20"] #原始数据出现错误，
-vehAll = name2+name3+name4+name5+name6 #40
-headName49 = name1A+vehAll
-headName48 = name1B+vehAll
-
-headName2SlotX95 = headName49+name1C+name2+name3+name4+name5+name6_error #9+40+7+39= 95
-headName2SlotXY96 = headName2SlotX95+['minSpeedFlag'] ##96
-
-headName2SlotX94 = headName48+name1C+name2+name3+name4+name5+name6_error #48+40+7+39 =  94
-print("\n2slot的数据列表为：headName2SlotXY96\n",headName2SlotXY96)
 
 ############################################################################
 ####HMCM-F ,层次模型，发现hmcn-f训练效果很差，所以采用分离式
@@ -316,222 +304,273 @@ def minSpeed2Tag(minSpeed):
         speedFlag = 0
     return speedFlag
 
-########################################################################################################################
-########################################################################################################################
-########################################################################################################################
-print("0.主程序开始, 建立多层嵌套决策树模型,3080ti的GPU是AMD2400CPU 运算速度100倍")
-np.random.seed(42)
-tf.random.set_seed(42)
 
-#from tensorflow.keras.mixed_precision import experimental as mixed_precision
-#policy = mixed_precision.Policy('mixed_float16')
-#mixed_precision.set_policy(policy)
+########################################################################################################################
+########################################################################################################################
+########################################################################################################################
+
+def main():
+    #python3 mainSimpleStep0.py --numEpochs 10 --trainOrNot 1 --testOrNot 1
+    parser = argparse.ArgumentParser(description="step0")
+    parser.add_argument('-np','--numEpochs', default=1000, type=int,help='分离式模型每层训练次数')
+    parser.add_argument('-trn','--trainOrNot', default=1,type=int,help='训练吗')
+    parser.add_argument('-ten','--testOrNot', default=1,type=int,help='测试吗')
+    parser.add_argument('-tr','--testRatio', default = 0.9,type=float,help='测试集比例')
+    args = parser.parse_args()
+    numEpochs = args.numEpochs
+    trainOrNot =  args.trainOrNot
+    testRatio =  args.testRatio
+    testOrNot = args.testOrNot
+
+
+    # 当前车道，每个红灯车的所有时刻的样本
+    name1A = ["vehID", "redLightTime", "distToRedLight", "speed", "laneAvgSpeed",
+             "arriveTime1", "arriveTime2", "vehLaneID", "ArrTimeDivRedTime"]#9
+    name1B = ["redLightTime", "distToRedLight", "speed", "laneAvgSpeed",
+             "arriveTime1", "arriveTime2", "vehLaneID", "ArrTimeDivRedTime"]#8
+    name1C = ["redLightTime", "distToRedLight", "speed", "laneAvgSpeed",
+             "arriveTime1", "arriveTime2","ArrTimeDivRedTime"]#7，去掉"vehID"，"vehLaneID"
+    name2 = ["vehPos_1", "vehSpeed_1", "vehPos_2", "vehSpeed_2",
+             "vehPos_3", "vehSpeed_3", "vehPos_4", "vehSpeed_4"]
+    name3 = ["vehPos_5", "vehSpeed_5", "vehPos_6", "vehSpeed_6",
+             "vehPos_7", "vehSpeed_7", "vehPos_8", "vehSpeed_8"]
+    name4 = ["vehPos_9", "vehSpeed_9", "vehPos_10", "vehSpeed_10",
+             "vehPos_11", "vehSpeed_11", "vehPos_12", "vehSpeed_12"]
+    name5 = ["vehPos_13", "vehSpeed_13", "vehPos_14", "vehSpeed_14",
+             "vehPos_15", "vehSpeed_15", "vehPos_16", "vehSpeed_16"]
+    name6 = ["vehPos_17", "vehSpeed_17", "vehPos_18", "vehSpeed_18",
+             "vehPos_19", "vehSpeed_19", "vehPos_20", "vehSpeed_20"]
+
+    name6_error = ["vehPos_17", "vehSpeed_17", "vehPos_18", "vehSpeed_18",
+             "vehPos_19", "vehSpeed_19", "vehPos_20"] #原始数据出现错误，
+    vehAll = name2+name3+name4+name5+name6 #40
+    headName49 = name1A+vehAll
+    headName48 = name1B+vehAll
+
+    headName2SlotX95 = headName49+name1C+name2+name3+name4+name5+name6_error #9+40+7+39= 95
+    headName2SlotXY96 = headName2SlotX95+['minSpeedFlag'] ##96
+
+    headName2SlotX94 = headName48+name1C+name2+name3+name4+name5+name6_error #48+40+7+39 =  94
+    print("\n2slot的数据列表为：headName2SlotXY96\n",headName2SlotXY96)
+    ########################################################################################################
+    '''将输出重定向到文件'''
+
+    fs1 = open('step0_printlog.txt', 'w+')
+    sys.stdout = fs1  # 将输出重定向到文件
+
+
+    ########################################################################################################################
+    print("0.主程序开始, 建立多层嵌套决策树模型,3080ti的GPU是AMD2400CPU 运算速度100倍")
+    np.random.seed(42)
+    tf.random.set_seed(42)
+
 
  
-########################################################################################################################    
-########################################################################################################################
+    ########################################################################################################################    
+    ########################################################################################################################
 
-print("读取France数据并且把数据进行onehot处理")
+    print("读取France数据并且把数据进行onehot处理")
 
-#file1 = "../trainData/france_0_allSamples1.csv"
-file1 = "../trainData/france_0_allSamples1_2slot.csv"
-xyDataTmp = pd.read_csv(file1)
-print("\n2slot的数据列表名为：headName2SlotXY96\n")
-#print(xyDataTmp.info())
+    #file1 = "../trainData/france_0_allSamples1.csv"
+    file1 = "../trainData/france_0_allSamples1_2slot.csv"
+    xyDataTmp = pd.read_csv(file1)
+    print("\n2slot的数据列表名为：headName2SlotXY96\n")
+    #print(xyDataTmp.info())
 
-##########################################################
-##########################################################
+    ##########################################################
+    ##########################################################
 
-print("根据一些基本规则，需要把数据库中的一些明显不符合逻辑的数据清楚")
-#1.当前速度已经为0了，输出标志大于0
-#tmp1  = (xyDataTmp.iloc[:,3] == 0) & (xyDataTmp.iloc[:,-1] > 0)
-#xyDataTmp =xyDataTmp[tmp1 == False]
-h,w =  xyDataTmp.shape
-print(xyDataTmp.shape)
-droplist = []
-for i in range(h):
-    speed = xyDataTmp.iloc[i,3].item()
-    tag1 = minSpeed2Tag(speed)
-    tag2 = xyDataTmp.iloc[i,-1].item()
-    if tag1<tag2 or (tag1 == 0 and tag2>0):
-        droplist.extend([i])
+    print("根据一些基本规则，需要把数据库中的一些明显不符合逻辑的数据清楚")
+    #1.当前速度已经为0了，输出标志大于0
+    #tmp1  = (xyDataTmp.iloc[:,3] == 0) & (xyDataTmp.iloc[:,-1] > 0)
+    #xyDataTmp =xyDataTmp[tmp1 == False]
+    h,w =  xyDataTmp.shape
+    print(xyDataTmp.shape)
+    droplist = []
+    for i in range(h):
+        speed = xyDataTmp.iloc[i,3].item()
+        tag1 = minSpeed2Tag(speed)
+        tag2 = xyDataTmp.iloc[i,-1].item()
+        if tag1<tag2 or (tag1 == 0 and tag2>0):
+            droplist.extend([i])
 
-#print(droplist)
-#print(max(droplist))
-xyDataTmp= xyDataTmp.drop(labels=droplist,axis=0)
-
-
+    #print(droplist)
+    #print(max(droplist))
+    xyDataTmp= xyDataTmp.drop(labels=droplist,axis=0)
 
 
 
-##########################################################
-##########################################################
-print("根据一些基本规则，数据处理，包括把laneID设为0，把vehid去掉")
-print("\n去掉vehID,minSpeedFlag的2slot的X数据列表为：headName2SlotX94\n")
-xyData = np.array(xyDataTmp)
-h,w = xyData.shape
-
-#x = xyData[:,1:23]#简单处理与SUMO数据库一致
-x0rigin = xyData[:,1:w-1]#用所有的数据,第0列为vehID,不要，
-y0rigin  = xyData[:,w-1]
-
-x0rigin[:,6] = [string2int(inputString) for inputString in x0rigin[:,6] ]#字符串vehLaneID 变为整数
-x0rigin[:,6] = [0 for inputString in x0rigin[:,6] ]#字符串vehLaneID 变为整数
-x0rigin =x0rigin.astype(np.float32)#GPU 加这个
-y0rigin =y0rigin.astype(np.int64)#GPU 加这个
-
-if 0:
-    ros = RandomOverSampler(random_state=0)
-    x0,y0= ros.fit_resample(x0rigin , y0rigin)#对数据不平衡进行处理，保证样本数一致
-
-    print("数据X0的长度为94,x0.shape:",x0.shape,"y0.shape:",y0.shape,"y0.type:", type(y0) )
-
-if 0:
-    ros =  RandomUnderSampler(random_state=0)
-    x0,y0= ros.fit_resample(x0rigin , y0rigin)#对数据不平衡进行处理，保证样本数一致
-    print("数据X0的长度为94,x0.shape:",x0.shape,"y0.shape:",y0.shape,"y0.type:", type(y0) )
-    
-if 1:    
-    smo = SMOTE(random_state=42)
-    x0,y0 = smo.fit_sample(x0rigin , y0rigin)
-    print("数据X0的长度为94,x0.shape:",x0.shape,"y0.shape:",y0.shape,"y0.type:", type(y0) )
-    
-x0=x0.astype(np.float32)#GPU 加这个
-y0=y0.astype(np.int64)#GPU 加这个
-
-del xyDataTmp #节省内存
-del xyData #节省内存
 
 
+    ##########################################################
+    ##########################################################
+    print("根据一些基本规则，数据处理，包括把laneID设为0，把vehid去掉")
+    print("\n去掉vehID,minSpeedFlag的2slot的X数据列表为：headName2SlotX94\n")
+    xyData = np.array(xyDataTmp)
+    h,w = xyData.shape
 
-    
-########################################################################################################################    
-########################################################################################################################
+    #x = xyData[:,1:23]#简单处理与SUMO数据库一致
+    x0rigin = xyData[:,1:w-1]#用所有的数据,第0列为vehID,不要，
+    y0rigin  = xyData[:,w-1]
+
+    x0rigin[:,6] = [string2int(inputString) for inputString in x0rigin[:,6] ]#字符串vehLaneID 变为整数
+    x0rigin[:,6] = [0 for inputString in x0rigin[:,6] ]#字符串vehLaneID 变为整数
+    x0rigin =x0rigin.astype(np.float32)#GPU 加这个
+    y0rigin =y0rigin.astype(np.int64)#GPU 加这个
+
+    if 0:
+        ros = RandomOverSampler(random_state=0)
+        x0,y0= ros.fit_resample(x0rigin , y0rigin)#对数据不平衡进行处理，保证样本数一致
+
+        print("数据X0的长度为94,x0.shape:",x0.shape,"y0.shape:",y0.shape,"y0.type:", type(y0) )
+
+    if 0:
+        ros =  RandomUnderSampler(random_state=0)
+        x0,y0= ros.fit_resample(x0rigin , y0rigin)#对数据不平衡进行处理，保证样本数一致
+        print("数据X0的长度为94,x0.shape:",x0.shape,"y0.shape:",y0.shape,"y0.type:", type(y0) )
+
+    if 1:    
+        smo = SMOTE(random_state=42)
+        x0,y0 = smo.fit_sample(x0rigin , y0rigin)
+        print("数据X0的长度为94,x0.shape:",x0.shape,"y0.shape:",y0.shape,"y0.type:", type(y0) )
+
+    x0=x0.astype(np.float32)#GPU 加这个
+    y0=y0.astype(np.int64)#GPU 加这个
+
+    del xyDataTmp #节省内存
+    del xyData #节省内存
 
 
-from sklearn.model_selection import train_test_split
 
-if 1:# 训练多级模型
-    print("训练分离式多级模型")
-    
-    #准备字典，用于保存训练后的数据"
-    xFloors=  dict()
-    yFloors =  dict()
-    xTestFloors =dict()
-    yTestFloors = dict()
-    modSaveNameFloors =dict()
-    encLevels= dict()
-    yKerasFloors = dict()
-    x=x0
-    y=y0
-    x=x.astype(np.float32)#GPU 加这个
-    y=y.astype(np.int64)#GPU 加这个
-    print("x.shape:",x .shape,"y.shape:",y .shape,"y.type:", type(y) )
-    print(y)
-    
-    #hierarchy = [2,4,6,8,9]
-    #hierarchy = [2,3,4,5,6,7,8,9]
-    yH1,hierarchy = convertY2Hieral(y)
-    
-    
-    x_train, x_test, y_train, y_test = train_test_split(x, yH1, test_size=0.9, random_state=0)
-    
-    nSamples,nFeatures =  x_train.shape
-    
-    
-    numEpochs =1700 #1500/60/60*5 = 2hour
-    
-    
-    for i in range(len(hierarchy)):   
-        print("\n\n levelIndex",i,"nSamples,nFeatures",x_train.shape)
-        levelIndex = i
-        numLayers = 4
-        enc = OneHotEncoder()
+  
+    ########################################################################################################################
+
+
+
+
+    if trainOrNot == 1:# 训练多级模型
+        print("训练分离式多级模型")
+
+        #准备字典，用于保存训练后的数据"
+        xFloors=  dict()
+        yFloors =  dict()
+        xTestFloors =dict()
+        yTestFloors = dict()
+        modSaveNameFloors =dict()
+        encLevels= dict()
+        yKerasFloors = dict()
+        x=x0
+        y=y0
+        x=x.astype(np.float32)#GPU 加这个
+        y=y.astype(np.int64)#GPU 加这个
+        print("x.shape:",x .shape,"y.shape:",y .shape,"y.type:", type(y) )
+        print(y)
+
+        #hierarchy = [2,4,6,8,9]
+        #hierarchy = [2,3,4,5,6,7,8,9]
+        yH1,hierarchy = convertY2Hieral(y)
+
+
+        x_train, x_test, y_train, y_test = train_test_split(x, yH1, test_size=testRatio, random_state=0)
+
         nSamples,nFeatures =  x_train.shape
-       
-            
-        yCurLayer1 = [t1[i] for t1 in y_train]
-        
-        yCurLayer1 = np.array(yCurLayer1)
-        print("yCurLayer1.shape:",yCurLayer1.shape)
-        
-        yCurLayer1= yCurLayer1.reshape(nSamples,-1)
-        enc.fit(yCurLayer1)
-        
-        yOneHot=enc.transform(yCurLayer1).toarray()
-        print(enc.categories_,enc.get_feature_names())
-        print(yOneHot[:1])
-        
-        
-        num_labels = hierarchy[i] 
-        print("num_labels:", num_labels)
-        saveName = "../trainedModes/modelSep-9level%d-%dlayer-2slots-gpu1.h5" %(i,numLayers)
-        #saveName = "../trainedModes/modelSep-2level%d-%dlayer-2slots-gpu1.h5" %(i,numLayers)#基于拥堵定义的2层结构
-        print(saveName)
-        sepHier1(x_train,yOneHot,num_labels,saveName,levelIndex,numLayers,numEpochs)
-        
-        encLevels[str(i)] = enc
-        xFloors[str(i)] = x_train
-        yFloors[str(i)] = yCurLayer1
-        
-        
-        nSamplesTest,nFeaturesT =  x_test.shape
-        yCurLayerTest = [t1[i] for t1 in y_test]
-        yCurLayerTest = np.array(yCurLayerTest)
-        yCurLayerTest= yCurLayerTest.reshape(nSamplesTest,-1)
-        
-        xTestFloors[str(i)] = x_test
-        yTestFloors[str(i)] = yCurLayerTest
-        modSaveNameFloors[str(i)] = saveName
-        
-    #######保存为pickle文件,用于后期的SUMO和数据分析
-    #fpk=open('samples1.pkf','wb+')  
-    #pickle.dump([xFloors,yFloors,modSaveNameFloors,encLevels,xTestFloors, yTestFloors],fpk)  
-    #fpk.close() 
-    
-    fpk=open('sepTrainedsSamplesAll1.pkf','wb+')  
-    pickle.dump([xFloors,yFloors,modSaveNameFloors,encLevels,xTestFloors, yTestFloors],fpk)  
-    fpk.close() 
-
-########################################################################################################################    
-########################################################################################################################
-#####用现有训练模型进行预测
 
 
-
-fpk=open('sepTrainedsSamplesAll1.pkf','rb') 
-[xFloors,yFloors,modSaveNameFloors,encLevels,xTestFloors, yTestFloors]=pickle.load(fpk)  
-fpk.close()  
+        #numEpochs =10 #1500/60/60*5 = 2hour #17000正确率过高
 
 
-yKerasFloors = dict()
+        for i in range(len(hierarchy)):   
+            print("\n\n levelIndex",i,"nSamples,nFeatures",x_train.shape)
+            levelIndex = i
+            numLayers = 4
+            enc = OneHotEncoder()
+            nSamples,nFeatures =  x_train.shape
 
-for i in range(len(hierarchy)):
-        levelIndex = i
-        #x = xFloors[str(i)]
-        #yCurLayer1 =  yFloors[str(i)]
-        
-        x = xTestFloors[str(i)]
-        yCurLayer1 =  yTestFloors[str(i)]
-        
-        saveName =  modSaveNameFloors[str(i)] 
-        enc = encLevels[str(i)]
-        yOneHot=enc.transform(yCurLayer1).toarray()
-        yPredict=getKerasResnetRVL(x,enc,saveName)
-        print("分离式多层识别结果:第%d层\n" %i)
-        mat1num = confusion_matrix(yCurLayer1,yPredict)
-        print(mat1num)
-        mat2acc = confusion_matrix(yCurLayer1,yPredict,normalize='pred')  
-        print(np.around(mat2acc , decimals=3))
-        yKerasFloors[str(i)] =  yPredict
-        
-        df = pd.DataFrame(np.around(mat2acc , decimals=3))
-        fs = "./data/test_mat2acc%d.csv" %i
-        df.to_csv(fs,index= False, header= False)
-        
-fpk=open('sepTestRVLSamples1.pkf','wb+')         
-pickle.dump([xFloors,yFloors,modSaveNameFloors,encLevels,yKerasFloors,xTestFloors,yTestFloors],fpk)  
-fpk.close() 
+
+            yCurLayer1 = [t1[i] for t1 in y_train]
+
+            yCurLayer1 = np.array(yCurLayer1)
+            print("yCurLayer1.shape:",yCurLayer1.shape)
+
+            yCurLayer1= yCurLayer1.reshape(nSamples,-1)
+            enc.fit(yCurLayer1)
+
+            yOneHot=enc.transform(yCurLayer1).toarray()
+            print(enc.categories_,enc.get_feature_names())
+            print(yOneHot[:1])
+
+
+            num_labels = hierarchy[i] 
+            print("num_labels:", num_labels)
+            saveName = "../trainedModes/modelSep-9level%d-%dlayer-2slots-gpu1.h5" %(i,numLayers)
+            #saveName = "../trainedModes/modelSep-2level%d-%dlayer-2slots-gpu1.h5" %(i,numLayers)#基于拥堵定义的2层结构
+            print(saveName)
+            sepHier1(x_train,yOneHot,num_labels,saveName,levelIndex,numLayers,numEpochs)
+
+            encLevels[str(i)] = enc
+            xFloors[str(i)] = x_train
+            yFloors[str(i)] = yCurLayer1
+
+
+            nSamplesTest,nFeaturesT =  x_test.shape
+            yCurLayerTest = [t1[i] for t1 in y_test]
+            yCurLayerTest = np.array(yCurLayerTest)
+            yCurLayerTest= yCurLayerTest.reshape(nSamplesTest,-1)
+
+            xTestFloors[str(i)] = x_test
+            yTestFloors[str(i)] = yCurLayerTest
+            modSaveNameFloors[str(i)] = saveName
+
+        #######保存为pickle文件,用于后期的SUMO和数据分析
+        #fpk=open('samples1.pkf','wb+')  
+        #pickle.dump([xFloors,yFloors,modSaveNameFloors,encLevels,xTestFloors, yTestFloors],fpk)  
+        #fpk.close() 
+
+        fpk=open('sepTrainedsSamplesAll1.pkf','wb+')  
+        pickle.dump([xFloors,yFloors,modSaveNameFloors,encLevels,xTestFloors, yTestFloors],fpk)  
+        fpk.close() 
+
+    ########################################################################################################################    
+    ########################################################################################################################
+    #####用现有训练模型进行预测
+
+    if testOrNot == 1:
+
+        fpk=open('sepTrainedsSamplesAll1.pkf','rb') 
+        [xFloors,yFloors,modSaveNameFloors,encLevels,xTestFloors, yTestFloors]=pickle.load(fpk)  
+        fpk.close()  
+
+
+        yKerasFloors = dict()
+
+        for i in range(len(hierarchy)):
+                levelIndex = i
+                #x = xFloors[str(i)]
+                #yCurLayer1 =  yFloors[str(i)]
+
+                x = xTestFloors[str(i)]
+                yCurLayer1 =  yTestFloors[str(i)]
+
+                saveName =  modSaveNameFloors[str(i)] 
+                enc = encLevels[str(i)]
+                yOneHot=enc.transform(yCurLayer1).toarray()
+                yPredict=getKerasResnetRVL(x,enc,saveName)
+                print("分离式多层识别结果:第%d层\n" %i)
+                mat1num = confusion_matrix(yCurLayer1,yPredict)
+                print(mat1num)
+                mat2acc = confusion_matrix(yCurLayer1,yPredict,normalize='pred')  
+                print(np.around(mat2acc , decimals=3))
+                yKerasFloors[str(i)] =  yPredict
+
+                df = pd.DataFrame(np.around(mat2acc , decimals=3))
+                fs = "./data/step0_test_mat2acc%d.csv" %i
+                df.to_csv(fs,index= False, header= False)
+
+        fpk=open('sepTestRVLSamples1.pkf','wb+')         
+        pickle.dump([xFloors,yFloors,modSaveNameFloors,encLevels,yKerasFloors,xTestFloors,yTestFloors],fpk)  
+        fpk.close() 
 
  
       
+if __name__=="__main__":
+    main()
