@@ -104,6 +104,16 @@ def getKerasResnetRVL(x,enc,saveName):
     return y
 
 
+# 
+def setNoTrainedLayers(model,noTrainingLayers)
+ 
+    #只训练最后一层，#
+    #last_layer_idx = len(model.layers) - 1
+    #noTrainingLayers = range(last_layer_idx)
+    for i in noTrainingLayers:
+        model.layers[i].trainable = False
+
+    return model
 
 ########################################################################################################################
 ##手工确定层次结构，以前测试时候为5层，根据论文为9层
@@ -159,7 +169,8 @@ def convertY2Hieral(y):
                   }
     '''
     hierarchy = [5,9]
-    labelDict = {"0":["01","0"],\
+    labelDict = {"0":["01","0"],\                                                                                   
+    
                   "1":["01","1"],\
                   "2":["2","2"],\
                   "3":["34","3"],\
@@ -310,18 +321,19 @@ def minSpeed2Tag(minSpeed):
 ########################################################################################################################
 
 def main():
-    #python3 mainSimpleStep0.py --numEpochs 10 --trainOrNot 1 --testOrNot 1
+    #python3 mainSimpleStep0.py --numEpochs 10 --trainOrNot 1 --testOrNot 1 --sampleMethond 1
     parser = argparse.ArgumentParser(description="step0")
     parser.add_argument('-np','--numEpochs', default=1000, type=int,help='分离式模型每层训练次数')
-    parser.add_argument('-trn','--trainOrNot', default=1,type=int,help='训练吗')
-    parser.add_argument('-ten','--testOrNot', default=1,type=int,help='测试吗')
+    parser.add_argument('-trn','--trainOrNot', default=1,type=int,help='训练吗?')
+    parser.add_argument('-ten','--testOrNot', default=1,type=int,help='测试吗?')
     parser.add_argument('-tr','--testRatio', default = 0.9,type=float,help='测试集比例')
+    parser.add_argument('-sm','--sampleMethond', default = 2,type=int,help='重采样方法：1：OverSample,2:SMOTE')
     args = parser.parse_args()
     numEpochs = args.numEpochs
     trainOrNot =  args.trainOrNot
     testRatio =  args.testRatio
     testOrNot = args.testOrNot
-
+    sampleMethond = args.sampleMethond
 
     # 当前车道，每个红灯车的所有时刻的样本
     name1A = ["vehID", "redLightTime", "distToRedLight", "speed", "laneAvgSpeed",
@@ -418,18 +430,18 @@ def main():
     x0rigin =x0rigin.astype(np.float32)#GPU 加这个
     y0rigin =y0rigin.astype(np.int64)#GPU 加这个
 
-    if 0:
+    if sampleMethond == 1:
         ros = RandomOverSampler(random_state=0)
         x0,y0= ros.fit_resample(x0rigin , y0rigin)#对数据不平衡进行处理，保证样本数一致
 
         print("数据X0的长度为94,x0.shape:",x0.shape,"y0.shape:",y0.shape,"y0.type:", type(y0) )
 
-    if 0:
+    if sampleMethond == 101:
         ros =  RandomUnderSampler(random_state=0)
         x0,y0= ros.fit_resample(x0rigin , y0rigin)#对数据不平衡进行处理，保证样本数一致
         print("数据X0的长度为94,x0.shape:",x0.shape,"y0.shape:",y0.shape,"y0.type:", type(y0) )
 
-    if 1:    
+    if sampleMethond == 2:    
         smo = SMOTE(random_state=42)
         x0,y0 = smo.fit_sample(x0rigin , y0rigin)
         print("数据X0的长度为94,x0.shape:",x0.shape,"y0.shape:",y0.shape,"y0.type:", type(y0) )
@@ -536,7 +548,7 @@ def main():
 
     if testOrNot == 1:
 
-        fpk=open('sepTrainedsSamplesAll1.pkf','rb') 
+        fpk=open('step0_sepTrainedsSamplesAll1.pkf','rb') 
         [xFloors,yFloors,modSaveNameFloors,encLevels,xTestFloors, yTestFloors]=pickle.load(fpk)  
         fpk.close()  
 
@@ -566,7 +578,7 @@ def main():
                 fs = "./data/step0_test_mat2acc%d.csv" %i
                 df.to_csv(fs,index= False, header= False)
 
-        fpk=open('sepTestRVLSamples1.pkf','wb+')         
+        fpk=open('step0_sepTestRVLSamples1.pkf','wb+')         
         pickle.dump([xFloors,yFloors,modSaveNameFloors,encLevels,yKerasFloors,xTestFloors,yTestFloors],fpk)  
         fpk.close() 
 

@@ -19,7 +19,12 @@ from multiprocessing import Process
 from datetime import datetime
 import math
 import time
+import sys
+import argparse
 
+########################################################################################################
+'''将输出重定向到文件'''
+import sys 
 
 # 当前车道，每个红灯车的所有时刻的样本
 name1A = ["vehID", "redLightTime", "distToRedLight", "speed", "laneAvgSpeed",
@@ -67,11 +72,7 @@ print("接程序3:程序3为根据输入的SUMO模拟特征对低概率样本进
 print("mainSimpleStep4D,需要用4B中的step4b_analy1_SSVP_level7.csv和4c中的pipeline的")
 
 
-########################################################################################################
-'''将输出重定向到文件'''
-import sys 
-fs1 = open('printlog.txt', 'w+')
-sys.stdout = fs1  # 将输出重定向到文件
+
 
 ########################################################################################################
 #######################################################################################################
@@ -231,6 +232,7 @@ def testRectTimeReg():
 
 
 ###################################################################################################
+'''画图boxplot,预测标记，实际不停车过路口的比例'''
 def analyMaxSpeed(df_analy3,labelList,maxSpeedList):
     
     
@@ -426,7 +428,7 @@ def  runMain(labelList, sectionValue,sectionName,maxSpeedList,numRunSample =60,s
 import multiprocessing as mp
 
 
-
+##############CPU并行仿真，分配任务，调用主程序
 def job0(z):
     sectionCounter = z[0]
     params = z[1]
@@ -441,20 +443,45 @@ def job0(z):
     df =runMain(labelList, sectionValue,sectionName,maxSpeedList,numRunSample,simNum,level)
     return sectionCounter,df
 
+'''根据参数,CPU并行仿真'''
 def mainMultiprocessing3():
     
+    #需要再root而不是GPU环境下运行
+    #python3 mainSimpleStep4D.py --analyMaxSpeedOrNot 1 --sectionNum 6 --level 7 --simNum 5  --numRunSample 180 --run4DSimOrNot 1
+    #python3 mainSimpleStep4D.py --analyMaxSpeedOrNot 1 --sectionNum 1000 --level 7 --simNum 15  --numRunSample 18000 --run4DSimOrNot 1
+    parser = argparse.ArgumentParser(description="step4D")
+    parser.add_argument('-am','--analyMaxSpeedOrNot', default=1, type=int,help='合成一个文件并画图boxplot不停车吗？')
+    parser.add_argument('-sn','--sectionNum', default=3000, type=int,help='#CPU并行运算的要处理的4B例子的分段数')
+    parser.add_argument('-ll','--level', default=7, type=int,help='读取step4B的例子所在的层数')
+    parser.add_argument('-su','--simNum', default=15, type=int,help='每个例子要仿真的次数')
+    parser.add_argument('-nrs','--numRunSample', default=18000, type=int,help='CPU并行运算的要处理的4B例子的数目')
+    parser.add_argument('-rs','--run4DSimOrNot', default=1, type=int,help='是否运行4D模拟获得数据？')
+  
+    args = parser.parse_args()
+    analyMaxSpeedOrNot = args.analyMaxSpeedOrNot
+    sectionNum = args.sectionNum #CPU并行运算的要处理的4B例子的分段数
+    level = args.level#读取step4B的例子所在的层数
+    simNum = args.simNum #每个例子要仿真的次数
+    numRunSample = args.numRunSample #CPU并行运算的要处理的4B例子的数目，数目少可以做测试用
+    run4DSimOrNot  = args.run4DSimOrNot #是否运行4D模拟获得数据
+     
+    if 1:    
+        fs1 = open('printlog.txt', 'w+')
+        sys.stdout = fs1  # 将输出重定向到文件
+
 
     timeST = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     print("start:%s" %timeST)
     
-    sectionNum = 3000
+    
     data_list = np.zeros([sectionNum,2]).tolist()
-    level = 7
-    numRunSample = 18000
-    labelList = list(range(9))
-    simNum = 15
+   
+    labelList = list(range(9))    
     maxSpeedList =[[5,10],[10,20],[20,30],[30,40],[40,120]]
-    if 1: 
+    print('其他参数，labelList预先定义为:',labelList)
+    print('其他参数，maxSpeedList预先定义为:', maxSpeedList)
+    
+    if run4DSimOrNot: 
         for i in np.arange(sectionNum): 
             sectionValue = [i/sectionNum,(i+1)/sectionNum]
             sectionName = "section%d[%.3f_%.3f]" %(i,sectionValue[0],sectionValue[1])
@@ -474,7 +501,7 @@ def mainMultiprocessing3():
         res = pool.map(job0, data_list)
         #print(res)
         
-    if 1:#将平行数据转为数据整合一个文件
+    if analyMaxSpeedOrNot:#将平行数据转为数据整合一个文件,并分析画图boxplot，标记对应的最小速度分布
         dfData = pd.DataFrame()
         for i in np.arange(sectionNum):
             sectionValue = [i/sectionNum,(i+1)/sectionNum]
@@ -497,5 +524,7 @@ def mainMultiprocessing3():
    
 ###################################################################################################
 
-#mainMultiprocessing2()
-mainMultiprocessing3()
+
+
+if __name__=="__main__":
+    mainMultiprocessing3()

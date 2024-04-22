@@ -23,7 +23,7 @@ import pickle
 
 import warnings
 warnings.filterwarnings("ignore")
-      
+import argparse      
 
 # 当前车道，每个红灯车的所有时刻的样本
 name1A = ["vehID", "redLightTime", "distToRedLight", "speed", "laneAvgSpeed",
@@ -53,59 +53,74 @@ headName2SlotX95 = headName49+name1C+name2+name3+name4+name5+name6_error #9+40+7
 headName2SlotXY96 = headName2SlotX95+['minSpeedFlag'] ##96
 
 headName2SlotX94 = headName48+name1C+name2+name3+name4+name5+name6_error #48+40+7+39 =  94
-print("\n2slot的数据列表为：headName2SlotXY96\n")
+'''print("\n2slot的数据列表为：headName2SlotXY96\n")'''
+
+
+def main():
     
-########################################################################################################################
-print("1.1 主程序开始")
-########################################################################################################################
+    
 
-########################################################################################################################
-#####用现有训练模型进行预测
-fpk=open('sepTrainedsSamplesAll1.pkf','rb') 
-[xFloors,yFloors,modSaveNameFloors,encLevels,xTestFloors, yTestFloors]=pickle.load(fpk)  
-fpk.close()   
+    ########################################################################################################################
+    print("1.1 主程序开始")
+    ########################################################################################################################
+    #python3 mainSimpleStep1.py --level 0 1 2 3 4 5 6 7 --threshold 0.7
+    parser = argparse.ArgumentParser(description="step1")
+    parser.add_argument('-ll','--level', default=[0,1,2,3,4,5,6,7], nargs='+',type=int,help='step0 读取训练好的模型第几layers?，就获取所有hierarchy=[0,1,2,3,4,5,6,7]')
+    parser.add_argument('-th','--threshold', default=0.7, type=float,help='取测试样本中可能性最大值小于0.7的例子')
+  
+    args = parser.parse_args()
+    level = args.level
+    threshold= args.threshold #CPU并行运算的要处理的4B例子的分段数
+    
+    
+    ########################################################################################################################
+    #####用现有训练模型进行预测
+    fpk=open('step0_sepTrainedsSamplesAll1.pkf','rb') 
+    [xFloors,yFloors,modSaveNameFloors,encLevels,xTestFloors, yTestFloors]=pickle.load(fpk)  
+    fpk.close()   
 
-fpk=open('sepTestRVLSamples1.pkf','rb') 
-[xFloors,yFloors,modSaveNameFloors,encLevels,yKerasFloors,xTestFloors, yTestFloors]=pickle.load(fpk)  
-fpk.close()  
+    fpk=open('step0_sepTestRVLSamples1.pkf','rb') 
+    [xFloors,yFloors,modSaveNameFloors,encLevels,yKerasFloors,xTestFloors, yTestFloors]=pickle.load(fpk)  
+    fpk.close()  
 
-level = 7
-hierarchy=[2,3,4,5,6,7,8,9]
-for i in [level]:#i=2 ,对应输出4个类别
-#for i in range(len(hierarchy)):
-        levelIndex = i 
-        x = xTestFloors[str(i)]
-        yCurLayer1 =  yTestFloors[str(i)]
-        #yP = yKerasFloors[str(i)]
-        numLayers = 4
-        modeSaveName = "../trainedModes/modelSep-9level%d-%dlayer-2slots-gpu1.h5" %(i,numLayers)
-        model = keras.models.load_model(modeSaveName)
-        yPredictOut= model.predict([x], batch_size=2560)#预测并将onehot转为label
-        yPredictOut = np.around(yPredictOut , decimals=3)
-        print('yPredictOut.shape:',yPredictOut.shape)
-        ymax1=np.max(yPredictOut,axis=1)#将onehot转为label.提取最大概率
-        ymax2=np.argmax(yPredictOut,axis=1)#将onehot转为label
-        
-        #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        index = np.where(ymax1<0.7)[0]#                                                                                                                                                                                提          取最大值小于0.98的例子
-        
-        ylowpraPredictNN=yPredictOut[index]#对较低概率的样本
-        xlowpra=x[index]
-        ylowpraLabel = yCurLayer1[index]
-        ylowPredictLabel = ymax2[index].reshape(-1,1)
-        
-        
-        print("xlowpra.shape",xlowpra.shape)
-        
-        strTmp = 'lowprobSamplesLevel%d.pkf' %i
-        fpk=open(strTmp,'wb+') 
-        pickle.dump([xlowpra,ylowpraLabel,ylowPredictLabel,ylowpraPredictNN],fpk)  
-        fpk.close() 
+    
+    
+    for i in level:#i=2 ,对应输出4个类别
+    
+            levelIndex = i 
+            x = xTestFloors[str(i)]
+            yCurLayer1 =  yTestFloors[str(i)]
+            #yP = yKerasFloors[str(i)]
+            numLayers = 4
+            modeSaveName = "../trainedModes/modelSep-9level%d-%dlayer-2slots-gpu1.h5" %(i,numLayers)
+            model = keras.models.load_model(modeSaveName)
+            yPredictOut= model.predict([x], batch_size=2560)#预测并将onehot转为label
+            yPredictOut = np.around(yPredictOut , decimals=3)
+            print('yPredictOut.shape:',yPredictOut.shape)
+            ymax1=np.max(yPredictOut,axis=1)#将onehot转为label.提取最大概率
+            ymax2=np.argmax(yPredictOut,axis=1)#将onehot转为label
+
+            #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            index = np.where(ymax1<threshold)[0]#         取最大值小于0.7的例子                                                                                                                                                                        
+
+            ylowpraPredictNN=yPredictOut[index]#对较低概率的样本
+            xlowpra=x[index]
+            ylowpraLabel = yCurLayer1[index]
+            ylowPredictLabel = ymax2[index].reshape(-1,1)
+
+
+            print("xlowpra.shape",xlowpra.shape)
+            strTmp = 'step1_lowprobSamplesLevel%d.pkf' %i
+            fpk=open(strTmp,'wb+') 
+            pickle.dump([xlowpra,ylowpraLabel,ylowPredictLabel,ylowpraPredictNN],fpk)  
+            fpk.close() 
         
    
         
 
        
 
-
+      
+if __name__=="__main__":
+    main()
 
