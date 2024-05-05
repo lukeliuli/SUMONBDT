@@ -75,11 +75,11 @@ def main():
     
     ########################################################################################################################
     #####用现有训练模型进行预测
-    fpk=open('step0_sepTrainedsSamplesAll1.pkf','rb') 
+    fpk=open('step0_sepTrainedSamplesAll_8level.pkf','rb') #step0_sepTrainedsSamplesAll_8level.pkf
     [xFloors,yFloors,modSaveNameFloors,encLevels,xTestFloors, yTestFloors]=pickle.load(fpk)  
     fpk.close()   
 
-    fpk=open('step0_sepTestRVLSamples1.pkf','rb') 
+    fpk=open('step0_sepTestedSamplesAll_8level.pkf','rb') 
     [xFloors,yFloors,modSaveNameFloors,encLevels,yKerasFloors,xTestFloors, yTestFloors]=pickle.load(fpk)  
     fpk.close()  
 

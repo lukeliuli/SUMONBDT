@@ -9,7 +9,7 @@
 #@author: lukeliuli@163.com
 
 print("#########################################################################")
-print("基于SUMO和蒙特卡洛模拟分析生成预测当前样本的最小速度，原始对应程序为mainSimSumoFranceData，需要在docker的原始环境下运行，没有conda")
+print("step2:基于SUMO和蒙特卡洛模拟分析生成预测当前样本的最小速度，原始对应程序为mainSimSumoFranceData，需要在docker的原始环境下运行，没有conda")
 print("程序标号3，以及是并行仿真版本")
 
 
@@ -41,6 +41,7 @@ import pandas as pd
 import numpy as np
 import os
 import time
+import argparse  
 ########################################################################################################################
     # 当前车道，每个红灯车的所有时刻的样本
 name1A = ["vehID", "redLightTime", "distToRedLight", "speed", "laneAvgSpeed",
@@ -414,8 +415,8 @@ def configAndRun(tmp,index,simNum =10):
     while(len(minSpeedList)<params["simNum"])  and emptyRun < 250:
           print("\nsampleIndex: %d,simNum:%d Start" %(index,len(minSpeedList)))
           #加入噪声
-          params["otherVehsParams"] = [2,random.uniform(1,2),9,random.uniform(15/3.6,70/3.6),random.uniform(0.01,1.5), 0.1 ,0.00,0.00] 
-          params["objectVehParams"] = [2,random.uniform(1,2),9,random.uniform(15/3.6,70/3.6),random.uniform(0.01,0.1), 0.1 ,0.00,0.00] 
+          params["otherVehsParams"] = [2,random.uniform(1,2),9,random.uniform(45/3.6,70/3.6),random.uniform(0.01,0.5), 0.1 ,0.00,0.00] 
+          params["objectVehParams"] = [2,random.uniform(1,2),9,random.uniform(45/3.6,70/3.6),random.uniform(0.01,0.5), 0.1 ,0.00,0.00] 
 
 
 
@@ -481,29 +482,30 @@ def minSpeed2Tag(minSpeed):
 
 
 
-def test4ParallSim1(sections,labels,level):
+def test4ParallSim1(sections,labels,level,simNum,numRunSample):
     '''从test3,修改而来，主要修改地方为根据输入参数进行样本分割，并将结果进行保存到独立的文件夹中'''
     print("test4ParallSim1,从lowprobSamples.pkf，样本已经进行[x,y]分割.样本为2slot,5hier,9label\n\n")
     print("test4ParallSim1,样本section为:")
     print(sections)
-    strTmp = 'lowprobSamplesLevel%d.pkf' %level
+    strTmp = 'step1_lowprobSamplesLevel%d.pkf' %level
     fpk=open(strTmp,'rb')   
     [xlowpra,ylowpraLabel,ylowPredictLabel,ylowpraPredictNN]=pickle.load(fpk)  
     fpk.close()   
     
-    logFile=open("./tmpData/"+labels+'log.txt','w+',buffering=1)
-    strLog = "start time %s" %datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    print(strLog,file=logFile)
+   
     
     numSamples,numFeatures = xlowpra.shape
+    
+    numSamples = min(numSamples,numRunSample)#numRunSample用小样本测试程序是否可行
+    
     strLog = "numSamples %d,numFeatures%d" %(numSamples,numFeatures)
-    print(strLog,file=logFile)
+    print(strLog)
    
 
     rvl = []
-    #numSamples = 2000
+  
     paramsVehAll = []
-    simNum =  500  #sim==500,运行一个样本时间为10秒
+    #simNum =  500  #sim==500,运行一个样本时间为10秒
     
  
     stt = round(numSamples*sections[0])
@@ -511,7 +513,7 @@ def test4ParallSim1(sections,labels,level):
     jTmpIndex = np.arange(stt,end)
     
     strLog = "start:%d,end:%d" %(stt,end)
-    print(strLog,file=logFile)
+    print(strLog)
    
   
     for j in jTmpIndex:
@@ -543,7 +545,7 @@ def test4ParallSim1(sections,labels,level):
         
         timeNow = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         strLog = "\nsampleIndex:%d, time End %s" %(j,timeNow)
-        print(strLog,file=logFile)
+        print(strLog)
        
 
 
@@ -580,27 +582,75 @@ import time
 
 def main():
     
+    #需要再root而不是GPU环境下运行
+    #python3 mainSimpleStep2_sumoSimByFranceParallSim1.py \
+    #--testMode 1 --sectionNum 1000 --level 7 --simNum 50  --numRunSample 100000 --makeOneFileOrNot 1
+    
+    #python3 mainSimpleStep2_sumoSimByFranceParallSim1.py \
+    #--testMode 1 --sectionNum 10 --level 7 --simNum 5  --numRunSample 1000 --makeOneFileOrNot 1#测试用
+    parser = argparse.ArgumentParser(description="step4D")
+    parser.add_argument('-tm','--testMode', default=1, type=int,\
+                        help='python多线程测试模式？1为主程序，2为测试多线程,0为不允许多线程模拟')
+    
+    parser.add_argument('-sn','--sectionNum', default=3000, type=int,\
+                        help='#CPU并行运算的要处理的step1例子的分段数')
+    
+    parser.add_argument('-ll','--level', default=7, type=int,\
+                        help='读取step1的例子所在的层数')
+    
+    parser.add_argument('-mk','--makeOneFileOrNot', default=1, type=int,\
+                        help='合成一个文件用于后面分析？')
+    
+    
+    parser.add_argument('-su','--simNum', default=15, type=int,\
+                        help='每个例子要仿真的次数')
+    parser.add_argument('-nrs','--numRunSample', default=18000, type=int,\
+                        help='CPU并行运算的要处理的step1例子的数目')
+    
+    ##################
+    '''将输出重定向到文件'''
+
+    fs1 = open('step2_printlog.txt', 'w+')
+    sys.stdout = fs1  # 将输出重定向到文件
+    ##################
+    
+    
+    args = parser.parse_args()
+    testMode = args.testMode
+    sectionNum = args.sectionNum #CPU并行运算的要处理的4B例子的分段数
+    level = args.level#读取step4B的例子所在的层数
+    makeOneFileOrNot = args.makeOneFileOrNot
+    
+    simNum = args.simNum #每个例子要仿真的次数
+    numRunSample = args.numRunSample #CPU并行运算的要处理的step2例子的数目，数目少可以做测试用
+    
+     
+    ##################
     #print("test1,用于测试测一个样本并进行分析")
     #test1()
-    
+    ##################
     #print("test3,运行模拟主程序，用于获得SUMO数据")
     #test3()
     
-    '''print("test4ParallSim1,运行多进程模拟主程序，用于获得SUMO数据")'''
+    
+    
+    
+    ##########################################################
+    #主多线程程序
+    
+    '''print("step2:test4ParallSim1,运行多进程模拟主程序，用于获得SUMO数据,注意SUMO模拟参数现在比较集中")'''
     
     timeST = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
-    #主多线程程序
-    level = 7
-    if 1: 
+    if testMode == 1: 
         
-        sectionNum = 6
         sectionProcess = dict()
         for i in np.arange(sectionNum):
             sectionValue = [i/sectionNum,(i+1)/sectionNum]
             sectionName = "section%d#%3f_%3f#" %(i,sectionValue[0],sectionValue[1])
             
-            sectionProcess[i] = Process(target=test4ParallSim1, args=(sectionValue, sectionName,level ))
+            argsTmp = (sectionValue, sectionName,level, simNum,numRunSample)
+            sectionProcess[i] = Process(target=test4ParallSim1, args=argsTmp)
         for i in np.arange(sectionNum):
             sectionProcess[i].start()
             
@@ -612,14 +662,16 @@ def main():
     print("start:%s" %timeST)
     print("end:%s" %timeED)
     
+    #############################################################
     #测试多线程
-    if 0:
+    if testMode == 2:
         p1 = Process(target=test4ParallSim1, args=([0.000,0.01], 'sectionOnly1', ))
         p1.start()
         p1.join()
     
-    if 1:#将平行数据转为数据整合一个文件
-        sectionNum = 6
+    ############################################################
+    if makeOneFileOrNot == 1:#将平行数据转为数据整合一个文件
+        
         sectionProcess = dict()
         dfSumoData = pd.DataFrame()
         dfParamsVeh = pd.DataFrame()
@@ -639,10 +691,10 @@ def main():
         print(dfSumoData.info())
         print(dfParamsVeh.info())
         
-        strTmp = "./data/sumoSimDataLevel%d_simNum500.csv" %level
+        strTmp = "./data/step2_sumoSimDataLevel%d_simNum%d.csv" %(level,simNum)
         dfSumoData.to_csv(strTmp,index= False)
         
-        strTmp = "./data/paramsVehAllLevel%d_simNum500.csv" %level
+        strTmp = "./data/step2_paramsVehAllLevel%d_simNum%d.csv" %(level,simNum)
         dfParamsVeh.to_csv(strTmp,index= False)
         
 if __name__ == "__main__":

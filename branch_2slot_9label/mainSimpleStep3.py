@@ -1,7 +1,7 @@
 ########################################################################################################################
-print("接程序2: 综合SUMO输出，对keras输出进行优化。程序输入为程序2的输出")
+print("step3:接程序2: 综合SUMO输出，对keras输出进行优化。程序输入为程序2的输出")
 print("优化选择1.NN。 2 回归分析。3 概率分析。")
-print("程序编号为3(临时)")
+print("程序编号为3")
 ########################################################################################################################
 import tensorflow as tf
 from tensorflow.keras import layers
@@ -28,6 +28,7 @@ from sklearn import naive_bayes
 
 from sklearn.metrics import accuracy_score
 
+import argparse
 
 
 ########################################################################################################################
@@ -220,196 +221,231 @@ def sepHier1_SUMO(x,yOneHot,num_labels,saveName,levelIndex,numLayers,numEpochs =
 
 ########################################################################################################################   
 ########################################################################################################################    
-print("##############################################################################################################")
+def main():
 
-print("程序编号为3.1，主程序开始运行")
-
-####原始的keras训练数据中的低概率数据，阶段1
-#sample_name = 1(ID)+8(keyFeature)+40(otherVehcle)+6(keyFeatures)+40(otherVehs)+1(flag)= 96
-#xlowpra:x-name = 8(keyFeature)+40(otherVehcle)+6(keyFeatures)+40(otherVehs)= 94
-level = 7
-
-strTmp = 'lowprobSamplesLevel%d.pkf' %level
-fpk=open(strTmp,'rb')   
-[xlowpra,ylowpraLabel,ylowPredictLabel,ylowpraPredictNN]=pickle.load(fpk)  
-print("xlowpra",xlowpra.shape)
-fpk.close()      
-
-
-
-####原始的keras训练数据，阶段2
-strTmp = './data/sumoSimDataLevel%d.csv' %level
-df = pd.read_csv(strTmp, sep=',')
-
-print("sumoSimData.csv",df.shape)
-print("sumoSimData.csv",df.columns)
-numSamples,numFeatures = df.shape
-
-
+    print("#####################################################")
+    print("step3:程序编号为3.1，主程序开始运行")
     
+     
+    #python3 mainSimpleStep3.py --level 7 --simNum 15  --step0ModeCheck 1 --numEpochs 1000
 
-sumoOutput='sumoOutputSpeedTag'
-yKerasOutput='kerasPredictLabel'
-originOutput ='originOutput'
-sumoOutList = ['smv1','smv2']
-outputListNNall = ['NN0','NN1','NN2','NN3','NN4','NN5','NN6','NN7','NN8']
-numNN = ylowpraPredictNN.shape[1]
-outputListNN = outputListNNall[0:numNN]
-outputAvgSpeed = 'outputAvgSpeed'
+    parser = argparse.ArgumentParser(description="step3")
 
-'''根据成功仿真的样本标号，这里对原始lowprobIndexd进行了筛选,用于后期加入原始特征'''
-df1 = df[ "sampleIndex"]
-lowprobIndex = df1.iloc[0:numSamples].to_numpy()
-xlowpra2 = xlowpra[lowprobIndex]#这里对原始lowprobIndexd进行了筛选
+    parser.add_argument('-ll','--level', default=7, type=int,\
+                        help='读取step1的例子所在的层数')
+    
+   
+    parser.add_argument('-su','--simNum', default=15, type=int,\
+                        help='step2_每个例子要仿真的次数')
+    
+    parser.add_argument('-s0c','--step0ModeCheck', default=1, type=int,\
+                        help='对df_step2(sumo+)数据的step0的模型识别正确率')
 
-print('xlowpra2.shape:',xlowpra2.shape)
-#print('xlowpra2[0]:',xlowpra2[0])
+    parser.add_argument('-np','--numEpochs', default=1000, type=int,help='step3_stage2分离式模型每层训练次数')
+    
+    args = parser.parse_args()
+    
+    level = args.level#读取step3的例子所在的层数
+    simNum = args.simNum
+    step0ModeCheck = args.step0ModeCheck
+    numEpochs = args.numEpochs
+    
+    ##################
+    '''将输出重定向到文件'''
 
-##############################################################################
-df1 = df[sumoOutput]
-x1_sumoOutput = df1.iloc[0:numSamples].to_numpy().reshape(-1,1)
+    fs1 = open('step3_printlog.txt', 'w+')
+    sys.stdout = fs1  # 将输出重定向到文件
+    ##################
 
-
-df1 = df[yKerasOutput]
-x2_yKerasOutput = df1.iloc[0:numSamples].to_numpy().reshape(-1,1)
-
-df1 = df[outputListNN]
-x3_outputListNN = df1.iloc[0:numSamples].to_numpy()
-
-df1 = df[outputAvgSpeed]
-x4_outputAvgSpeed = df1.iloc[0:numSamples].to_numpy().reshape(-1,1)
-
-
-df1 = df[sumoOutList]
-x5_sumoOutList = df1.iloc[0:numSamples].to_numpy()
-
-df1 = df[originOutput]
-yOriginOutput = df1.iloc[0:numSamples].to_numpy().reshape(-1,1)
-
-
-
-
-
+    ####阶段1：获取的原始的keras训练数据中的低概率数据
+    #sample_name =   1(ID)+8(keyFeature)+40(otherVehcle)+6(keyFeatures)+40(otherVehs)+1(flag)= 96
+    #xlowpra:x-name = 8(keyFeature)+40(otherVehcle)+6(keyFeatures)+40(otherVehs)= 94
+   
+    '''step1：获取的原始的keras训练数据中的低概率数据'''
+    strTmp = 'step1_lowprobSamplesLevel%d.pkf' %level
+    fpk=open(strTmp,'rb')   
+    [xlowpra,ylowpraLabel,ylowPredictLabel,ylowpraPredictNN]=pickle.load(fpk)  
+    print("xlowpra",xlowpra.shape)
+    fpk.close()      
 
 
 
-################################################################################################################################
-################################################################################################################################ 
+    ####step2_生成的原始的keras训练数据+SUMO的数据
+    strTmp = './data/step2_sumoSimDataLevel%d_simNum%d.csv' %(level,simNum)
+    df_step2 = pd.read_csv(strTmp, sep=',')
 
-print("#############################\n原生keras\n")
-if 1:
-    yPredict = x2_yKerasOutput
+    print("sumoSimData.csv",df_step2.shape)
+    print("sumoSimData.csv",df_step2.columns)
+    numSamples,numFeatures = df_step2.shape
+
+
+
+   #先默认level == 7
+    sumoOutput='sumoOutputSpeedTag'
+    yKerasOutput='kerasPredictLabel'
+    originOutput ='originOutput'
+    sumoOutList = ['smv1','smv2']
+    outputListNNall = ['NN0','NN1','NN2','NN3','NN4','NN5','NN6','NN7','NN8']
+    numNN = ylowpraPredictNN.shape[1]
+    outputListNN = outputListNNall[0:numNN]
+    outputAvgSpeed = 'outputAvgSpeed'
+
+    '''step3根据成功仿真的样本标号，这里对原始lowprobIndexd进行了筛选,用于后期加入原始特征'''
+    '''step0获得原始数据库数据（有一定挑选）'''
+    '''step1获得step0中根据识别模型和识别结果的从step0中样本挑选低概率样本xlowpra'''
+    '''step2获得step1中低概率样本钟SUMO成果仿真获取的新样本df_step2（有一定挑选，去掉无法仿真样本大概1%）'''
+    '''step3,讲step2的样本与对应的step1的低概率样本的进行合成，并训练加强模型'''                                                          
+    '''找到step2df_step2对应在step1的样本xlowpra2 ，那就是df_step2 == xlowpra2'''                                             
+    df1 = df_step2[ "sampleIndex"]
+    lowprobIndex = df1.iloc[0:numSamples].to_numpy()
+    xlowpra2 = xlowpra[lowprobIndex]#这里对原始step1的lowprobIndexd进行了筛选
+
+    print('xlowpra2.shape:',xlowpra2.shape)
+    #print('xlowpra2[0]:',xlowpra2[0])
+
+    ##############################################################################
+    df1 = df_step2[sumoOutput]
+    x1_sumoOutput = df1.iloc[0:numSamples].to_numpy().reshape(-1,1)
+
+
+    df1 = df_step2[yKerasOutput]
+    x2_yKerasOutput = df1.iloc[0:numSamples].to_numpy().reshape(-1,1)
+
+    df1 = df_step2[outputListNN]
+    x3_outputListNN = df1.iloc[0:numSamples].to_numpy()
+
+    df1 = df_step2[outputAvgSpeed]
+    x4_outputAvgSpeed = df1.iloc[0:numSamples].to_numpy().reshape(-1,1)
+
+
+    df1 = df_step2[sumoOutList]
+    x5_sumoOutList = df1.iloc[0:numSamples].to_numpy()
+
+    df1 = df_step2[originOutput]
+    yOriginOutput = df1.iloc[0:numSamples].to_numpy().reshape(-1,1)
+
+
+
+
+    ###########################################################################################
+    ########################################################################################### 
+
+    print("#############################\基于df_step2(sumo+)数据的step0模型识别正确率\n")
+    if step0ModeCheck:
+        yPredict = x2_yKerasOutput
+        tmp1 = classification_report(yOriginOutput,yPredict)
+        mat1num = confusion_matrix(yOriginOutput,yPredict)
+        mat2acc = confusion_matrix(yOriginOutput,yPredict,normalize='pred')
+        print(tmp1)
+        print(mat1num)
+        print(np.around(mat2acc , decimals=3))
+        score = accuracy_score(yPredict, yOriginOutput)
+        print(score) 
+
+        df = pd.DataFrame(np.around(mat2acc , decimals=3))
+        fs = "./data/基于df_step2(sumo+)数据的step0模型识别结果的混淆矩阵_%d.csv" %level
+        df.to_csv(fs,index= False, header= False)
+
+
+    ##################################################################################
+    ####################################################################################  
+    '''加入新特征SUMO+阶段1的特征,对低概率样本重新训练多级独立kerasNN"'''
+
+
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    '''开始训练第二层模型前的数据预处理将场景静态特征和SUMO动态特征进行的整合'''
+    '''找到step2:df_step2对应在step1的样本xlowpra2 ，那就是df_step2 == xlowpra2'''                                 
+    x = np.concatenate([xlowpra2,x1_sumoOutput,x2_yKerasOutput,x3_outputListNN,x4_outputAvgSpeed,x5_sumoOutList],axis=1)#71%
+    print('df_step2对应在step1的样本为xlowpra2,xlowpra2+df_step2并合成为x,x.shape:',x.shape)
+
+    rN,cN= np.where(np.isnan(x))
+    for i in range(rN.shape[0]):
+        x[rN[i],cN[i]] = 0
+
+
+    y=yOriginOutput.reshape(1,-1)[0]
+    x=x.astype(np.float32)#GPU 加这个
+    y=y.astype(np.int64)#GPU 加这个
+    print("x.shape:",x .shape,"y.shape:",y .shape,"y.type:", type(y) )
+
+    #保存原始全部数据
+    xOriginSumoAdded  = x
+    yOriginSumoAdded  = y
+    '''testSize设置大点，否则不指导为什么正确率太高了'''                                                          
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.9, random_state=0)
+    nSamples,nFeatures =  x_train.shape
+    tmp = x_train[0][0:48]
+    print("x_train[0]:",np.round(tmp,2))
+
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    '''开始训练第二层模型'''
+  
+    numLayers = 4
+    enc = OneHotEncoder()
+    nSamples,nFeatures =  x_train.shape
+
+    y_train= y_train.reshape(nSamples,-1)
+    enc.fit(y_train)
+
+    yOneHot=enc.transform(y_train).toarray()
+    print("encInfo:",enc.categories_,enc.get_feature_names())
+    print("enc.get_feature_names().shape,numLabel:",enc.get_feature_names().shape[0])
+    print("yOneHot[:1]:",yOneHot[:1])
+
+
+    #num_labels = hierarchy[i] #低概率样本下错误
+    num_labels = enc.get_feature_names().shape[0] #低概率样本下错误
+    print("num_labels:", num_labels)
+
+    numLayers = 4
+    saveName = "step3_modelSepStage2.h5"
+    print("saveName:",saveName)
+
+    print("##\n加入新特征SUMO+阶段1的特征,对低概率样本重新训练多级独立kerasNN的进行分析（开始训练）\n")
+
+    build_model = sepHier1_SUMO(x_train,yOneHot,num_labels,saveName,level,numLayers,numEpochs)
+
+    print("###\n加入新特征SUMO+阶段1的特征,对低概率样本重新训练多级独立kerasNN的进行分析（已经训练完成）")
+
+    ######################
+    print("只做最低层level=7，对加入SUMO特征的全体低概率样本进行识别的结果")
+    yPredict=getKerasResnetRVL(x,enc,saveName)
+    yKerasSumoPredict = yPredict
+
+
+    print("yPredict.shape:",yPredict.shape)
+    print("yPredict[0:10]:",yPredict[0:10])
+
     tmp1 = classification_report(yOriginOutput,yPredict)
-    mat1num = confusion_matrix(yOriginOutput,yPredict)
-    mat2acc = confusion_matrix(yOriginOutput,yPredict,normalize='pred')
     print(tmp1)
+    mat1num = confusion_matrix(yOriginOutput,yPredict)
     print(mat1num)
+    mat2acc = confusion_matrix(yOriginOutput,yPredict,normalize='pred')  
     print(np.around(mat2acc , decimals=3))
 
+    score = accuracy_score(yOriginOutput,yPredict)
+    print(score)   
 
-    score = accuracy_score(yPredict, yOriginOutput)
-    print(score) 
-    
     df = pd.DataFrame(np.around(mat2acc , decimals=3))
-    fs = "./data/低概率样本的原始Level%dkerasNN模型的混淆矩阵结果.csv" %level
+    fs = "./data/step3_stage2分离式模型识别结果的混淆矩阵_level%d.csv" %level
     df.to_csv(fs,index= False, header= False)
+                                                              
+                                                              
+    fpk=open('step3_modelSepStage2.pkf','wb+')  
+    pickle.dump([xOriginSumoAdded,yOriginSumoAdded,saveName,enc,x_train,y_train,yKerasSumoPredict],fpk)  
+    fpk.close() 
 
 
-################################################################################################################################
-################################################################################################################################   
-print("\n#############################加入新特征SUMO+阶段1的特征,对低概率样本重新训练多级独立kerasNN")
 
-#基于lowprobIndex对原始低概率样本进行了筛选
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-'''开始训练第二层模型前的数据预处理'''
-
-'''将场景静态特征和SUMO动态特征进行的整合'''
-x = np.concatenate([xlowpra2,x1_sumoOutput,x2_yKerasOutput,x3_outputListNN,x4_outputAvgSpeed,x5_sumoOutList],axis=1)#71%
-
- 
-print('x.shape:',x.shape)
-
-rN,cN= np.where(np.isnan(x))
-for i in range(rN.shape[0]):
-    x[rN[i],cN[i]] = 0
-     
-
-y=yOriginOutput.reshape(1,-1)[0]
-x=x.astype(np.float32)#GPU 加这个
-y=y.astype(np.int64)#GPU 加这个
-print("x.shape:",x .shape,"y.shape:",y .shape,"y.type:", type(y) )
-
-
-#保存原始全部数据
-xOriginSumoAdded   = x
-yOriginSumoAdded  = y
-
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.9, random_state=0)
-
-nSamples,nFeatures =  x_train.shape
- 
-tmp = x_train[0][0:48]
-print("x_train[0]:",np.round(tmp,2))
-
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-'''开始训练第二层模型'''
-
-
-numEpochs =2000          #1500/60/60*5 = 2houer
-numLayers = 4
-enc = OneHotEncoder()
-nSamples,nFeatures =  x_train.shape
-       
         
-y_train= y_train.reshape(nSamples,-1)
-enc.fit(y_train)
-        
-yOneHot=enc.transform(y_train).toarray()
-print("encInfo:",enc.categories_,enc.get_feature_names())
-print("enc.get_feature_names().shape,numLabel:",enc.get_feature_names().shape[0])
-print("yOneHot[:1]:",yOneHot[:1])
-        
-        
-#num_labels = hierarchy[i] #低概率样本下错误
-num_labels = enc.get_feature_names().shape[0] #低概率样本下错误
-print("num_labels:", num_labels)
-
-numLayers = 4
-levelIndex = 7
-saveName = "modelSepStage2ForMainSimpleStep3.h5"
-print("saveName:",saveName)
-
-print("#############################\n加入新特征SUMO+阶段1的特征,对低概率样本重新训练多级独立kerasNN的进行分析（开始训练完成）\n")
-
-build_model = sepHier1_SUMO(x_train,yOneHot,num_labels,saveName,levelIndex,numLayers,numEpochs)
-
-print("#############################\n加入新特征SUMO+阶段1的特征,对低概率样本重新训练多级独立kerasNN的进行分析（已经训练完成）")
-
-######################
-print("只做最低层，对加入SUMO特征的全体低概率样本进行识别的结果")
-
-
-yPredict=getKerasResnetRVL(x,enc,saveName)#输出格式为['0','1']
-yKerasSumoPredict = yPredict
-
-
-print("yPredict.shape:",yPredict.shape)
-print("yPredict[0:10]:",yPredict[0:10])
-
-tmp1 = classification_report(yOriginOutput,yPredict)
-print(tmp1)
-mat1num = confusion_matrix(yOriginOutput,yPredict)
-print(mat1num)
-mat2acc = confusion_matrix(yOriginOutput,yPredict,normalize='pred')  
-print(np.around(mat2acc , decimals=3))
-
-score = accuracy_score(yOriginOutput,yPredict)
-print(score)   
+if __name__ == "__main__":
     
+    main()
     
-fpk=open('stage2ForMainSimpleStep3.pkf','wb')  
-pickle.dump([xOriginSumoAdded,yOriginSumoAdded,saveName,enc,x_train,y_train,yKerasSumoPredict],fpk)  
-fpk.close() 
+                                                              
 
-
-
+'''step0获得:原始数据库数据（有一定挑选）'''
+'''step1获得:根据step0的识别模型和识别结果的从step0中样本挑选低概率样本xlowpra'''
+'''step2获得：step1中低概率样本中SUMO成果仿真获取的样本（有一定挑选，去掉无法仿真样本大概1%）'''
+'''step3获得：将step2的样本与对应的step1的低概率样本的进行合成，并训练加强模型stage2Mode'''                                                 
+'''step3找到step2样本（就是df_step2）在step1的样本（xlowpra1）相对应的样本xlowpra2。然后df_step2和xlowpra2合成为x,用于训练加强模型stage2Mode''' 

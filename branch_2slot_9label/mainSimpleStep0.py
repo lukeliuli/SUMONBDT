@@ -1,4 +1,3 @@
-##主程序开始######################################################################################################################
 print("0.主程序开始，建立多层嵌套决策树模型，3080ti的GPU是AMD2400CPU 运算速度100倍")
 print("0.这是简化程序，原始带有更多测试和原始模型的程序在mainTestCSVMLP3(hmcnf_keras).ipynb")
 print("程序编号为0，注意这是mainSimpleStep0为简化的步骤0程序")
@@ -104,8 +103,8 @@ def getKerasResnetRVL(x,enc,saveName):
     return y
 
 
-# 
-def setNoTrainedLayers(model,noTrainingLayers)
+######################################################################################################################## 
+def setNoTrainedLayers(model,noTrainingLayers):
  
     #只训练最后一层，#
     #last_layer_idx = len(model.layers) - 1
@@ -116,8 +115,8 @@ def setNoTrainedLayers(model,noTrainingLayers)
     return model
 
 ########################################################################################################################
-##手工确定层次结构，以前测试时候为5层，根据论文为9层
-def convertY2Hieral(y):
+##手工确定层次结构
+def convertY2Hieral(y,hType):
     #mat2acc
     # [[0.914 0.009 0.017 0.007 0.032 0.    0.    0.    0.   ]
     # [0.027 0.984 0.006 0.007 0.018 0.    0.    0.    0.   ]
@@ -155,32 +154,25 @@ def convertY2Hieral(y):
                   }
     '''
     #smote
-    hierarchy = [2,3,4,5,6,7,8,9]
-                      #0                 #1            #2          #3             #4        #5  #6      #7                 
-    labelDict = {"0":["0",               "0",          "0",       "0",          "0",     "0",  "0",    "0"],\
-                  "1":["12345678",       "1234567",    "123456",  "12345",      "1234",  "123","12",   "1"],\
-                  "2":["12345678",       "1234567",    "123456",  "12345",      "1234",  "123","12",   "2"],\
-                  "3":["12345678",       "1234567",    "123456",  "12345",      "1234",  "123","3",    "3"],\
-                 "4":["12345678",        "1234567",    "123456",  "12345" ,     "1234",  "4",  "4",    "4"],\
-                 "5":["12345678",        "1234567",    "123456",   "12345",      "5",     "5",  "5",    "5"],\
-                 "6":["12345678",        "1234567",    "123456",  "6",         "6",     "6",  "6",    "6"],\
-                 "7":["12345678",        "1234567",     "7",       "7",         "7",     "7",  "7",    "7"],\
-                 "8":["12345678",         "8",          "8" ,      "8",         "8",     "8",  "8",    "8"],\
+    if hType == 1:
+        hierarchy = [2,3,4,5,6,7,8,9]
+                          #0                 #1            #2          #3             #4        #5  #6      #7                 
+        labelDict = {"0":["0",               "0",          "0",       "0",          "0",     "0",  "0",    "0"],\
+                      "1":["12345678",       "1234567",    "123456",  "12345",      "1234",  "123","12",   "1"],\
+                      "2":["12345678",       "1234567",    "123456",  "12345",      "1234",  "123","12",   "2"],\
+                      "3":["12345678",       "1234567",    "123456",  "12345",      "1234",  "123","3",    "3"],\
+                     "4":["12345678",        "1234567",    "123456",  "12345" ,     "1234",  "4",  "4",    "4"],\
+                     "5":["12345678",        "1234567",    "123456",   "12345",      "5",     "5",  "5",    "5"],\
+                     "6":["12345678",        "1234567",    "123456",  "6",         "6",     "6",  "6",    "6"],\
+                     "7":["12345678",        "1234567",     "7",       "7",         "7",     "7",  "7",    "7"],\
+                     "8":["12345678",         "8",          "8" ,      "8",         "8",     "8",  "8",    "8"],\
                   }
-    '''
-    hierarchy = [5,9]
-    labelDict = {"0":["01","0"],\                                                                                   
-    
-                  "1":["01","1"],\
-                  "2":["2","2"],\
-                  "3":["34","3"],\
-                "4":["34","4"],\
-                 "5":["56","5"],\
-                 "6":["56","6"],\
-                 "7":["78","7"],\
-                 "8":["78","8"],\
-                 }
-    '''
+    #根据拥堵定义给出层次结构                 
+    if hType == 2:
+        hierarchy = [4,9]
+        labelDict = {"0":["012","0"], "1":["012","1"], "2":["012","2"],"3":["34","3"],
+                     "4":["34","4"],"5":["5","5"],"6":["678","6"],"7":["678","7"],"8":["678","8"]}
+   
 
     y1 = [list(labelDict[str(x)]) for x in y]
    
@@ -328,12 +320,14 @@ def main():
     parser.add_argument('-ten','--testOrNot', default=1,type=int,help='测试吗?')
     parser.add_argument('-tr','--testRatio', default = 0.9,type=float,help='测试集比例')
     parser.add_argument('-sm','--sampleMethond', default = 2,type=int,help='重采样方法：1：OverSample,2:SMOTE')
+    parser.add_argument('-ht','--hType', default = 1,type=int,help='1为经典7层层次，2为拥堵定义的2层层次')
     args = parser.parse_args()
     numEpochs = args.numEpochs
     trainOrNot =  args.trainOrNot
     testRatio =  args.testRatio
     testOrNot = args.testOrNot
     sampleMethond = args.sampleMethond
+    hType = args.hType
 
     # 当前车道，每个红灯车的所有时刻的样本
     name1A = ["vehID", "redLightTime", "distToRedLight", "speed", "laneAvgSpeed",
@@ -454,9 +448,9 @@ def main():
 
 
 
-  
+    yH1,hierarchy = convertY2Hieral(y0,hType)
     ########################################################################################################################
-
+    
 
 
 
@@ -480,7 +474,8 @@ def main():
 
         #hierarchy = [2,4,6,8,9]
         #hierarchy = [2,3,4,5,6,7,8,9]
-        yH1,hierarchy = convertY2Hieral(y)
+       
+        
 
 
         x_train, x_test, y_train, y_test = train_test_split(x, yH1, test_size=testRatio, random_state=0)
@@ -514,8 +509,10 @@ def main():
 
             num_labels = hierarchy[i] 
             print("num_labels:", num_labels)
-            saveName = "../trainedModes/modelSep-9level%d-%dlayer-2slots-gpu1.h5" %(i,numLayers)
-            #saveName = "../trainedModes/modelSep-2level%d-%dlayer-2slots-gpu1.h5" %(i,numLayers)#基于拥堵定义的2层结构
+            if hType == 1:
+                saveName = "../trainedModes/modelSep-9level%d-%dlayer-2slots-gpu1.h5" %(i,numLayers)
+            if hType == 2:
+                saveName = "../trainedModes/modelSep-2level%d-%dlayer-2slots-gpu1.h5" %(i,numLayers)#基于拥堵定义的2层结构
             print(saveName)
             sepHier1(x_train,yOneHot,num_labels,saveName,levelIndex,numLayers,numEpochs)
 
@@ -537,8 +534,8 @@ def main():
         #fpk=open('samples1.pkf','wb+')  
         #pickle.dump([xFloors,yFloors,modSaveNameFloors,encLevels,xTestFloors, yTestFloors],fpk)  
         #fpk.close() 
-
-        fpk=open('sepTrainedsSamplesAll1.pkf','wb+')  
+        pkfSaveName = 'step0_sepTrainedsSamplesAll_%dlevel.pkf' % len(hierarchy)
+        fpk=open(pkfSaveName,'wb+')  
         pickle.dump([xFloors,yFloors,modSaveNameFloors,encLevels,xTestFloors, yTestFloors],fpk)  
         fpk.close() 
 
@@ -547,8 +544,10 @@ def main():
     #####用现有训练模型进行预测
 
     if testOrNot == 1:
-
-        fpk=open('step0_sepTrainedsSamplesAll1.pkf','rb') 
+        
+        pkfSaveName = 'step0_sepTrainedSamplesAll_%dlevel.pkf' % len(hierarchy)             
+        fpk=open(pkfSaveName,'rb') 
+                     
         [xFloors,yFloors,modSaveNameFloors,encLevels,xTestFloors, yTestFloors]=pickle.load(fpk)  
         fpk.close()  
 
@@ -575,10 +574,11 @@ def main():
                 yKerasFloors[str(i)] =  yPredict
 
                 df = pd.DataFrame(np.around(mat2acc , decimals=3))
-                fs = "./data/step0_test_mat2acc%d.csv" %i
+                fs = "./data/step0_%d_level_test_mat2acc%d.csv" %(len(hierarchy),i)
                 df.to_csv(fs,index= False, header= False)
-
-        fpk=open('step0_sepTestRVLSamples1.pkf','wb+')         
+                     
+        pkfSaveName = 'step0_sepTestedSamplesAll_%dlevel.pkf' % len(hierarchy)      
+        fpk=open(pkfSaveName,'wb+')         
         pickle.dump([xFloors,yFloors,modSaveNameFloors,encLevels,yKerasFloors,xTestFloors,yTestFloors],fpk)  
         fpk.close() 
 
