@@ -119,8 +119,8 @@ def main():
                                                        'NN0','NN1','NN2','NN3','NN4','NN5','NN6','NN7','NN8',\
                                                 'outputAvgSpeed','smv1','smv2']
         
-        strTmp = './data/step2_sparamsVehAllLevel%d_simNum%d.csv' %(level,simNum)
-        dfSimVehParams = pd.read_csv('./data/paramsVehAllLevel7_simNum500.csv', sep=',')
+        strTmp = './data/step2_paramsVehAllLevel%d_simNum%d.csv' %(level,simNum)
+        dfSimVehParams = pd.read_csv(strTmp, sep=',')
 
     if level==2:
 
@@ -134,8 +134,8 @@ def main():
         xInputHeader = headName2SlotX94+['sumoOutputSpeedTag','kerasPredictLabel',\
                                                        'NN0','NN1','NN2','NN3','outputAvgSpeed','smv1','smv2']
 
-        strTmp = './data/step2_sparamsVehAllLevel%d_simNum%d.csv' %(level,simNum)
-        dfSimVehParams = pd.read_csv('./data/paramsVehAllLevel7_simNum500.csv', sep=',')
+        strTmp = './data/step2_paramsVehAllLevel%d_simNum%d.csv' %(level,simNum)
+        dfSimVehParams = pd.read_csv(strTmp, sep=',')
 
 
 
@@ -159,8 +159,14 @@ def main():
     #fpk.close()  
     
     '''step2获得：step1中低概率样本中SUMO成果仿真获取的样本（有一定挑选，去掉无法仿真样本大概1%）'''
-    '''step3获得：将step2的样本与对应的step1的低概率样本的进行合成，并训练加强模型stage2Mode''' 
-    fpk=open('step3_modelSepStage2.pkf','rb') 
+    '''step3获得：将step2的样本与对应的step1的低概率样本的进行合成，并训练加强模型stage2Mode'''
+    #step3,首先读入step2的SUMO模拟数据，(SUMO模拟数据不完整)
+    #接着，获得step2的SUMO模拟数据面的样本的序号，
+    #然后，按照序号获得step1里面的低概率样本的所有数据，并命名为xlowpra2(df_step2加上xlowpra2，数据就完整了）
+    #'step3_modelSepStage2_level%d.pkf 里面的数据就是 SUMO 模拟数据df_step和xlowpra2的合成
+    
+    saveNamePKF = 'step3_modelSepStage2_level%d.pkf' %level                                                 
+    fpk=open(saveNamePKF,'rb') 
     [xOriginSumoAdded,yOriginSumoAdded,saveName,enc,x_train,y_train,yKerasSumoPredict]=pickle.load(fpk)  
     fpk.close()  
     
@@ -179,6 +185,7 @@ def main():
     print("dfSumoData.shape:",dfSumoData.shape)
     print("dfSimVehParams.shape:",dfSimVehParams.shape)   
 
+    
 
     if genSimDataOrNot:
 
@@ -195,7 +202,8 @@ def main():
             dataSD = dfSumoData.iloc[j]
             sampleIndex = dataSD['sampleIndex'].item()
             dataVP = dfSimVehParams[dfSimVehParams['sampleIndex'] == sampleIndex]
-
+            print('sampleIndex:',sampleIndex)
+            print("dataVP.shape:",dataVP.shape)
 
 
             #进行分析
@@ -218,21 +226,41 @@ def main():
             kerasPredictLabel  = dataSD['kerasPredictLabel'].item()
             sumoOutputSpeedTag  = dataSD['sumoOutputSpeedTag'].item()
             originOutput = dataSD['originOutput'].item()
-
+            
+            #originOutput = int(kerasPredictLabel) #只作为level=7的测试
 
             print(dataSD[['originOutput','kerasPredictLabel','sumoOutputSpeedTag']])#item对于Series
 
 
-
+            
 
             #分析进行
             dataVPTmp1=dataVP
+            
             dataVPTmp1 = dataVPTmp1[['minSpeed0','maxSpeed0','reacTime0','reacTime','maxSpeed']]
+            
             #dataVPTmp1 = dataVPTmp1[(dataVPTmp1['reacTime0'] <1.2) & (dataVPTmp1['reacTime'] <1.2)]
           
-            '''保证等到的样本最小速度等于实际预测类别'''
-            dataVPTmp1 = dataVPTmp1[(dataVPTmp1['minSpeed0']>=originOutput*5/3.6) & (dataVPTmp1['minSpeed0']<(originOutput+1)*5/3.6)] 
-
+            '''保证等到的样本最小速度等于实际预测类别,有问题，要改'''
+            
+            if level == 2:
+                #kerasPredictLabel = int(kerasPredictLabel)
+                #labelDict = {0:[0,5/3.6],1:[5/3.6,7*5/3.6],2:[7*5/3.6,8*5/3.6],3:[8*5/3.6,80/5.6]}
+                #minmax = labelDict[kerasPredictLabel]
+                #dataVPTmp1 = dataVPTmp1[(dataVPTmp1['minSpeed0']>=minmax[0]) & (dataVPTmp1['minSpeed0']<minmax[1])] 
+                
+                #labelDict = {0:[0,5/3.6],123456:[5/3.6,7*5/3.6],7:[7*5/3.6,8*5/3.6],8:[8*5/3.6,80/5.6]}
+                #minmax = labelDict[originOutput]
+                #dataVPTmp1 = dataVPTmp1[(dataVPTmp1['minSpeed0']>=minmax[0]) & (dataVPTmp1['minSpeed0']<minmax[1])] 
+                
+                pass
+                
+            if level == 7:  
+                #dataVPTmp1 = dataVPTmp1[(dataVPTmp1['minSpeed0']>=kerasPredictLabel*5/3.6) & (dataVPTmp1['minSpeed0']<(kerasPredictLabel+1)*5/3.6)] 
+                #dataVPTmp1 = dataVPTmp1[(dataVPTmp1['minSpeed0']>=originOutput*5/3.6) & (dataVPTmp1['minSpeed0']<(originOutput+1)*5/3.6)] 
+                pass
+            print("dataVPTmp1.shape:",dataVPTmp1.shape)
+            
             index1 = j
             index2 = sampleIndex
             feature1 = [index1,index2,originOutput,dist,speed,redTimeLeft,numFrontVeh]
@@ -245,7 +273,9 @@ def main():
 
         df = pd.DataFrame(analy1,columns=['index','sampleIndex','originOutput','dist','speed','redTimeLeft','numFrontVeh',\
                                           'arriveTime1', 'arriveTime2','minSpeed0','maxSpeed0','reacTime0','reacTime','maxSpeed'])
-        df.to_csv('./data/step4b_analy1_SSVP_level7.csv',index= False)
+        
+        saveName = './data/step4b_analy1_SSVP_level%d.csv' %level
+        df.to_csv(saveName,index= False)
 
 
 
@@ -262,45 +292,55 @@ def main():
     '''B. 图1 不同标记下的最小速度分布,获得一般参数下的预测值'''
     '''1.等到的样本最小速度等于实际预测类别'''
     '''2.统计样本的不同类别下最大速度的分布'''
+    '''3.step2,模拟时设定最大速度区间为[45,70]'''
 
     if 1:
         #columns=['index','sampleIndex','originOutput','dist','speed','redTimeLeft','numFrontVeh',\
         #                                      'arriveTime1', 'arriveTime2','minSpeed0','maxSpeed0','reacTime0','reacTime','maxSpeed'])
 
-        df = pd.read_csv('./data/step4b_analy1_SSVP_level7.csv')#来自于step4B
+        readName = './data/step4b_analy1_SSVP_level%d.csv' %level
+        df = pd.read_csv(readName)#来自于step4B
 
         stt1 = [0]*9 #[60,120] #一般参数下，统计不同标记下，不同最大速度下（建议速度下），实际最小速度分布
         stt2 = [0]*9 #[50,60]
         stt3 = [0]*9 #[40,50]
-        stt4 = [0]*9 #[30,40]
-        stt5 = [0]*9 #[20,30]  
+        #stt4 = [0]*9 #[30,40]
+        #stt5 = [0]*9 #[20,30]  
+        if level == 7:
+            labelList = [0,1,2,3,4,5,6,7,8]
+            
+        if level == 2:
+            labelList = [0,123456,7,8]
+            
+        for j in range(len(labelList)):
+            originOutput = labelList[j]
+            dataVPTmp1 = df[df['originOutput']==originOutput ]
+            dataVPTmp1 = df[df['originOutput']==originOutput ]
+            
 
-        for j in range(9):
-            originOutput = j
-            dataVPTmp1 = df[df['originOutput']==originOutput]
 
-
-            dataVPTmp2 = dataVPTmp1[(dataVPTmp1['maxSpeed0'] > 60/3.6) & (dataVPTmp1['maxSpeed0'] < 120/3.6)]
+            dataVPTmp2 = dataVPTmp1[(dataVPTmp1['maxSpeed0'] > 60/3.6) & (dataVPTmp1['maxSpeed0'] < 80/3.6) & (dataVPTmp1['minSpeed0']<80/3.6)]
             stt1[j] = dataVPTmp2['minSpeed0']
 
-            dataVPTmp2 = dataVPTmp1[(dataVPTmp1['maxSpeed0'] > 50/3.6) & (dataVPTmp1['maxSpeed0'] < 60/3.6)]
+            dataVPTmp2 = dataVPTmp1[(dataVPTmp1['maxSpeed0'] > 50/3.6) & (dataVPTmp1['maxSpeed0'] < 60/3.6) & (dataVPTmp1['minSpeed0']<80/3.6)]
             stt2[j] = dataVPTmp2['minSpeed0']
 
-            dataVPTmp2 = dataVPTmp1[(dataVPTmp1['maxSpeed0'] > 40/3.6) & (dataVPTmp1['maxSpeed0'] < 50/3.6)]
+            dataVPTmp2 = dataVPTmp1[(dataVPTmp1['maxSpeed0'] > 40/3.6) & (dataVPTmp1['maxSpeed0'] < 50/3.6) & (dataVPTmp1['minSpeed0']<80/3.6)]
             stt3[j] = dataVPTmp2['minSpeed0']
+            
+            #dataVPTmp2 = dataVPTmp1[(dataVPTmp1['maxSpeed0'] > 30/3.6) & (dataVPTmp1['maxSpeed0'] < 40/3.6)]
+            #stt4[j] = dataVPTmp2['minSpeed0']
 
-            dataVPTmp2 = dataVPTmp1[(dataVPTmp1['maxSpeed0'] > 30/3.6) & (dataVPTmp1['maxSpeed0'] < 40/3.6)]
-            stt4[j] = dataVPTmp2['minSpeed0']
-
-            dataVPTmp2 = dataVPTmp1[(dataVPTmp1['maxSpeed0'] > 20/3.6) & (dataVPTmp1['maxSpeed0'] < 30/3.6)]
-            stt5[j] = dataVPTmp2['minSpeed0']
+            #dataVPTmp2 = dataVPTmp1[(dataVPTmp1['maxSpeed0'] > 20/3.6) & (dataVPTmp1['maxSpeed0'] < 30/3.6)]
+            #stt5[j] = dataVPTmp2['minSpeed0']
 
         
         record1 = np.zeros((9, 6)).tolist()
         record2 = np.zeros((9, 6)).tolist()
         
-        for i in range(9):
-
+        for i in range(len(labelList)):
+            originOutput = labelList[i]
+            '''
             strTmp = 'label-%d' %i
             plt.title(strTmp)
             maxSpeedLabelsTmp = ['(50,60)','(40,50)','(30,40)','(20,30)']
@@ -309,6 +349,7 @@ def main():
             strTmp2 = './data/Step4Bpy_label%d_maxSpeed.png' %i
             plt.savefig(strTmp2)  # 保存为png格式图片
             plt.close() 
+            '''
             
             dataVPTmp1 = df[df['originOutput']==originOutput]
             numSamples,nFeatures = dataVPTmp1.shape
@@ -318,34 +359,42 @@ def main():
             print(strTmp,maxSpeedLabelsTmp[0],(stt1[i].mean())*3.6,stt1[i].std())
             print(strTmp,maxSpeedLabelsTmp[1],(stt2[i].mean())*3.6,stt2[i].std())
             print(strTmp,maxSpeedLabelsTmp[2],(stt3[i].mean())*3.6,stt3[i].std())
-            print(strTmp,maxSpeedLabelsTmp[3],(stt4[i].mean())*3.6,stt4[i].std())
-            print(strTmp,maxSpeedLabelsTmp[4],(stt5[i].mean())*3.6,stt5[i].std())
+            #print(strTmp,maxSpeedLabelsTmp[3],(stt4[i].mean())*3.6,stt4[i].std())
+            #print(strTmp,maxSpeedLabelsTmp[4],(stt5[i].mean())*3.6,stt5[i].std())
          
-           
-            record1[i][0] = [(stt1[i].mean())*3.6,stt1[i].std()] 
-            record1[i][1] = [(stt2[i].mean())*3.6,stt2[i].std()]
-            record1[i][2] = [(stt3[i].mean())*3.6,stt3[i].std()]
-            record1[i][3] = [(stt4[i].mean())*3.6,stt4[i].std()]
-            record1[i][4] = [(stt5[i].mean())*3.6,stt5[i].std()]
+            tmpP=[(stt1[i].mean())*3.6,stt1[i].std()]
+            record1[i][0] = [round(v,3) for v in tmpP] 
+            
+            tmpP=[(stt2[i].mean())*3.6,stt2[i].std()]
+            record1[i][1] = [round(v,3) for v in tmpP] 
+            
+            tmpP=[(stt3[i].mean())*3.6,stt3[i].std()]
+            record1[i][2] = [round(v,3) for v in tmpP] 
+            
+            #record1[i][3] = [(stt4[i].mean())*3.6,stt4[i].std()]
+            #record1[i][4] = [(stt5[i].mean())*3.6,stt5[i].std()]
             
             tmpP=[min(stt1[i]),pct(stt1[i],25),pct(stt1[i],50),pct(stt1[i],75),max(stt1[i])]
-            record2[i][0] = [v*3.6 for v in tmpP] 
+            record2[i][0] = [round(v*3.6,3) for v in tmpP] 
             tmpP=[min(stt2[i]),pct(stt2[i],25),pct(stt2[i],50),pct(stt2[i],75),max(stt2[i])]
-            record2[i][1] = [v*3.6 for v in tmpP] 
+            record2[i][1] = [round(v*3.6,3) for v in tmpP] 
             tmpP=[min(stt3[i]),pct(stt3[i],25),pct(stt3[i],50),pct(stt3[i],75),max(stt3[i])]
-            record2[i][2] = [v*3.6 for v in tmpP] 
+            record2[i][2] = [round(v*3.6,3) for v in tmpP] 
+            
+            '''
             tmpP=[min(stt4[i]),pct(stt4[i],25),pct(stt4[i],50),pct(stt4[i],75),max(stt4[i])]
             record2[i][3] = [v*3.6 for v in tmpP] 
             tmpP=[min(stt5[i]),pct(stt5[i],25),pct(stt5[i],50),pct(stt5[i],75),max(stt5[i])]
             record2[i][4] = [v*3.6 for v in tmpP] 
+            '''
             
-            
-            
+        saveName = './data/step4b_nonStopRatio_level%d.csv' %level
         record1 = pd.DataFrame(record1)
-        record1.to_csv('./data/step4b_nonStopRatio.csv',index= False)
+        record1.to_csv(saveName,index= False,float_format='%.2f')
         
+        saveName = './data/step4b_nonStopRatio2_level%d.csv' %level
         record2 = pd.DataFrame(record2)
-        record2.to_csv('./data/step4b_nonStopRatio2.csv',index= False)
+        record2.to_csv(saveName,index= False,float_format='%.2f')
 
 
 
@@ -451,6 +500,8 @@ def main():
     plt.close()             
 
     '''
+    sys.stdout=sys.__stdout__ 
+    print("step4B end")
 
 
 

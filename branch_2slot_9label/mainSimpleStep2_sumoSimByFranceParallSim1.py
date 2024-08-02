@@ -596,7 +596,7 @@ def main():
                         help='#CPU并行运算的要处理的step1例子的分段数')
     
     parser.add_argument('-ll','--level', default=7, type=int,\
-                        help='读取step1的例子所在的层数')
+                        help='读取step1的例子所在的层数。现在只支持2和7，也就是输出9label和4label')
     
     parser.add_argument('-mk','--makeOneFileOrNot', default=1, type=int,\
                         help='合成一个文件用于后面分析？')
@@ -612,6 +612,8 @@ def main():
 
     fs1 = open('step2_printlog.txt', 'w+')
     sys.stdout = fs1  # 将输出重定向到文件
+    
+    os.system('rm -rf ./tmpData/*.csv')
     ##################
     
     

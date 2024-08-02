@@ -534,7 +534,7 @@ def main():
         #fpk=open('samples1.pkf','wb+')  
         #pickle.dump([xFloors,yFloors,modSaveNameFloors,encLevels,xTestFloors, yTestFloors],fpk)  
         #fpk.close() 
-        pkfSaveName = 'step0_sepTrainedsSamplesAll_%dlevel.pkf' % len(hierarchy)
+        pkfSaveName = 'step0_sepTrainedSamplesAll_%dlevel.pkf' % len(hierarchy)
         fpk=open(pkfSaveName,'wb+')  
         pickle.dump([xFloors,yFloors,modSaveNameFloors,encLevels,xTestFloors, yTestFloors],fpk)  
         fpk.close() 

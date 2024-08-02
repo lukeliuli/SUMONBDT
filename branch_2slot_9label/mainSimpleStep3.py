@@ -267,8 +267,12 @@ def main():
     [xlowpra,ylowpraLabel,ylowPredictLabel,ylowpraPredictNN]=pickle.load(fpk)  
     print("xlowpra",xlowpra.shape)
     fpk.close()      
-
-
+    
+    print(strTmp,' ylowPredictLabel.shape:',ylowPredictLabel.shape)
+    print(strTmp,' ylowpraPredictNN.shape:',ylowpraPredictNN.shape)
+    print(strTmp,' ylowPredictLabel[0:10]:',ylowPredictLabel[0:10])
+    print(strTmp,' ylowpraLabel[0:10]:',ylowpraLabel[0:10])
+    
 
     ####step2_生成的原始的keras训练数据+SUMO的数据
     strTmp = './data/step2_sumoSimDataLevel%d_simNum%d.csv' %(level,simNum)
@@ -285,7 +289,13 @@ def main():
     yKerasOutput='kerasPredictLabel'
     originOutput ='originOutput'
     sumoOutList = ['smv1','smv2']
-    outputListNNall = ['NN0','NN1','NN2','NN3','NN4','NN5','NN6','NN7','NN8']
+    
+    if level == 7:
+        outputListNNall = ['NN0','NN1','NN2','NN3','NN4','NN5','NN6','NN7','NN8']
+    
+    if level == 2:
+        outputListNNall = ['NN0','NN1','NN2','NN3']
+        
     numNN = ylowpraPredictNN.shape[1]
     outputListNN = outputListNNall[0:numNN]
     outputAvgSpeed = 'outputAvgSpeed'
@@ -295,7 +305,10 @@ def main():
     '''step1获得step0中根据识别模型和识别结果的从step0中样本挑选低概率样本xlowpra'''
     '''step2获得step1中低概率样本钟SUMO成果仿真获取的新样本df_step2（有一定挑选，去掉无法仿真样本大概1%）'''
     '''step3,讲step2的样本与对应的step1的低概率样本的进行合成，并训练加强模型'''                                                          
-    '''找到step2df_step2对应在step1的样本xlowpra2 ，那就是df_step2 == xlowpra2'''                                             
+    #df_step2 首先读入step2的SUMO模拟数据，(SUMO模拟数据不完整)
+    #接着，获得step2的SUMO模拟数据面的样本的序号，
+    #然后，按照序号获得step1里面的低概率样本的所有数据，并命名为xlowpra2(df_step2加上xlowpra2，数据就完整了）
+    
     df1 = df_step2[ "sampleIndex"]
     lowprobIndex = df1.iloc[0:numSamples].to_numpy()
     xlowpra2 = xlowpra[lowprobIndex]#这里对原始step1的lowprobIndexd进行了筛选
@@ -329,9 +342,23 @@ def main():
 
     ###########################################################################################
     ########################################################################################### 
-
+    
     print("#############################\基于df_step2(sumo+)数据的step0模型识别正确率\n")
+    
+    print("df_SUMO_step2[x2_yKerasOutput][0:10]:",x2_yKerasOutput[0:10])
+    print("df_SUMO_step2[yOriginOutput][0:10]:",yOriginOutput[0:10])
+    
+    labelDictList = [0]*9
+    labelDictList[2] = {0:0,123456:1,7:2,8:3}
+    if level == 2:
+            yOriginOutput = [ labelDictList[2][v[0]] for v in yOriginOutput]
+            yOriginOutput= np.array(yOriginOutput).reshape(-1,1) 
+            print("经过labelDict转换后 yOriginOutput[0:10]:",yOriginOutput[0:10])
+    
+    
     if step0ModeCheck:
+        
+            
         yPredict = x2_yKerasOutput
         tmp1 = classification_report(yOriginOutput,yPredict)
         mat1num = confusion_matrix(yOriginOutput,yPredict)
@@ -346,7 +373,7 @@ def main():
         fs = "./data/基于df_step2(sumo+)数据的step0模型识别结果的混淆矩阵_%d.csv" %level
         df.to_csv(fs,index= False, header= False)
 
-
+  
     ##################################################################################
     ####################################################################################  
     '''加入新特征SUMO+阶段1的特征,对低概率样本重新训练多级独立kerasNN"'''
@@ -398,7 +425,7 @@ def main():
     print("num_labels:", num_labels)
 
     numLayers = 4
-    saveName = "step3_modelSepStage2.h5"
+    saveName = "step3_modelSepStage2_level%d.h5" %level
     print("saveName:",saveName)
 
     print("##\n加入新特征SUMO+阶段1的特征,对低概率样本重新训练多级独立kerasNN的进行分析（开始训练）\n")
@@ -430,8 +457,8 @@ def main():
     fs = "./data/step3_stage2分离式模型识别结果的混淆矩阵_level%d.csv" %level
     df.to_csv(fs,index= False, header= False)
                                                               
-                                                              
-    fpk=open('step3_modelSepStage2.pkf','wb+')  
+    saveNamePKF = 'step3_modelSepStage2_level%d.pkf' %level                                                 
+    fpk=open(saveNamePKF,'wb+')  
     pickle.dump([xOriginSumoAdded,yOriginSumoAdded,saveName,enc,x_train,y_train,yKerasSumoPredict],fpk)  
     fpk.close() 
 
