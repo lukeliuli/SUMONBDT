@@ -27,7 +27,11 @@
 * mainSimpleStep4为简化的步骤4程序，注意只能接mainSimpleStep3的输出结果，用于分析模型和误差
 ---
 
-
+* step0获得:原始数据库数据（有一定挑选）'''
+* step1获得:根据step0的识别模型和识别结果的从step0中样本挑选低概率样本xlowpra'''
+* step2获得：step1中低概率样本中SUMO成果仿真获取的样本（有一定挑选，去掉无法仿真样本大概1%）'''
+* step3获得：将step2的样本与对应的step1的低概率样本的进行合成，并训练加强模型stage2Mode'''                                                 
+* step3找到step2样本（就是df_step2）在step1的样本（xlowpra1）相对应的样本xlowpra2。然后df_step2和xlowpra2合成为x,用于训练加强模型stage2Mode''' 
 
 
 

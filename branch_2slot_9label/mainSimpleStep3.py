@@ -398,7 +398,7 @@ def main():
     #保存原始全部数据
     xOriginSumoAdded  = x
     yOriginSumoAdded  = y
-    '''testSize设置大点，否则不指导为什么正确率太高了'''                                                          
+    '''testSize设置大点，否则不知道为什么正确率太高了'''                                                          
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.9, random_state=0)
     nSamples,nFeatures =  x_train.shape
     tmp = x_train[0][0:48]
