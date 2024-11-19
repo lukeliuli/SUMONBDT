@@ -132,8 +132,9 @@ logs/
 data/
 *.txt
 *.csv
-trainData/
+
 trainedModes/
+trainedData/trainDataBackup/
 franceRedData/
 *.pkf
 sumoCfgs1/fcd-output.xml

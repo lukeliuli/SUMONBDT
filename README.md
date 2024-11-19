@@ -20,13 +20,16 @@
 * my1Lane1TlsVeh6-server.sumocfg 和 my1Lane1TlsVeh6.rou.xml 用于调节模拟中的车辆和车辆类型参数，并用GUI进行验证
 * mainTest2_hmcnf_keras_dt为mainTestCSVMLP3(hmcnf_keras)的简化和优化代码，代码清晰化和优化
 * 运行环境为conda activate tensor23py36cpu
-* branch_2slot_5sep 为修改程序。 (1) 输入数据为前后2时刻的2slot，(2) 模型的时间分割为5公里每小时，
+* branch_2slot_5sep 为主程序修改程序。 (1) 输入数据为前后2时刻的2slot，(2) 模型的时间分割为5公里每小时，
 * branch_2slot_5sep 主程序mainTest2_hmcnf_keras_dt_2slot_5sep 和 extractFranceSamples1_2slot_5sep.ipynb
 * 发现HMCN-F 训练效果很差，所以改为分离样式多层训练主程序mainTest2_hmcnf_keras_dt_2slot_5sep
 * mainSimpleStep3为简化的步骤3程序，注意只训练最底层1层模型,用于分析模型和误差
 * mainSimpleStep4为简化的步骤4程序，注意只能接mainSimpleStep3的输出结果，用于分析模型和误差
 ---
 
+* 注意！
+* branch_2slot_5sep 为主程序所在地， (1) 输入数据为前后2时刻的2slot，(2) 模型的时间分割为5公里每小时，
+* branch_2slot_5sep 主程序mainTest2_hmcnf_keras_dt_2slot_5sep 和 extractFranceSamples1_2slot_5sep.ipynb
 * step0获得:原始数据库数据（有一定挑选）'''
 * step1获得:根据step0的识别模型和识别结果的从step0中样本挑选低概率样本xlowpra'''
 * step2获得：step1中低概率样本中SUMO成果仿真获取的样本（有一定挑选，去掉无法仿真样本大概1%）'''
