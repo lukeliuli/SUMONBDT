@@ -131,7 +131,8 @@ dmypy.json
 logs/
 data/
 *.txt
-*.csv
+
+tmpData/
 
 trainedModes/
 trainedData/trainDataBackup/
