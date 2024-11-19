@@ -135,6 +135,7 @@ data/
 
 trainedModes/
 trainedData/trainDataBackup/
+trainDataBackup/
 franceRedData/
 *.pkf
 sumoCfgs1/fcd-output.xml
