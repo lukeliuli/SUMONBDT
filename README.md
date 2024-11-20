@@ -27,14 +27,16 @@
 * mainSimpleStep4为简化的步骤4程序，注意只能接mainSimpleStep3的输出结果，用于分析模型和误差
 ---
 
-* 注意！
-* branch_2slot_5sep 为主程序所在地， (1) 输入数据为前后2时刻的2slot，(2) 模型的时间分割为5公里每小时，
-* branch_2slot_5sep 主程序mainTest2_hmcnf_keras_dt_2slot_5sep 和 extractFranceSamples1_2slot_5sep.ipynb
+* 注意！ 注意！ 注意！ 注意！
+* branch_2slot_5sep 为主程序所在地
+* branch_2slot_5sep 主程序为mainTest2_hmcnf_keras_dt_2slot_5sep 和 extractFranceSamples1_2slot_5sep.ipynb
+*   extractFranceSamples1_2slot_5sep.ipynb 将法国的数据库转换为模型所需要的数据集合 ：（0）生成为输入数据为前1时刻的样本 （1）转换样本为输入数据为前2时刻的样本
+*   mainTest2_hmcnf_keras_dt_2slot_5sep_siat 输入数据为前2时刻的样本并建立层次结构，并进行训练和识别
 * step0获得:原始数据库数据（有一定挑选）'''
 * step1获得:根据step0的识别模型和识别结果的从step0中样本挑选低概率样本xlowpra'''
-* step2获得：step1中低概率样本中SUMO成果仿真获取的样本（有一定挑选，去掉无法仿真样本大概1%）'''
-* step3获得：将step2的样本与对应的step1的低概率样本的进行合成，并训练加强模型stage2Mode'''                                                 
-* step3找到step2样本（就是df_step2）在step1的样本（xlowpra1）相对应的样本xlowpra2。然后df_step2和xlowpra2合成为x,用于训练加强模型stage2Mode''' 
+* step2获得：step1中低概率样本中SUMO成果仿真获取的样本（有一定挑选，去掉无法仿真样本大概1%），其实作用不大，只是为了发论文
+* step3获得：将step2的样本与对应的step1的低概率样本的进行合成，并训练加强模型stage2Mode    ， 其实作用不大，只是为了发论文                                          
+* step3找到step2样本（就是df_step2）在step1的样本（xlowpra1）相对应的样本xlowpra2。然后df_step2和xlowpra2合成为x,用于训练加强模型stage2Mode。其实作用不大，只是为了发论
 
 
 
