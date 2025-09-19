@@ -1,4 +1,6 @@
+# 数据库下载地址 https://www.citi-lab.fr/portfolio/vehicular-mobility-trace-of-roundabout-creteil/
 # SUMONBDT
+
 将NBDT和SUMO结合起来，用于车道选择  
 ##对NBDT的基本理解  
 * NBDT,前端CNN后面DT.  
